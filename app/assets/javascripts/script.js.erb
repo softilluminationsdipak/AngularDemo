@@ -1,0 +1,23 @@
+(function(angular) {
+  'use strict';
+angular.module('demoAngular', ['ngAnimate', 'ngRoute'])
+  .config(['$routeProvider', function($routeProvider) {
+    $routeProvider.when('/home', {
+      templateUrl: "<%= asset_path('home.html') %>",
+      controller: 'WelcomeController'
+    });
+    $routeProvider.when('/book', {
+      templateUrl: "<%= asset_path('home.html') %>",
+      controller: 'BookController'
+    });
+  }])
+  .run(['$rootScope', function($rootScope) {
+    
+  }])
+  .controller('WelcomeController',['$scope', '$route', '$routeParams', '$location', function($scope, $route, $routeParams, $location) {
+    $scope.name = "welcomeController";
+  }])
+  .controller('BookController', ['$scope', '$rootScope', '$routeParams', '$location', function($scope, $rootScope, $routeParams, $location) {
+    $scope.name = "bookController";
+  }]);
+})(window.angular);
