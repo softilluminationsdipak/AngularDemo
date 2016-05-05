@@ -1,23 +1,75 @@
 (function(angular) {
   'use strict';
-angular.module('demoAngular', ['ngAnimate', 'ngRoute'])
-  .config(['$routeProvider', function($routeProvider) {
+angular.module('demoAngular', ['ngAnimate', 'ngRoute', 'ngMessages', 'ngCookies'])
+  .constant('config', 'http://localhost:3000/api/v1')
+  .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.when('/home', {
       templateUrl: "<%= asset_path('home.html') %>",
       controller: 'WelcomeController'
     });
-    $routeProvider.when('/book', {
-      templateUrl: "<%= asset_path('home.html') %>",
-      controller: 'BookController'
+    $routeProvider.when('/about', {
+      templateUrl: "<%= asset_path('about.html') %>",
+      controller: 'AboutController'
     });
+    $routeProvider.when('/login', {
+      templateUrl: "<%= asset_path('login.html') %>",
+      controller: 'LoginController'
+    });
+    $routeProvider.when('/signup', {
+      templateUrl: "<%= asset_path('signup.html') %>",
+      controller: 'SignupController'
+    });
+    $routeProvider.when('/logout', {
+      controller: 'LoginController'
+    });
+
   }])
-  .run(['$rootScope', function($rootScope) {
+  .run(['$rootScope', '$location', 'UserService', '$http', '$cookieStore', function($rootScope, $location, UserService, $http, $cookieStore) {
+
+    $rootScope.globals = $cookieStore.get('globals') || {};
+
+    if ($rootScope.globals.currentUser) {
+      $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; 
+    }
+
+    $rootScope.$on('$locationChangeStart', function (event, next, current) {
+
+      var restrictedPage = $.inArray($location.path(), ['/home', '/signup', '/login']) === -1;
+      var loggedIn = $rootScope.globals.currentUser;
+      
+      if (restrictedPage && !loggedIn) {
+        $location.path('/login');
+      }
+
+      if (loggedIn && !restrictedPage ) {
+        $location.path('/home');
+      }
+    });
+
+
+  }])
+  .config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
+    var interceptor = ['$rootScope', '$q', function(scope, $q) {
+  
+      function success( response ) {
+        return response
+      };
+
+      function error( response ) {
+        if ( response.status == 401) {
+          var deferred = $q.defer();
+          scope.$broadcast('event:unauthorized');
+          return deferred.promise;
+        };
+        return $q.reject( response );
+      };
     
-  }])
-  .controller('WelcomeController',['$scope', '$route', '$routeParams', '$location', function($scope, $route, $routeParams, $location) {
-    $scope.name = "welcomeController";
-  }])
-  .controller('BookController', ['$scope', '$rootScope', '$routeParams', '$location', function($scope, $rootScope, $routeParams, $location) {
-    $scope.name = "bookController";
+      return function( promise ) {
+        return promise.then( success, error );
+      };
+    }];
+    $httpProvider.interceptors.push( interceptor );
   }]);
+
 })(window.angular);

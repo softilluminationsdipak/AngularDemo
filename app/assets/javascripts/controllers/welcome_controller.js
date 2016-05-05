@@ -1,7 +1,13 @@
-(function(angular) {
-  'use strict';
-	angular.module('demoAngular', [])
-  .controller('WelcomeController',['$scope', '$route', '$routeParams', '$location', function($scope, $route, $routeParams, $location) {
-    $scope.name = "welcomeController";
-  }])	
+angular.module('demoAngular')
+.controller('WelcomeController', function ($scope, $rootScope, UserService){
+  $scope.name = "welcomeController2";
+
+	$scope.isAuthenticated = UserService.isAuthenticated;
+	
+	$scope.$watch(function() {		
+    return $rootScope.globals.currentUser;
+  }, function(currentUser) {
+    $scope.currentUser = currentUser
+  });
+
 });

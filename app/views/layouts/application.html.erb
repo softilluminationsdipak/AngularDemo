@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <title>Angular Demo</title>
     <!-- CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cerulean/bootstrap.min.css">
-    <style src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-animate.css"></style>
+    <link rel="stylesheet" href="/assets/bootstrap.min.css">
+    <script src="/assets/jquery.min.js"></script>
     <style>body { padding-top:30px; }</style>
   </head>
   <body class="container" ng-app="demoAngular">
@@ -18,40 +18,48 @@
               </div>
               <ul class="nav navbar-nav">
                 <li><a href="#/home"><i class="fa fa-home"></i> Home</a></li>
-                <li><a href="#/book"><i class="fa fa-shield"></i> About</a></li>
+                <li><a href="#/about"><i class="fa fa-shield"></i> About</a></li>                
               </ul>
+
+              <ul ng-show="isAuthenticated()" class="nav navbar-nav pull-right" style='margin-right: 25px;'>
+                <li><a href="#/about"><i class="fa fa-home"></i> {{currentUser.email}} </a></li>
+                <li ng-controller='LoginController'>
+                  <a ng-click="logout()"><i class="fa fa-shield"></i>Logout</a>
+                </li>                
+              </ul>
+
+              <ul ng-hide="isAuthenticated()" class="nav navbar-nav pull-right" style='margin-right: 25px;'>
+                <li><a href="#/login"><i class="fa fa-home"></i> Login</a></li>
+                <li><a href="#/signup"><i class="fa fa-shield"></i> Register</a></li>                
+              </ul>
+
             </div>
           </nav>
         </header>
         <div id="main">
           <div ng-view class="view"></div>
-          <!-- <div ng-viewport></div> -->
         </div>
       </div>
-
-    <form name="userForm" novalidate>
-      <div class="form-group" ng-class="{ 'has-error': userForm.name.$touched && userForm.name.$invalid }">
-        <label>Name</label>
-        <input type="text" name="name" class="form-control" ng-model="main.name"
-          ng-minlength="5"  ng-maxlength="10"  required>
-        <div class="help-block" ng-messages="userForm.name.$error" ng-show="userForm.name.$touched">
-          <p ng-message="minlength">Your name is too short.</p>
-          <p ng-message="maxlength">Your name is too long.</p>
-          <p ng-message="required">Your name is required.</p>
-        </div>
-      </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-danger">Submit</button>
-      </div>
-    </form>
 
     <!-- JS -->
-    <script src="https://code.angularjs.org/1.4.0/angular.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-animate.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
-    <!-- <script src="/assets/controllers/welcome_controller.js"></script> -->
+    <script src="/assets/angular.js"></script>
+    <script src="/assets/angular-animate.js"></script>
+    <script src="/assets/angular-route.js"></script>
+    <script src="/assets/angular-messages.js"></script>    
+    <script src="/assets/angular-cookies.js"></script>
+
+
     <script src="/assets/script.js.erb"></script>
+
+    <!-- CONTROLLER -->
+    <script src="/assets/controllers/welcome_controller.js"></script>
+    <script src="/assets/controllers/about_controller.js"></script>
+    <script src="/assets/controllers/login_controller.js"></script>
+    <script src="/assets/controllers/signup_controller.js"></script>
+
+    <!-- Services -->
+    <script src="/assets/services/UserService.js"></script>    
+
     <script type="text/javascript">
       angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
     </script>

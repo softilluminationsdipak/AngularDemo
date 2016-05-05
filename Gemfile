@@ -45,3 +45,9 @@ group :development do
   gem 'spring'
 end
 
+## Devise
+gem 'devise'
+
+## For Json Response
+gem 'rabl'
+gem 'oj'
