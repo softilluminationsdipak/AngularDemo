@@ -1,13 +1,13 @@
 
 angular.module('demoAngular')
-.controller('LoginController', function ($scope, $http, $location, UserService, config){
+.controller('LoginController', function ($scope, $http, $location, UserService, config, $cookieStore){
 
   // Authentication
   $scope.signin = function() {
 		UserService.Login($scope.user.email, $scope.user.password, function (response) {
 			if (response.success) {
       	UserService.SetCredentials(response.access_token);
-      	$location.path('/about');
+      	$location.path('/home');
 			}else{
 				alert(response.error)
 			}

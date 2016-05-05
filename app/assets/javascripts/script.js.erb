@@ -27,9 +27,10 @@ angular.module('demoAngular', ['ngAnimate', 'ngRoute', 'ngMessages', 'ngCookies'
   .run(['$rootScope', '$location', 'UserService', '$http', '$cookieStore', function($rootScope, $location, UserService, $http, $cookieStore) {
 
     $rootScope.globals = $cookieStore.get('globals') || {};
+    $rootScope.isAuthenticated = $cookieStore.get('isAuthenticated') || false;
 
     if ($rootScope.globals.currentUser) {
-      $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; 
+      $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.access_token; 
     }
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
@@ -37,12 +38,12 @@ angular.module('demoAngular', ['ngAnimate', 'ngRoute', 'ngMessages', 'ngCookies'
       var restrictedPage = $.inArray($location.path(), ['/home', '/signup', '/login']) === -1;
       var loggedIn = $rootScope.globals.currentUser;
       
-      if (restrictedPage && !loggedIn) {
-        $location.path('/login');
-      }
+      // if (restrictedPage && !loggedIn) {
+      //   $location.path('/login');
+      // }
 
       if (loggedIn && !restrictedPage ) {
-        $location.path('/home');
+        $location.path('/about');
       }
     });
 

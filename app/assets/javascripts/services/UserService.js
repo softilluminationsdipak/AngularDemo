@@ -6,7 +6,6 @@
       service.Logout      = Logout;
       service.Signup 			= Signup;
       service.SetCredentials    = SetCredentials;
-      service.SetCredentials    = SetCredentials;
       service.ClearCredentials  = ClearCredentials;
       service.isAuthenticated   = isAuthenticated;
       
@@ -41,6 +40,7 @@
           $rootScope.globals.currentUser = response;          
           $http.defaults.headers.common['Authorization'] = 'Basic ' + access_token; 
           $cookieStore.put('globals',$rootScope.globals);
+          $cookieStore.put('isAuthenticated', true);
         });
       }
 
@@ -59,6 +59,7 @@
       function ClearCredentials() {
         $rootScope.globals = {};
         $cookieStore.remove('globals');
+        $cookieStore.remove('isAuthenticated');
         $http.defaults.headers.common.Authorization = 'Basic';
       }
 
