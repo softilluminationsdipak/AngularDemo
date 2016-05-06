@@ -1,6 +1,12 @@
 (function(angular) {
   'use strict';
-angular.module('demoAngular', ['ngAnimate', 'ngRoute', 'ngMessages', 'ngCookies'])
+angular.module('demoAngular', [
+    'ngAnimate', 
+    'ngRoute', 
+    'ngMessages', 
+    'ngCookies',
+    'validation.match'
+  ])
   .constant('config', 'http://localhost:3000/api/v1')
   .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.when('/home', {
