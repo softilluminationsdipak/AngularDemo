@@ -1,0 +1,29 @@
+<div class=col-lg-5 ng-controller='LoginController'>
+  <h1>Signin</h1>
+  <form name="loginForm" ng-submit='loginForm.$valid && signin(loginForm, user)' novalidate>
+		<div class="form-group" ng-class="{ 'has-error': loginForm.email.$touched && loginForm.email.$invalid }">
+      <label>Email</label>
+      <input type="email" name="email" class="form-control" ng-model="user.email" required />
+      <div class="help-block" ng-messages="loginForm.email.$error" ng-show="loginForm.email.$touched">
+        <p data-ng-show="loginForm.email.$error.required" ng-message="required">Email can't be blank.</p>
+        <p data-ng-show="loginForm.email.$error.email" ng-message="email">Invalid email address.</p>
+      </div>
+    </div>
+
+
+    <div class="form-group" ng-class="{ 'has-error': loginForm.password.$touched && loginForm.password.$invalid }">
+      <label>Password</label>
+      <input type="password" name="password" class="form-control" ng-model="user.password" ng-minlength='8' ng-maxlength='20' required />
+      <div class="help-block" ng-messages="loginForm.password.$error" ng-show="loginForm.password.$touched">
+        <p data-ng-show="loginForm.password.$error.minlength" ng-message="minlength">Your password is too short.</p>
+        <p data-ng-show="loginForm.password.$error.maxlength" ng-message="maxlength">Your password is too long.</p>
+        <p data-ng-show="loginForm.password.$error.required" ng-message="required">Password can't be blank.</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+    	<button type='submit' class='btn btn-danger' ng-disabled="loginForm.$invalid">Signin</button>
+    </div>
+    
+ 	</form>
+</div>
