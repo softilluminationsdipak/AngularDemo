@@ -82,6 +82,4 @@ test:
 #
 production:
   <<: *default
-  database: emrAngular_production
-  username: emrAngular
-  password: <%= ENV['EMRANGULAR_DATABASE_PASSWORD'] %>
+  database: emrAngular_development
