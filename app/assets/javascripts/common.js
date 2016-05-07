@@ -10,17 +10,4 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require angular.js
-//= require angular-animate.js
-//= require angular-route.js
-//= require angular-messages.js
-//= require angular-cookies.js
-//= require angular-input-match.js
-//= require script.js.erb
-
-//= require controllers/welcome_controller.js
-//= require controllers/about_controller.js
-//= require controllers/login_controller.js
-//= require controllers/signup_controller.js
-
-//= require services/UserService.js
+//= require jquery.min.js

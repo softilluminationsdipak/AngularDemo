@@ -3,9 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>Angular Demo</title>
-    <!-- CSS -->
-    <link rel="stylesheet" href="/assets/bootstrap.min.css">
-    <script src="/assets/jquery.min.js"></script>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'common', 'data-turbolinks-track' => true %>
     <style>body { padding-top:30px; }</style>
   </head>
   <body class="container" ng-app="demoAngular">
@@ -44,25 +43,8 @@
       </div>
 
     <!-- JS -->
-    <script src="/assets/angular.js"></script>
-    <script src="/assets/angular-animate.js"></script>
-    <script src="/assets/angular-route.js"></script>
-    <script src="/assets/angular-messages.js"></script>    
-    <script src="/assets/angular-cookies.js"></script>
-    <script src="/assets/angular-input-match.js"></script>
-
-
-    <script src="/assets/script.js.erb"></script>
-
-    <!-- CONTROLLER -->
-    <script src="/assets/controllers/welcome_controller.js"></script>
-    <script src="/assets/controllers/about_controller.js"></script>
-    <script src="/assets/controllers/login_controller.js"></script>
-    <script src="/assets/controllers/signup_controller.js"></script>
-
-    <!-- Services -->
-    <script src="/assets/services/UserService.js"></script>    
-
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+        
     <script type="text/javascript">
       angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
     </script>
