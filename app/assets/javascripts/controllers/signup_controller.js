@@ -1,5 +1,5 @@
 angular.module('demoAngular')
-.controller('SignupController', function ($scope, $http, $location, UserService, config){
+.controller('SignupController', function ($scope, $http, $location, UserService, config, FlashService){
   $scope.user = {};
 
   $scope.signup = function() {
