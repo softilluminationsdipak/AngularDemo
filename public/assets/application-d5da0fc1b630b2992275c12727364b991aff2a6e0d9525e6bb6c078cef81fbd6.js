@@ -33890,10 +33890,10 @@ angular.module('demoAngular', [
     'ngCookies',
     'validation.match'
   ])
-  .constant('config', 'http://localhost:3000/api/v1')
+  .constant('config', '/api/v1')
   .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.when('/home', {
-      templateUrl: "/assets/home-e5e5f29e7145b2cf17a2f5d50bc9906be722f043b15edae1e77fda621bc5b90d.html",
+      templateUrl: "/assets/home-7c7651f17f38801a8dc915013000bb88dd6fb9e13af8ac9347975f6d1719ea1a.html",
       controller: 'WelcomeController'
     });
     $routeProvider.when('/about', {
@@ -33901,11 +33901,11 @@ angular.module('demoAngular', [
       controller: 'AboutController'
     });
     $routeProvider.when('/login', {
-      templateUrl: "/assets/login-337477c36310d6200bee7a2f73d63714ed40beb3247881cddbe243f45aad13b3.html",
+      templateUrl: "/assets/login-2ab6fecd1bc593a3526271651af90419a1f5833b4b3d92b3afe7f0de8d837fc8.html",
       controller: 'LoginController'
     });
     $routeProvider.when('/signup', {
-      templateUrl: "/assets/signup-41c9d0eebe7bd46d370c133ab6869684ab11d68d223a12299433c30f483b557c.html",
+      templateUrl: "/assets/signup-114a0b2c243a5f69bce20876bf7708643b4b4464286817e15256fadfeca203cc.html",
       controller: 'SignupController'
     });
     $routeProvider.when('/logout', {
@@ -33913,7 +33913,7 @@ angular.module('demoAngular', [
     });
 
   }])
-  .run(['$rootScope', '$location', 'UserService', '$http', '$cookieStore', function($rootScope, $location, UserService, $http, $cookieStore) {
+  .run(['$rootScope', '$location', 'UserService', 'FlashService', '$http', '$cookieStore', function($rootScope, $location, UserService, FlashService, $http, $cookieStore) {
 
     $rootScope.globals = $cookieStore.get('globals') || {};
     $rootScope.isAuthenticated = $cookieStore.get('isAuthenticated') || false;
@@ -33987,16 +33987,17 @@ angular.module('demoAngular')
 });
 
 angular.module('demoAngular')
-.controller('LoginController', function ($scope, $http, $location, UserService, config, $cookieStore){
+.controller('LoginController', function ($scope, $http, $location, UserService, FlashService, config, $cookieStore){
 
   // Authentication
   $scope.signin = function() {
 		UserService.Login($scope.user.email, $scope.user.password, function (response) {
 			if (response.success) {
-      	UserService.SetCredentials(response.access_token);
-      	$location.path('/home');
+      	UserService.SetCredentials(response.access_token);        
+        FlashService.Success('Login successfully.');
+        $location.path('/home'); 
 			}else{
-				alert(response.error)
+        FlashService.Error(response.errors);
 			}
 		})    
   };
@@ -34020,10 +34021,11 @@ angular.module('demoAngular')
 
   $scope.signup = function() {
   	UserService.Signup($scope.user, function(response){
-  		if (response.success){
+  		if (response.success){        
   			$location.path('/login')
+        FlashService.Success('Login successfully.');
   		}else{
-  			$location.path('#/signup')
+  			FlashService.Error(response.errors);
   		}
   	})
     
@@ -34115,6 +34117,53 @@ angular.module('demoAngular')
     // Exit
  		})
 ;
+'use strict';
+  angular.module('demoAngular')
+    .factory('FlashService', function ($rootScope,$http,config,$cookieStore,$location) {
+
+      var service     = {};
+
+      service.Success = Success;
+      service.Error   = Error;
+
+      initService();
+
+      return service;
+
+      function initService() {
+        $rootScope.$on('$locationChangeStart', function () {
+          clearFlashMessage();
+        });
+
+        function clearFlashMessage() {
+          var flash = $rootScope.flash;
+          if (flash) {
+            if (!flash.keepAfterLocationChange) {
+              delete $rootScope.flash;
+            } else {
+              // only keep for a single location change
+              flash.keepAfterLocationChange = false;
+            }
+          }
+        }
+      }
+
+      function Success(message, keepAfterLocationChange) {
+        $rootScope.flash = {
+          message: message,
+          type: 'success', 
+          keepAfterLocationChange: keepAfterLocationChange
+        };
+      }
+
+      function Error(message, keepAfterLocationChange) {
+        $rootScope.flash = {
+          message: message,
+          type: 'error',
+          keepAfterLocationChange: keepAfterLocationChange
+        };
+      }
+    });
 // This is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
 //
@@ -34127,6 +34176,8 @@ angular.module('demoAngular')
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+
+
 
 
 

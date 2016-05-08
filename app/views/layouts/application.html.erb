@@ -38,6 +38,7 @@
           </nav>
         </header>
         <div id="main">
+          <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
           <div ng-view class="view"></div>
         </div>
       </div>

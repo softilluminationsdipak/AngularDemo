@@ -4,10 +4,11 @@ angular.module('demoAngular')
 
   $scope.signup = function() {
   	UserService.Signup($scope.user, function(response){
-  		if (response.success){
+  		if (response.success){        
   			$location.path('/login')
+        FlashService.Success('Login successfully.');
   		}else{
-  			$location.path('#/signup')
+  			FlashService.Error(response.errors);
   		}
   	})
     

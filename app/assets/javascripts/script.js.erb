@@ -7,7 +7,7 @@ angular.module('demoAngular', [
     'ngCookies',
     'validation.match'
   ])
-  .constant('config', 'http://localhost:3000/api/v1')
+  .constant('config', '/api/v1')
   .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.when('/home', {
       templateUrl: "<%= asset_path('home.html') %>",
@@ -30,7 +30,7 @@ angular.module('demoAngular', [
     });
 
   }])
-  .run(['$rootScope', '$location', 'UserService', '$http', '$cookieStore', function($rootScope, $location, UserService, $http, $cookieStore) {
+  .run(['$rootScope', '$location', 'UserService', 'FlashService', '$http', '$cookieStore', function($rootScope, $location, UserService, FlashService, $http, $cookieStore) {
 
     $rootScope.globals = $cookieStore.get('globals') || {};
     $rootScope.isAuthenticated = $cookieStore.get('isAuthenticated') || false;

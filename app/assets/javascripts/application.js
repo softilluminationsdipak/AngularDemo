@@ -16,6 +16,7 @@
 //= require angular-messages.js
 //= require angular-cookies.js
 //= require angular-input-match.js
+
 //= require script.js.erb
 
 //= require controllers/welcome_controller.js
@@ -24,3 +25,4 @@
 //= require controllers/signup_controller.js
 
 //= require services/UserService.js
+//= require services/FlashService.js
