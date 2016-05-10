@@ -1,0 +1,52 @@
+<section id="plans" class="plan-table">
+  <div class="container">
+    <!-- SECTION HEADER-->
+    <div data-wow-offset="15" data-wow-duration="1.3s" class="section-header wow fadeIn animated">
+      <h2>Available Options</h2>
+      <div class="section-description">
+        30-day free trial, sign up in 60 seconds
+      </div>
+    </div>
+    <!-- END SECTION HEADER-->
+    
+    <div class="row">
+      <!-- PLAN-->
+      <% @plans.each do |plan| %>
+        <div data-wow-offset="15" data-wow-duration="1.3s" class="col-md-3 col-sm-3 wow fadeIn animated">
+          <div class="plan">
+            <h3 class="plan-header"><%= plan.try(:name) %></h3>
+            <div class="plan-price">
+              <h2><sup><small>$</small></sup><%= plan.price_with_month %></h2>
+            </div>
+            <ul class="plan-features">
+              <li><strong><%= plan.title %></strong></li>
+              <li>
+                <em><%= plan.total_clinic %></em>
+                <%= custom_pluralize(plan.total_clinic, 'clinic') %>
+              </li>
+              <li>
+                <em class=''><%= plan.total_doctors %></em>
+                <%= custom_pluralize(plan.total_doctors, 'doctor') %>
+              </li>
+
+              <% if plan.price.to_s != '0' %>
+                <li><em class="fa fa-check"></em> Time tracking</li>
+                <li><em class="fa fa-check"></em>Enhanced security</li>
+              <% else %>
+                <li><em class="fa fa-times plan-feature-disable"></em>Time tracking</li>
+                <li><em class="fa fa-times plan-feature-disable"></em>Enhanced security</li>
+              <% end %>
+
+            </ul>
+            <hr>
+            <div class="text-center">
+              <%= link_to 'Choose', new_registration_path(plan.price_with_dollar), class: 'btn btn-theme', data: {disable_with: 'Loading'} %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      
+
+    </div>
+  </div>
+</section>

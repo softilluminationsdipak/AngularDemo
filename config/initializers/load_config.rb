@@ -1,0 +1,1 @@
+AppConfig = YAML.load(File.read("#{Rails.root}/config/saas_config.yml"))[Rails.env]

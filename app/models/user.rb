@@ -9,6 +9,19 @@ class User < ActiveRecord::Base
   ## Relationships
   has_many :auth_tokens, :dependent => :destroy
 
+  belongs_to :account
+  accepts_nested_attributes_for :account, allow_destroy: true
+
+  
+  ## Validations
+  validates :username, presence: true, length: { in: 3..40 }, uniqueness: { scope: :account_id }
+  validates :username, format: { with: /\A\w[\w\.\-_@]+\z/, message: "use only letters, numbers, and .-_@ please.".freeze }
+
+  validates :firstname, length: { maximum: 100, allow_nil: true }
+  validates :lastname, length: { maximum: 100, allow_nil: true }
+
+  validates :email, uniqueness: {scope: :account_id }
+  
   ## Methods
   def display_errors
     errors.full_messages.join(', ')

@@ -53,3 +53,10 @@ gem 'devise'
 ## For Json Response
 gem 'rabl'
 gem 'oj'
+
+
+## Nested Form.
+gem "nested_form"
+
+## JQuery Validation.
+gem "jquery-validation-rails"

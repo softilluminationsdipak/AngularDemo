@@ -1,0 +1,206 @@
+defaults: &defaults
+  app_name: Handyworks
+  from_email: support@handyworks.com  
+  require_payment_info_for_trials: false
+  gateway: authorize_net_cim
+  admin_subdomain: admin  
+  options:
+    transfer_directions:
+      0: 'noxfer'
+      1: 'ins->pat'
+      2: 'pat->ins'    
+    bill_statuses:
+      'shouldsend': 'Should send'
+      'dontsend': 'Dont send'
+      'unsure': 'Unsure'
+      'printed': 'Printed'
+    l_date_formats:
+      0: 'Long (June 1, 1993)'
+      1: 'Short (7/6/50)'
+      2: 'None'
+    l_date_placements:
+      1: 'Left'
+      2: 'Right'
+    l_signoff_placements:
+      1: 'Left'
+      2: 'Right'
+      3: 'None'
+    l_signoff:
+      - 'Yours Truly,'
+      - 'Sincerely,'
+      - 'In Health'
+      - 'Best Wishes,'
+      - 'Anything You want!'
+    l_signator:
+      0: 'Clinic name'
+      1: 'Doctors name'
+    carrier_types:
+      'Commercial': 0
+      'Automobile': 2
+      'Workmans Comp': 3
+      'Medicare': 4
+      'Medicare/Xover': 6
+      'Medicaid': 7
+      'Blue cross': 8
+      'Blue shield': 9
+      'Champus': 10
+      'HMO': 11
+      'PPO': 12
+    code_types:
+      'Insurance Payment': 0
+      'Insurance Adjustment': 1
+      'Patient Payment': 2
+      'Patient Adjustment': 3
+      'Deductible Payment': 4
+      'Reserved': 5
+      'Ins Billable Procedure': 6
+      'Non-Ins Billable Procedure': 7
+    places_of_service:
+      'Office': 11
+      'Home': 12
+      'School': 3
+      'Hospital': 21
+      'E.R.': 23
+      'Outsurg': 24
+      'Birthing Ctr': 25
+      'Abbulance': 41
+      'Shelter': 4
+      'SNF': 31
+    exacer_rec:
+      'Exacerbation': 'E'
+      'Re-Occurance': 'R'
+    treatment_phases:
+      'Acute': 'A'
+      'Chronic': 'C'
+      'Permanent': 'P'
+      'Maintenance': 'M'
+    disability_statuses:
+      1: 'None'
+      2: 'Full'
+      3: 'Part'
+      4: 'Marked'
+      5: 'Moderate'
+      6: 'Mild'
+    guarantor_relations:
+      'self': 'Self'
+      'spouse': 'Spouse'
+      'child': 'Child'
+      'other': 'Other'
+    categories:
+      - 'Category 1'
+      - 'Category 2'
+      - 'Category 3'
+    insurance_carrier_assignment_policy:
+      commercial: 'Commercial'
+      automobile: 'Automobile'
+      medicare: 'Medicare'
+      medicaid: 'Medicaid'
+      workers_comp: 'Workers Comp'
+      ppo: 'PPO'
+      hmo: 'HMO'      
+    patient_number_scheme:
+      sequential:   'Sequential #'
+      date_time:    'Date/Time'
+      lname_prefix: 'Lname Prefix'
+      custom:       'Custom'
+      dont_care:    "Don't Care"
+    validation:
+      zip:
+          format: '/^\d{5}(-\d{4})?$/'
+          message: 'should be in the following format: XXXXX or XXXXX-XXXX'
+      phone:
+          format: '/^\d{3}-\d{2}-\d{2}$/'
+          message: 'should be in the following format: XXX-XX-XX'
+      phone_extended:
+          format: '/^.{2} \(\d{3}\) \d{3}-\d{4}$/'
+          message: 'should be in the following format: XX (XXX) XXX-XXXX'
+      ss:
+          format: '/^\d{3}[-]?\d{2}[-]?\d{4}$/i'
+          message: 'should be in the following format: XXX-XX-XXXX'
+      tax_or_ss:
+          format: '/^(\d{3}[-]?\d{2}[-]?\d{4})|(\d{2}-\d{7})$/i'
+          message: 'should be in the following formats: ###-##-#### or ##-#######'
+      email:
+          format: '/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i'
+          message: 'should be valid email address'
+    doctor:
+      type:
+        - 'Chiropractor'
+        - 'Physical Therapist'
+        - 'Medical Doctor'
+        - 'Podiatrist'
+        - 'Massage Therapist'
+        - 'Acupuncturist'
+        - 'Other'
+    sex:
+      - 'male'
+      - 'female'
+    student:
+      - 'Full time'
+      - 'Part time'
+    type:
+      - 'Type 1'
+      - 'Type 2'
+      - 'Type 3'
+    married:
+      1: 'Single'
+      2: 'Married'
+      3: 'Divorced'
+      4: 'Widowed'
+      5: 'Unknown'
+    title:
+      - 'Mr.'
+      - 'Ms.'
+      - 'Mrs.'
+      - 'Miss.'
+      - 'Dr.'
+      - 'Rev.'
+      - 'Hon.'
+      - 'Fr.'
+    work_status:
+      1: 'Unemployed'
+      2: 'Full'
+      3: 'Part'
+      4: 'Retired'
+      5: 'Disabled - Not working'
+      6: 'Self-Employed'
+    clinic:
+      - 'Universal Health Clinic'
+    referred_by:
+      - 'Aiken, Bill'
+      - 'Chevas Sandage'
+      - 'Free spirit'
+      - 'Geffenberg, Justin'
+    should_use_clinic_name:
+      box_33: 'Box33'
+      box_32: 'box 32 of HCFA'
+    insurance_carrier_assignment_policy:
+      commercial: 'Commercial'
+      automobile: 'Automobile'
+      medicare: 'Medicare'
+      medicaid: 'Medicaid'
+      workers_comp: 'Workers Comp'
+      ppo: 'PPO'
+      hmo: 'HMO'
+    patient_number_scheme:
+      sequential:   'Sequential #'
+      date_time:    'Date/Time'
+      lname_prefix: 'Lname Prefix'
+      custom:       'Custom'
+      dont_care:    "Don't Care"
+development:
+  <<: *defaults
+  base_domain: lvh.me:3000
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  base_domain: softilluminations.com
+
+cucumber:
+  <<: *defaults
+
+staging:
+  <<: *defaults
+  base_domain: handyworks.flatsourcing.com

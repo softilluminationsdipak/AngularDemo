@@ -15,7 +15,24 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   #get "/*path" => redirect("/?goto=%{path}")
 
-  root 'welcome#index'
+  # root 'welcome#index' ## For Angular
+  get '/signup/thanks'      => 'welcome#thanks',        as: :thanks
+  get '/signup'             => 'welcome#plans',         as: :plans
+  
+  devise_for :users, controllers: {sessions: 'users/sessions'}, skip: [:registrations, :passwords, :sessions]
+  as :user do
+    get     'signup/:plan',   to: 'users/registrations#new',        as: :new_registration
+    post    'signup',         to: "users/registrations#create",     as: :registration
+    get     'sessions/new',   to: 'users/sessions#new',             as: :new_session
+    post    'sessions/new',   to: 'users/sessions#create',          as: :session
+    delete  'logout',         to: 'users/sessions#destroy',         as: :destroy_session
+    get     'logout',         to: 'users/sessions#destroy'
+  end
+
+  
+  
+  
+  root 'welcome#home'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
