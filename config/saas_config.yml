@@ -197,7 +197,7 @@ test:
 
 production:
   <<: *defaults
-  base_domain: softilluminations.com
+  base_domain: mytesting.in
 
 cucumber:
   <<: *defaults
