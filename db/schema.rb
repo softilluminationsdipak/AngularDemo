@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160513174219) do
+ActiveRecord::Schema.define(version: 20160513190741) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,20 @@ ActiveRecord::Schema.define(version: 20160513174219) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.string   "street"
+    t.string   "street2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zipcode"
+    t.string   "label"
+    t.integer  "addressable_id"
+    t.string   "addressable_type"
+    t.datetime "deleted_at"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
   create_table "auth_tokens", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "authentication_token"
@@ -33,6 +47,46 @@ ActiveRecord::Schema.define(version: 20160513174219) do
 
   add_index "auth_tokens", ["authentication_token"], name: "index_auth_tokens_on_authentication_token", unique: true, using: :btree
   add_index "auth_tokens", ["user_id"], name: "index_auth_tokens_on_user_id", using: :btree
+
+  create_table "clinics", force: :cascade do |t|
+    t.integer  "contact_id"
+    t.integer  "address_id"
+    t.integer  "billing_address_id"
+    t.string   "tax_uuid"
+    t.string   "type_ii_npi_uuid"
+    t.string   "main_provider_id"
+    t.integer  "account_id"
+    t.boolean  "same_as_service_location"
+    t.datetime "deleted_at"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "company_name"
+    t.string   "phone1_ext"
+    t.string   "phone1"
+    t.string   "phone2_ext"
+    t.string   "phone2"
+    t.string   "phone3_ext"
+    t.string   "phone3"
+    t.string   "email1"
+    t.string   "email2"
+    t.string   "attention"
+    t.text     "notes"
+    t.string   "title"
+    t.string   "fax1"
+    t.string   "sex"
+    t.string   "occupation"
+    t.string   "middle_initial"
+    t.datetime "deleted_at"
+    t.integer  "contactable_id"
+    t.string   "contactable_type"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
 
   create_table "plan_facilities", force: :cascade do |t|
     t.string   "name"
