@@ -18,7 +18,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
       set_flash_message :notice, :created
       redirect_to thanks_path, notice: 'Successfully created account.'
     else
-      logger.warn("========error===#{@user.errors.full_messages}==========")
       render action: :new
     end
   end

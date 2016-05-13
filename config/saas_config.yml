@@ -1,5 +1,6 @@
 defaults: &defaults
   app_name: Handyworks
+  base_domain: lvh.me:3000
   from_email: support@handyworks.com  
   require_payment_info_for_trials: false
   gateway: authorize_net_cim

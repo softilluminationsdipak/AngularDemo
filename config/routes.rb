@@ -15,21 +15,46 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   #get "/*path" => redirect("/?goto=%{path}")
 
+  constraints subdomain: AppConfig['admin_subdomain'] do
+    get '/' => 'subscription_admin#index', as: :admin_dashboard
+    namespace 'subscription_admin', path: 'admin', as: 'admin' do
+      resources :subscription_plans
+      resources :subscriptions
+      resources :subscription_discounts
+      resources :accounts
+      resources :subscription_affiliates
+    end
+  end
+
   # root 'welcome#index' ## For Angular
   get '/signup/thanks'      => 'welcome#thanks',        as: :thanks
   get '/signup'             => 'welcome#plans',         as: :plans
-  
-  devise_for :users, controllers: {sessions: 'users/sessions'}, skip: [:registrations, :passwords, :sessions]
+  get '/dashboard'          => 'base#dashboard',        as: :user_dashboard
+
+  devise_for :users, 
+    controllers: {
+      sessions: 'users/sessions', 
+      confirmations: 'users/confirmations'
+  }, skip: [:registrations, :sessions, :passwords]
   as :user do
     get     'signup/:plan',   to: 'users/registrations#new',        as: :new_registration
     post    'signup',         to: "users/registrations#create",     as: :registration
+
     get     'sessions/new',   to: 'users/sessions#new',             as: :new_session
     post    'sessions/new',   to: 'users/sessions#create',          as: :session
     delete  'logout',         to: 'users/sessions#destroy',         as: :destroy_session
     get     'logout',         to: 'users/sessions#destroy'
+
+    post    'users/password',      to: 'users/passwords#create',     as: :user_password
+    get     'users/password/new',  to: 'users/passwords#new',        as: :new_user_password
+    get     'users/password/edit', to: 'users/passwords#edit',       as: :edit_user_password
+    patch   'users/password',      to: 'users/passwords#update'
+    put     'users/password',      to: 'users/passwords#update'
+
   end
 
   
+
   
   
   root 'welcome#home'

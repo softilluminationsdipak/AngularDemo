@@ -2,7 +2,7 @@
   <div class="container">
     <!-- SECTION HEADER-->
     <div data-wow-offset="15" data-wow-duration="1.3s" class="section-header wow fadeIn animated">
-      <h2>Available Options</h2>
+      <h2>Plans</h2>
       <div class="section-description">
         30-day free trial, sign up in 60 seconds
       </div>
@@ -13,17 +13,23 @@
       <!-- PLAN-->
       <% @plans.each do |plan| %>
         <div data-wow-offset="15" data-wow-duration="1.3s" class="col-md-3 col-sm-3 wow fadeIn animated">
-          <div class="plan">
+          
+          <div class="plan" style="margin-bottom: 10px;">
+            
             <h3 class="plan-header"><%= plan.try(:name) %></h3>
+            
             <div class="plan-price">
               <h2><sup><small>$</small></sup><%= plan.price_with_month %></h2>
             </div>
+            
             <ul class="plan-features">
               <li><strong><%= plan.title %></strong></li>
+            
               <li>
                 <em><%= plan.total_clinic %></em>
                 <%= custom_pluralize(plan.total_clinic, 'clinic') %>
               </li>
+            
               <li>
                 <em class=''><%= plan.total_doctors %></em>
                 <%= custom_pluralize(plan.total_doctors, 'doctor') %>
@@ -38,15 +44,32 @@
               <% end %>
 
             </ul>
+            
             <hr>
+            
             <div class="text-center">
-              <%= link_to 'Choose', new_registration_path(plan.price_with_dollar), class: 'btn btn-theme', data: {disable_with: 'Loading'} %>
+              <%= link_to 'Sign Up', new_registration_path(plan.price_with_dollar), class: 'btn btn-theme', data: {disable_with: 'Loading'} %>
             </div>
+
           </div>
+
+          <% if controller.controller_name.to_s == 'welcome' && controller.action_name == 'plans' %>
+            <div data-wow-offset="15" data-wow-duration="1.3s" class="col-md-3 col-sm-3 wow fadeIn animated" style="width: 100%;padding:0px;">
+              <div class="plan">
+                <ul class="plan-features">
+                  <% plan.plan_facilities.each do |facility| %>
+                    <li>
+                      <em class="fa fa-plus"></em> 
+                      <small class="extra-small"><%= facility.try(:name) %></small>
+                    </li>  
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+
         </div>
       <% end %>
-      
-
     </div>
   </div>
 </section>

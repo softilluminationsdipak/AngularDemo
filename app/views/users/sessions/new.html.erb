@@ -1,26 +1,31 @@
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <% if devise_mapping.rememberable? -%>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+<div class="panel-body">
+  <p class="text-center pv">SIGN IN TO CONTINUE.</p>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: {'parsley-validate': ''}, novalidate: '',  class: "mb-lg") do |form| %>
+    <div class="form-group has-feedback">
+      <%= form.email_field :email, placeholder: 'Enter email', autofocus: true, required: true, class: 'form-control', data: {'parsley-id': '4', 'parsley-required-message': "Email can't be blank."} %>
+      <span class="fa fa-envelope form-control-feedback text-muted"></span>
     </div>
-  <% end -%>
+    
+    <div class="form-group has-feedback">
+      <%= form.password_field :password, placeholder: 'Password', autocomplete: "off", required: true, class: 'form-control', data: {'parsley-id': '6', 'parsley-required-message': "Password can't be blank."} %>
+      <span class="fa fa-lock form-control-feedback text-muted"></span>
+    </div>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+    <div class="clearfix">
+      <% if devise_mapping.rememberable? -%>
+        <div class="checkbox c-checkbox pull-left mt0">
+          <label>
+            <%= form.check_box :remember_me, data: {'parsley-multiple': 'remember', 'parsley-id': '9'} %>
+            <span class="fa fa-check"></span>Remember Me
+          </label>
+        </div>
+      <% end %>
+      <div class="pull-right">        
+        <%= link_to 'Forget your password?', new_user_password_path, class: 'text-muted', data: {disable_with: 'Please Wait...'} %>
+      </div>
+    </div>
+    <%= form.submit 'Login', class: 'btn btn-block btn-primary mt-lg', data: {disable_with: 'Loading...'} %>
+  <% end %>
+  <p class="pt-lg text-center"> Need to Signup? </p>
+  <%= link_to 'Register Now', plans_path, class: 'btn btn-block btn-default', data: {disable_with: 'Loading...'} %>
+</div>

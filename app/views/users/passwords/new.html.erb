@@ -1,16 +1,18 @@
-<h2>Forgot your password?</h2>
+<div class="panel-body">
+  <p class="text-center pv">FORGET YOUR PASSWORD.</p>
+  <%= form_for(resource, as: resource_name, url: user_password_path, data: {'parsley-validate': ''}, novalidate: '',  class: "mb-lg") do |form| %>
+    <div class="form-group has-feedback">
+      <%= form.email_field :email, placeholder: 'Enter email', autofocus: true, required: true, class: 'form-control', data: {'parsley-id': '4', 'parsley-required-message': "Can't be blank."} %>
+      <span class="fa fa-envelope form-control-feedback text-muted form-control-feedback-dup2"></span>
+      <ul class="parsley-errors-list filled">
+        <li class="parsley-required"><%= display_error_messages resource.errors, [:email] %></li>
+      </ul>      
+    </div>
+    
+    <%= form.submit 'Send me reset password instructions', class: 'btn btn-block btn-primary mt-lg', data: {disable_with: 'Loading...'} %>
+  <% end %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
+	<p class="pt-lg text-center">Have an account?</p>
+	<%= link_to 'Sign In', new_password_path(resource_name), class: 'btn btn-block btn-default', data: {disable_with: 'Loading...'} %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+</div>

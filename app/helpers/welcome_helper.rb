@@ -21,4 +21,16 @@ module WelcomeHelper
     end
   end
 	
+  def flash_message(level)
+    case level
+      when 'notice' 
+        return "alert-info"
+      when 'success' 
+        return "alert-success"
+      when 'error' 
+        return "alert-danger"
+      when 'alert' 
+        return "alert-danger"
+    end
+  end
 end

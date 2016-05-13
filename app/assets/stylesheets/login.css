@@ -17,8 +17,13 @@
  *= require_self
  */
 
-.form-control-feedback{
+.form-control-feedback-dup{
 	top: 25px !important;
 	right: 0 !important;
 	left: inherit !important;
+}
+
+.form-control-feedback-dup2{
+	right: 0;
+	left: auto;
 }

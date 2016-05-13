@@ -12,6 +12,7 @@
 //
 //= require login/modernizr.custom.js
 //= require login/jquery.js
+//= require jquery_ujs
 //= require login/bootstrap.js
 //= require login/jquery.storageapi.js
 //= require login/parsley.min.js

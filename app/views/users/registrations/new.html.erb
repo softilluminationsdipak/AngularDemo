@@ -9,7 +9,7 @@
       <div class="form-group has-feedback">
         <%= account.label :name, "Account Name <span class='required'>*</span>".html_safe, class: 'text-muted' %>
         <%= account.text_field :name, placeholder: 'Account Name', class: 'form-control', required: true, data: {'parsley-required-message': "Account name can't be blank."} %>      
-        <span class="fa fa-user form-control-feedback text-muted"></span>
+        <span class="fa fa-user form-control-feedback form-control-feedback-dup text-muted"></span>
         <ul class="parsley-errors-list filled">
           <li class="parsley-required"><%= display_error_messages @user.errors, [:'account.name'] %></li>
         </ul>
@@ -19,7 +19,7 @@
       <div class="form-group has-feedback">
         <%= account.label :full_domain, "Domain <span class='required'>*</span>".html_safe, class: 'text-muted' %>
         <%= account.text_field :full_domain, placeholder: 'Domain Name', class: 'form-control', required: true, data: {'parsley-required-message': "Full domain can't be blank."} %>
-        <span class="fa fa-at form-control-feedback text-muted"></span>
+        <span class="fa fa-at form-control-feedback form-control-feedback-dup text-muted"></span>
         <ul class="parsley-errors-list filled">
           <li class="parsley-required"><%= display_error_messages @user.errors, [:'account.full_domain'] %></li>
         </ul>
@@ -33,7 +33,7 @@
       <div class="form-group has-feedback">
         <%= form.label :username, "Username <span class='required'>*</span>".html_safe, class: 'text-muted' %>
         <%= form.text_field :username, placeholder: 'Username', class: 'form-control', required: true, minlength: '5', maxlength: '40', data: { 'parsley-minlength': '5', 'parsley-maxlength': '40', 'parsley-required-message': "Username can't be blank." } %>
-        <span class="fa fa-user form-control-feedback text-muted"></span>
+        <span class="fa fa-user form-control-feedback form-control-feedback-dup text-muted"></span>
         <ul class="parsley-errors-list filled">
           <li class="parsley-required"><%= display_error_messages @user.errors, [:username] %></li>
         </ul>
@@ -42,7 +42,7 @@
       <div class="form-group has-feedback">
         <%= form.label :email, "Email <span class='required'>*</span>".html_safe, class: 'text-muted' %>
         <%= form.email_field :email, placeholder: 'Email', class: 'form-control', required: true, data: {'parsley-required-message': "Email can't be blank."} %>
-        <span class="fa fa-envelope form-control-feedback text-muted"></span>
+        <span class="fa fa-envelope form-control-feedback form-control-feedback-dup text-muted"></span>
         <ul class="parsley-errors-list filled">
           <li class="parsley-required"><%= display_error_messages @user.errors, [:email] %></li>
         </ul>
@@ -51,13 +51,13 @@
       <div class="form-group has-feedback">
         <%= form.label :password, "Password <span class='required'>*</span>".html_safe, class: 'text-muted' %>
         <%= form.password_field :password, placeholder: 'Password', class: 'form-control', required: true, minlength: '8', data: {'parsley-required-message': "Password can't be blank.", 'parsley-minlength': "8", 'parsley-minlength-message': "Password should have 8 characters or more"} %>
-        <span class="fa fa-lock form-control-feedback text-muted"></span>
+        <span class="fa fa-lock form-control-feedback form-control-feedback-dup text-muted"></span>
       </div>
 
       <div class="form-group has-feedback">
         <%= form.label :password_confirmation, "Password Confirmation <span class='required'>*</span>".html_safe, class: 'text-muted' %>
         <%= form.password_field :password_confirmation, placeholder: 'Password Confirmation', class: 'form-control', required: true, data: {'parsley-equalto': '#user_password', 'parsley-equalto-message': 'Password confirmation is mismatch with password.', 'parsley-required-message': "Password confirmation can't be blank."} %>
-        <span class="fa fa-lock form-control-feedback text-muted"></span>
+        <span class="fa fa-lock form-control-feedback form-control-feedback-dup text-muted"></span>
       </div>
     </div>
 

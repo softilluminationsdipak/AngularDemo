@@ -263,24 +263,24 @@
 
   // SET WRITING MODE
 
-  var stylesCss = $('#stylescss'),
-      rtlSwitch = $('#rtlswitch');
+  //var stylesCss = $('#stylescss'),
+     // rtlSwitch = $('#rtlswitch');
 
-  $(function(){
-    var uri = modeRTL ? '/assets/frontend/styles-rtl.css' : '/assets/frontend/styles.css';
-    stylesCss.attr('href', uri);
-    rtlSwitch[0].checked = modeRTL;
-  });
+  // $(function(){
+  //   var uri = modeRTL ? '/assets/frontend/styles-rtl.css' : '/assets/frontend/styles.css';
+  //   stylesCss.attr('href', uri);
+  //  // rtlSwitch[0].checked = modeRTL;
+  // });
 
-  rtlSwitch.on('change', function(){
+  // rtlSwitch.on('change', function(){
 
-    var isRTL = this.checked;
+  //   var isRTL = this.checked;
 
-    $.localStorage.set('modeRTL', isRTL);
-    // reload is required to initialize plugins in RTL mode
-    window.location.reload();
+  //   $.localStorage.set('modeRTL', isRTL);
+  //   // reload is required to initialize plugins in RTL mode
+  //   window.location.reload();
 
-  });
+  // });
 
 
 })(window.jQuery);

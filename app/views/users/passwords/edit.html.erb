@@ -1,25 +1,22 @@
-<h2>Change your password</h2>
+<div class="panel-body">
+  <p class="text-center pv">CHANGE YOUR PASSWORD</p>
+  <%= form_for(resource, as: resource_name, url: users_password_path, html: {method: :put}, data: {'parsley-validate': ''}, novalidate: '',  class: "mb-lg") do |form| %>
+    <%= form.hidden_field :reset_password_token %>
+    <div class="form-group has-feedback">
+      <%= form.label :password, "New Password <span class='required'>*</span>".html_safe, class: 'text-muted' %>
+      <%= form.password_field :password, placeholder: 'Password', class: 'form-control', required: true, minlength: '8', data: {'parsley-required-message': "Password can't be blank.", 'parsley-minlength': "8", 'parsley-minlength-message': "Password should have 8 characters or more"} %>
+      <span class="fa fa-lock form-control-feedback form-control-feedback-dup text-muted"></span>
+    </div>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :reset_password_token %>
+    <div class="form-group has-feedback">
+      <%= form.label :password_confirmation, "Confirm New Password <span class='required'>*</span>".html_safe, class: 'text-muted' %>
+      <%= form.password_field :password_confirmation, placeholder: 'Password Confirmation', class: 'form-control', required: true, data: {'parsley-equalto': '#user_password', 'parsley-equalto-message': 'Password confirmation is mismatch with password.', 'parsley-required-message': "Password confirmation can't be blank."} %>
+      <span class="fa fa-lock form-control-feedback form-control-feedback-dup text-muted"></span>
+    </div>
 
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "off" %>
-  </div>
+    <%= form.submit 'Change my password', class: 'btn btn-block btn-primary mt-lg', data: {disable_with: 'Loading...'} %>
+  <% end %>
 
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+  <p class="pt-lg text-center">Have an account?</p>
+  <%= link_to 'Sign In', new_password_path(resource_name), class: 'btn btn-block btn-default', data: {disable_with: 'Loading...'} %>
+</div>

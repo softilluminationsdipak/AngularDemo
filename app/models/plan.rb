@@ -1,5 +1,9 @@
 class Plan < ActiveRecord::Base
 	
+	## Relationship
+	has_many :plan_facilities, dependent: :destroy
+	
+	# Methods
 	def price_with_month
 		"#{price}/month"
 	end

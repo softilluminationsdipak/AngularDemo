@@ -10,6 +10,9 @@ class Account < ActiveRecord::Base
 	validates :full_domain, exclusion: { in: %w(support blog www billing help api #{AppConfig['admin_subdomain']} ), message: "The domain %{value} is not available." }
 
 	validate :valid_domain?
+
+  ## Callbacks
+  before_create :set_full_domain_name
 	
 	protected
 
@@ -24,6 +27,10 @@ class Account < ActiveRecord::Base
     		self.errors.add(:full_domain, 'is not available')
     	end
     end
+  end
+
+  def set_full_domain_name
+    self.full_domain = "#{full_domain}.#{AppConfig['base_domain'].gsub(/(:\d+)$/, '')}"
   end
 
 end

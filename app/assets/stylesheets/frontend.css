@@ -22,3 +22,7 @@
  *= require frontend/fontcss.css
  *= require_self
  */
+
+.extra-small{
+	font-size: 80%;
+}
