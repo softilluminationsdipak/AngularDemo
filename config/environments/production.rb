@@ -81,14 +81,13 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'mytesting.in' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: 'smtp.mandrillapp.com',
-    port:  587,
-    domain: 'softilluminations.com',
-    user_name: 'test@softilluminations.com',
-    password: 'ySDyEjaoJH1Zi9GFKLIzrQ',
-    authentication: 'plain',
-    enable_starttls_auto: true  
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :domain               => "gmail.com",
+    :user_name            => "dipak@softilluminations.com",
+    :password             => "dipak@34680",
+    :authentication       => :plain,
+    :enable_starttls_auto => true
   }
-
-  DOMAIN_NAME = 'http://emr-angular-demo.herokuapp.com/'
+  DOMAIN_NAME = 'http://mytesting.in/'
 end
