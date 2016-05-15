@@ -9453,7 +9453,8 @@ fieldset .form-group {
    Component: typo.less
  ========================================================================== */
 body {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Source Sans Pro";
+  /*font-family: "Source Sans Pro", sans-serif;*/
   color: #656565;
 }
 h1,
