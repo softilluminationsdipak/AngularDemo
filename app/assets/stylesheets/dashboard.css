@@ -16,6 +16,20 @@
  *= require dashboard/whirl.css
  *= require dashboard/weather-icons.min.css
  *= require dashboard/bootstrap.css
+ *= require dashboard/chosen.min.css
+ *= require dashboard/bootstrap-datetimepicker.min.css
+ *= require dashboard/select2.css
+ *= require dashboard/select2-bootstrap.css
  *= require dashboard/app.css
  *= require_self
  */
+
+
+.error {
+  border-color: #f05050 !important;
+  color: #f05050 !important;
+}
+
+.mrgbtn7{
+  margin-bottom: 7px;
+}

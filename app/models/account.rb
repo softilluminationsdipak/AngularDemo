@@ -3,7 +3,8 @@ class Account < ActiveRecord::Base
 	## Relationship
 	has_many :users, dependent: :destroy
 	has_many :admin, -> { where admin: true }, class_name: 'User'
-
+  has_many :clinics, dependent: :destroy
+  
 	## Validations
 	validates :name, presence: true
 	validates :full_domain, format: { with: /\A[a-zA-Z][a-zA-Z0-9]*\Z/ }, on: :create

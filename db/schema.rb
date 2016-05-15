@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160513190741) do
+ActiveRecord::Schema.define(version: 20160515130442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,41 @@ ActiveRecord::Schema.define(version: 20160513190741) do
 
   add_index "auth_tokens", ["authentication_token"], name: "index_auth_tokens_on_authentication_token", unique: true, using: :btree
   add_index "auth_tokens", ["user_id"], name: "index_auth_tokens_on_user_id", using: :btree
+
+  create_table "clinic_preferences", force: :cascade do |t|
+    t.integer  "clinic_id"
+    t.string   "internal_account_uid_scheme"
+    t.string   "additional_transaction_number"
+    t.string   "patient_number_scheme"
+    t.string   "transaction_number_scheme"
+    t.integer  "overdue_fee_percentage"
+    t.string   "should_use_clinic_name"
+    t.boolean  "should_print_diagnosis_description_on_hcfa", default: false
+    t.boolean  "should_send_statements_when_overdue",        default: false
+    t.boolean  "should_charge_overdue_account",              default: false
+    t.string   "insurance_carrier_assignment_policy"
+    t.boolean  "should_show_clinic_on_letter",               default: false
+    t.boolean  "should_show_clinic_on_bill",                 default: false
+    t.string   "workmanscomp_boilerplate"
+    t.string   "patient_current_statement_message"
+    t.string   "patient_30days_statement_message"
+    t.string   "patient_60days_statement_message"
+    t.string   "patient_90days_statement_message"
+    t.string   "patient_120days_statement_message"
+    t.boolean  "should_print_clinic_address_on_envelope",    default: false
+    t.integer  "payment_display_code"
+    t.datetime "deleted_at"
+    t.integer  "should_split_bills_by_provider"
+    t.integer  "default_place_of_service"
+    t.string   "box_32_use"
+    t.string   "box_33_use"
+    t.string   "letter_use"
+    t.string   "statement_use"
+    t.float    "hcfa_left_margin"
+    t.float    "hcfa_top_margin"
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
+  end
 
   create_table "clinics", force: :cascade do |t|
     t.integer  "contact_id"

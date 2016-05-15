@@ -1,0 +1,220 @@
+<div class="panel-body">
+  <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
+    <div class="panel panel-default">
+      
+      <div id="headingOne" role="tab" class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="">
+            Clinic Information
+          </a>
+        </h4>
+      </div>
+      
+      <div id="collapseOne" role="tabpanel" aria-labelledby="headingOne" class="panel-collapse collapse in" aria-expanded="true" style="">
+        <div class="panel-body">
+          <%= nested_form_for @clinic, html: {class: 'form-horizontal', id: 'validate_new_clinic'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+            <div>
+              <%= form.fields_for :contact do |contact_f| %>
+                <%= form.fields_for :address do |address_f| %>
+                  <%= form.fields_for :billing_address do |billing_address_f| %>
+                    <div class='col-md-6'>
+                      <legend>Clinic Setup</legend>
+                      
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Clinic Name</label>
+                        <div class="col-lg-9">
+                          <%= contact_f.text_field :company_name, placeholder: 'Clinic Name', class: 'form-control', required: true, data: {'parsley-required-message': "Clinic name can't be blank."} %>
+                          <ul class="parsley-errors-list filled">
+                            <li class="parsley-required"><%= display_error_messages @clinic.errors, [:'contact.company_name'] %></li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Address</label>
+                        <div class="col-lg-9">
+                          <%= address_f.text_field :street, placeholder: 'Write your address line 1 here...', class: 'form-control' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">&nbsp;</label>
+                        <div class="col-lg-9">
+                          <%= address_f.text_field :street2, placeholder: 'Write your address line 2 here...', class: 'form-control' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">City</label>
+                        <div class="col-lg-9">
+                          <%= address_f.text_field :city, placeholder: 'City Name', class: 'form-control' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">State</label>
+                        <div class="col-lg-9">                    
+                          <%= address_f.select :state, options_for_select(us_states, selected: address_f.object.state), {include_blank: 'Select Your State'}, { class: 'form-control m-b select2-1' } %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Zipcode</label>
+                        <div class="col-lg-9">                    
+                          <%= address_f.text_field :zipcode, placeholder: 'Zipcode', class: 'form-control' %>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Phone #</label>
+                        <div class="col-lg-6">
+                          <%= contact_f.text_field :phone1, placeholder: 'Phone Number', class: 'form-control phone_number', data: {masked: '', inputmask: "'mask': '(999) 999-9999'"} %>
+                        </div>
+                        <div class="col-lg-3">
+                          <%= contact_f.text_field :phone1_ext, placeholder: 'EXT', class: 'form-control', size: 1, minlength: '1', maxlength: '1' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Fax Number</label>
+                        <div class="col-lg-9">                    
+                          <%= contact_f.text_field :fax1, placeholder: 'Fax Number', class: 'form-control' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Email</label>
+                        <div class="col-lg-9">                    
+                          <%= contact_f.email_field :email1, placeholder: 'Write your email address here...', class: 'form-control' %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class='col-md-6'>
+                      <legend>Billing Office</legend>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">&nbsp;</label>
+                        <div class="col-lg-9 mrgbtn7">                    
+                          <label class="checkbox-inline c-checkbox">
+                            <%= form.check_box :same_as_service_location, onchange: 'sameAsServiceLocation(this);' %>
+                            <span class="fa fa-check"></span> Address is same as clinic?
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Address</label>
+                        <div class="col-lg-9">
+                          <%= billing_address_f.text_field :street, placeholder: 'Write your address line 1 here...', class: 'form-control' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">&nbsp;</label>
+                        <div class="col-lg-9">
+                          <%= billing_address_f.text_field :street2, placeholder: 'Write your address line 2 here...', class: 'form-control' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">City</label>
+                        <div class="col-lg-9">
+                          <%= billing_address_f.text_field :city, placeholder: 'City Name', class: 'form-control' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">State</label>
+                        <div class="col-lg-9">                    
+                          <%= billing_address_f.select :state, options_for_select(us_states, selected: billing_address_f.object.try(:state)), {include_blank: 'Select Your State'}, { class: 'form-control m-b select2-1' } %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Zipcode</label>
+                        <div class="col-lg-9">                    
+                          <%= billing_address_f.text_field :zipcode, placeholder: 'Zipcode', class: 'form-control' %>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Phone #</label>
+                        <div class="col-lg-6">
+                          <%= contact_f.text_field :phone2, placeholder: 'Phone Number', class: 'form-control phone_number', data: {masked: '', inputmask: "'mask': '(999) 999-9999'"} %>
+                        </div>
+                        <div class="col-lg-3">
+                          <%= contact_f.text_field :phone2_ext, placeholder: 'EXT', class: 'form-control', size: 1, minlength: '1', maxlength: '1' %>
+                        </div>
+                      </div>
+
+                      <legend>Corporate Data</legend>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label" title='Corporate Tax ID'>Tax UUID</label>
+                        <div class="col-lg-9">                    
+                          <%= form.text_field :tax_uuid, placeholder: 'Tax UUID', class: 'form-control' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Type II NPI</label>
+                        <div class="col-lg-9">                    
+                          <%= form.text_field :type_ii_npi_uuid, placeholder: 'Type II NPI', class: 'form-control' %>
+                        </div>
+                      </div>
+                    </div>
+
+                  <% end %>
+                <% end %>
+              <% end %>   
+
+            </div>
+            <div class="clearfix"></div>
+            <hr>
+            <div class="form-group">
+              <div class="col-sm-4 col-sm-offset-2">
+                <%= link_to 'Cancel', clinics_path, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+                <%= form.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+    
+    <div class="panel panel-default">
+      <div id="headingTwo" role="tab" class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" class="collapsed">
+            Collapsible Group Item #2        
+          </a>
+        </h4>
+      </div>
+      
+      <div id="collapseTwo" role="tabpanel" aria-labelledby="headingTwo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px; ">
+        <div class="panel-body">
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
+          moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
+          butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        </div>
+      </div>
+
+    </div>
+    
+    <div class="panel panel-default">
+      <div id="headingThree" role="tab" class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree" class="collapsed">
+            Collapsible Group Item #3
+          </a>
+        </h4>
+      </div>
+      <div id="collapseThree" role="tabpanel" aria-labelledby="headingThree" class="panel-collapse collapse" aria-expanded="false">
+        <div class="panel-body">
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
+        </div>
+      </div>
+    </div>
+  </div>

@@ -13,8 +13,10 @@
 //= require dashboard/modernizr.custom.js
 //= require dashboard/matchMedia.js
 //= require dashboard/jquery.js
+//= require jquery_ujs
 //= require dashboard/bootstrap.js
 //= require dashboard/jquery.storageapi.js
+// require login/parsley.min.js
 //= require dashboard/jquery.easing.js
 //= require dashboard/animo.js
 //= require dashboard/jquery.slimscroll.min.js
@@ -32,5 +34,88 @@
 //= require dashboard/jquery.classyloader.min.js
 //= require dashboard/moment-with-locales.min.js
 //= require dashboard/demo-flot.js
+//= require dashboard/jquery.validate.js
+//= require dashboard/jquery.inputmask.bundle.js
+//= require dashboard/bootstrap-datetimepicker.min.js
+//= require dashboard/select2.js
 //= require dashboard/app.js
+//= require jquery_nested_form
 //= require turbolinks
+
+
+$(document).on('ready page:load', function (event) {
+
+	$("#validate_new_clinic").validate({
+		errorElement: "span",
+		rules: {
+			'clinic[contact_attributes][company_name]': {
+				required: true
+			},
+			'clinic[contact_attributes][email1]': {
+				email: true
+			},
+			'clinic[address_attributes][zipcode]': {
+				minlength: 4,
+				maxlength: 5,
+				digits: true,
+				number: true
+			},
+			'clinic[contact_attributes][phone1_ext]': {
+				number: true,
+				digits: true,
+				minlength: 1,
+				maxlength: 1
+			},
+			'clinic[contact_attributes][phone2_ext]': {
+				number: true,
+				digits: true,
+				minlength: 1,
+				maxlength: 1
+			},
+			'clinic[billing_address_attributes][zipcode]':{
+				minlength: 4,
+				maxlength: 5,
+				digits: true,
+				number: true				
+			}
+		},
+		messages: {
+			'clinic[contact_attributes][company_name]': {
+				required: "Clinic name can't be blank."
+			},
+			'clinic[contact_attributes][email1]': {
+				email: 'Please enter an email address.'
+			},
+			'clinic[contact_attributes][phone1_ext]':{
+				number: 'Number Only.',
+				minlength: 'Only 1 digit allow',
+				maxlength: 'Only 1 digit allow'
+			},
+			'clinic[contact_attributes][phone2_ext]': {
+				number: 'Number Only.',
+				minlength: 'Only 1 digit allow',
+				maxlength: 'Only 1 digit allow'				
+			}
+		}
+	});
+	
+	$('.phone_number').inputmask('(999) 999-9999')
+});
+
+
+// Functions for clinic modules
+function sameAsServiceLocation(checkBox){
+	if($("#clinic_same_as_service_location").is(':checked') == true  ){
+		$("#clinic_billing_address_attributes_street").attr('disabled', 'disabled')
+		$("#clinic_billing_address_attributes_street2").attr('disabled', 'disabled')
+		$("#clinic_billing_address_attributes_city").attr('disabled', 'disabled')
+		$("#clinic_billing_address_attributes_state").attr('disabled', 'disabled')
+		$("#clinic_billing_address_attributes_zip").attr('disabled', 'disabled')
+	}else{
+		$("#clinic_billing_address_attributes_street").removeAttr('disabled')
+		$("#clinic_billing_address_attributes_street2").removeAttr('disabled')
+		$("#clinic_billing_address_attributes_city").removeAttr('disabled')
+		$("#clinic_billing_address_attributes_state").removeAttr('disabled')
+		$("#clinic_billing_address_attributes_zip").removeAttr('disabled')		
+	}
+}

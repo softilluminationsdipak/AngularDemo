@@ -60,3 +60,6 @@ gem "nested_form"
 
 ## JQuery Validation.
 gem "jquery-validation-rails"
+
+## Decent Expose
+gem 'decent_exposure'

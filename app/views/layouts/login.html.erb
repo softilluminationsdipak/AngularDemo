@@ -19,16 +19,7 @@
             </a>
           </div>
           <div class="panel-body">
-            <% if flash.present? %>
-            <% flash.each do |key, value| %>
-              <div role='alert' class='alert <%= flash_message(key) %> alert-dismissible'>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <%= value %>
-               </div>
-            <% end %>
-          <% end %>
-
-
+            <%= render partial: '/layouts/flash' %>
             <%= yield %>
           </div>
         </div>
