@@ -1,16 +1,12 @@
-<h2>Resend confirmation instructions</h2>
-
-<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Resend confirmation instructions" %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+<div class="panel-body">
+  <p class="text-center pv">Resend confirmation instructions</p>
+  <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), data: {'parsley-validate': ''}, novalidate: '',  class: "mb-lg") do |form| %>
+    <div class="form-group has-feedback">
+    	<%= form.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), placeholder: 'Email', class: 'form-control', data: {'parsley-id': '4', 'parsley-required-message': "Email can't be blank."} %>
+      <span class="fa fa-envelope form-control-feedback text-muted"></span>
+    </div>
+    <%= form.submit 'Resend confirmation instructions', class: 'btn btn-block btn-primary mt-lg', data: {disable_with: 'Loading...'} %>
+  <% end %>
+  <p class="pt-lg text-center"> Need to Signup? </p>
+  <%= link_to 'Register Now', plans_path, class: 'btn btn-block btn-default', data: {disable_with: 'Loading...'} %>
+</div>
