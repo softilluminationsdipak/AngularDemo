@@ -16,6 +16,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     yield resource if block_given?
 
     if resource.errors.empty?
+      self.resource.update_attributes(confirmation_token: nil)
       set_flash_message!(:notice, :confirmed)
       respond_with_navigational(resource){ redirect_to new_session_path }
     else
