@@ -32,28 +32,28 @@
         </li>
             
         <li class="<%= 'active' if controller.action_name == 'dashboard' && controller.controller_name == 'base' %>">
-          <a href="<%= user_dashboard_path %>" title="Dashboard">                  
+          <%= link_to user_dashboard_path, title: 'Dashboard', data: {disable_with: 'Please Wait...'} do %>
             <em class="icon-speedometer"></em>
-            <span data-localize="sidebar.nav.DASHBOARD">Dashboard</span>
-          </a>
+            <span data-localize="sidebar.nav.DASHBOARD">Dashboard</span>            
+          <% end %>
         </li>
 
         <li class="<%= 'active' if controller.controller_name == 'clinics' %>">
-          <a href="#clinic" title="Clinics" data-toggle="collapse" class='collapsed'>
+          <%= link_to '#clinic', title: 'Clinics', data: {toggle: 'collapse'}, class: 'collapsed' do %>
             <em class="fa fa-hospital-o"></em>
-            <span>Clinics</span>
-          </a>
+            <span>Clinics</span>            
+          <% end %>
           <ul id="clinic" class="nav sidebar-subnav collapse <%= 'in' if controller.controller_name == 'clinics' %>">
             <li class="sidebar-subnav-header">Clinics</li>
             <li class="<%= 'active' if controller.controller_name == 'clinics' && controller.action_name == 'index' %>">
-              <a href="<%= clinics_path %>" title="Horizontal">
+              <%= link_to clinics_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %>
                 <span>Clinic Listing</span>
-              </a>
+              <% end %>
             </li>
             <li class="<%= 'active' if controller.controller_name == 'clinics' && controller.action_name == 'new' %>">
-              <a href="<%= new_clinic_path %>" title="Horizontal">
+              <%= link_to new_clinic_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %> 
                 <span>Add Clinic</span>
-              </a>
+              <% end %>
             </li>
           </ul>
         </li>
