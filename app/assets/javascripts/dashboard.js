@@ -40,6 +40,7 @@
 //= require dashboard/select2.js
 //= require dashboard/app.js
 //= require jquery_nested_form
+//= require dashboard/clinics.js
 //= require turbolinks
 
 
@@ -102,6 +103,26 @@ $(document).on('ready page:load', function (event) {
 	$('.phone_number').inputmask('(999) 999-9999')
 });
 
+
+$("#validate_new_clinic2").validate({
+	errorElement: "span",
+	rules: {
+		'clinic[clinic_preference_attributes][overdue_fee_percentage]': {
+			digits: true,
+			number: true,
+			minlength: 1,
+			maxlength: 2
+		}
+	},
+	messages: {
+		'clinic[clinic_preference_attributes][overdue_fee_percentage]': {
+			digits: 'Number Only',
+			number: 'Number Only',
+			minlength: 'Only 1 digit allow',
+			maxlength: 'Max 2 digit allow'
+		}		
+	}
+})
 
 // Functions for clinic modules
 function sameAsServiceLocation(checkBox){

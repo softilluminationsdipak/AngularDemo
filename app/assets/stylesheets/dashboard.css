@@ -33,3 +33,9 @@
 .mrgbtn7{
   margin-bottom: 7px;
 }
+
+.multic-box label{
+	margin: 1px !important;
+  text-align: justify;
+  width: 23%;
+}

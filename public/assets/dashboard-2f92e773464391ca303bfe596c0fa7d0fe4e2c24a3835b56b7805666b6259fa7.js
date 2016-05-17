@@ -34925,6 +34925,11 @@ S2.define('jquery.select2',[
                 return $();//nothing found
         };
 })(jQuery);
+$(document).on('ready page:load', function (event) {
+  $("#all_insurance_carrier_assignment_policy").change(function(){
+    $(".insurance_carrier_assignment_policy").prop('checked', $(this).prop("checked"));
+  });  
+});
 (function() {
   var CSRFToken, Click, ComponentUrl, EVENTS, Link, ProgressBar, browserIsntBuggy, browserSupportsCustomEvents, browserSupportsPushState, browserSupportsTurbolinks, bypassOnLoadPopstate, cacheCurrentPage, cacheSize, changePage, clone, constrainPageCacheTo, createDocument, crossOriginRedirect, currentState, enableProgressBar, enableTransitionCache, executeScriptTags, extractTitleAndBody, fetch, fetchHistory, fetchReplacement, historyStateIsDefined, initializeTurbolinks, installDocumentReadyPageEventTriggers, installHistoryChangeHandler, installJqueryAjaxSuccessPageUpdateTrigger, loadedAssets, manuallyTriggerHashChangeForFirefox, pageCache, pageChangePrevented, pagesCached, popCookie, processResponse, progressBar, recallScrollPosition, ref, referer, reflectNewUrl, reflectRedirectedUrl, rememberCurrentState, rememberCurrentUrl, rememberReferer, removeNoscriptTags, requestMethodIsSafe, resetScrollPosition, setAutofocusElement, transitionCacheEnabled, transitionCacheFor, triggerEvent, visit, xhr,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
@@ -35750,6 +35755,7 @@ S2.define('jquery.select2',[
 
 
 
+
 $(document).on('ready page:load', function (event) {
 
 	$("#validate_new_clinic").validate({
@@ -35809,6 +35815,26 @@ $(document).on('ready page:load', function (event) {
 	$('.phone_number').inputmask('(999) 999-9999')
 });
 
+
+$("#validate_new_clinic2").validate({
+	errorElement: "span",
+	rules: {
+		'clinic[clinic_preference_attributes][overdue_fee_percentage]': {
+			digits: true,
+			number: true,
+			minlength: 1,
+			maxlength: 2
+		}
+	},
+	messages: {
+		'clinic[clinic_preference_attributes][overdue_fee_percentage]': {
+			digits: 'Number Only',
+			number: 'Number Only',
+			minlength: 'Only 1 digit allow',
+			maxlength: 'Max 2 digit allow'
+		}		
+	}
+})
 
 // Functions for clinic modules
 function sameAsServiceLocation(checkBox){

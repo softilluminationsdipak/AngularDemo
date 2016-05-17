@@ -150,7 +150,11 @@
                       <div class="form-group">
                         <label class="col-lg-3 control-label">Zipcode</label>
                         <div class="col-lg-9">                    
-                          <%= billing_address_f.text_field :zipcode, placeholder: 'Zipcode', class: 'form-control' %>
+                          <% if not form.object.new_record? && form.object.same_as_service_location == true %>
+                            <%= billing_address_f.text_field :zipcode, placeholder: 'Zipcode', class: 'form-control', disabled: true %>
+                          <% else %>
+                            <%= billing_address_f.text_field :zipcode, placeholder: 'Zipcode', class: 'form-control' %>
+                          <% end %>
                         </div>
                       </div>
                       
@@ -184,7 +188,6 @@
                   <% end %>
                 <% end %>
               <% end %>   
-
             </div>
             <div class="clearfix"></div>
             <hr>
@@ -195,7 +198,6 @@
               </div>
             </div>
           <% end %>
-
         </div>
       </div>
     </div>
@@ -204,16 +206,151 @@
       <div id="headingTwo" role="tab" class="panel-heading">
         <h4 class="panel-title">
           <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" class="collapsed">
-            Collapsible Group Item #2        
+            Clinic Preferences
           </a>
         </h4>
       </div>
       
       <div id="collapseTwo" role="tabpanel" aria-labelledby="headingTwo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px; ">
         <div class="panel-body">
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
-          moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-          butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+          <%= nested_form_for @clinic, html: {class: 'form-horizontal', id: 'validate_new_clinic2'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+            <%= form.fields_for :clinic_preference do |clinic_preference_f| %>
+              <legend>New Patient Options</legend>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Patient Number Options</label>
+                <div class="col-lg-6">
+                  <%= clinic_preference_f.select :patient_number_scheme, AppConfig['options']['patient_number_scheme'].invert, {include_blank: 'Select Patient Number'}, { class: 'form-control m-b select2-1' } %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Send overdue patients a statement</label>
+                <div class="col-lg-6">
+                  <label class="checkbox-inline c-checkbox">
+                    <%= clinic_preference_f.check_box :should_send_statements_when_overdue %>
+                    <span class="fa fa-check"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Charge interest on overdue account</label>
+                <div class="col-lg-1">
+                  <label class="checkbox-inline c-checkbox">
+                    <%= clinic_preference_f.check_box :should_charge_overdue_account %>
+                    <span class="fa fa-check"></span>
+                  </label>                  
+                </div>
+                <div class="col-lg-5">
+                  <label class="col-lg-4 control-label">Interest Rate</label>
+                  <div class="col-lg-5">
+                    <%= clinic_preference_f.text_field :overdue_fee_percentage, placeholder: 'Int. Rate in %', class: 'form-control' %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Send overdue patients a statement</label>
+                <div class="col-lg-8 multic-box">                  
+                  <% AppConfig['options']['insurance_carrier_assignment_policy'].each_key do |key| %>
+                    <label class="checkbox-inline c-checkbox">
+                      <%= check_box_tag 'clinic[clinic_preference_attributes][insurance_carrier_assignment_policy[]', key, @clinic.clinic_preference.insurance_carrier_assignment_policy.include?(key), class: 'insurance_carrier_assignment_policy' %>
+                      <span class="fa fa-check"></span>
+                      <%= AppConfig['options']['insurance_carrier_assignment_policy'][key] %>
+                    </label>
+                  <% end %>
+                  <label class="checkbox-inline c-checkbox">
+                    <%= check_box_tag 'all_insurance_carrier_assignment_policy', 1, false %>
+                    <span class="fa fa-check"></span>
+                    ALL
+                  </label>                  
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Show clinic on letter</label>
+                <div class="col-lg-6">
+                  <label class="checkbox-inline c-checkbox">
+                    <%= clinic_preference_f.check_box :should_show_clinic_on_letter %>
+                    <span class="fa fa-check"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">On letter use</label>
+                <div class="col-lg-6">
+                  <label class="radio-inline c-radio">
+                    <%= clinic_preference_f.radio_button :letter_use, 'provider' %>
+                    <span class="fa fa-circle"></span>
+                    Provider                    
+                  </label>
+
+                  <label class="radio-inline c-radio">
+                    <%= clinic_preference_f.radio_button :letter_use, 'clinic name' %>
+                    <span class="fa fa-circle"></span>
+                    Clinic Name
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Show clinic on bill</label>
+                <div class="col-lg-6">
+                  <label class="checkbox-inline c-checkbox">
+                    <%= clinic_preference_f.check_box :should_show_clinic_on_bill %>
+                    <span class="fa fa-check"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">On Patient statement use</label>
+                <div class="col-lg-6">
+                  <label class="radio-inline c-radio">
+                    <%= clinic_preference_f.radio_button :statement_use, 'provider' %>
+                    <span class="fa fa-circle"></span>
+                    Provider                    
+                  </label>
+
+                  <label class="radio-inline c-radio">
+                    <%= clinic_preference_f.radio_button :statement_use, 'clinic name' %>
+                    <span class="fa fa-circle"></span>
+                    Clinic Name
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Print clinic address on envelope</label>
+                <div class="col-lg-6">
+                  <label class="checkbox-inline c-checkbox">
+                    <%= clinic_preference_f.check_box :should_print_clinic_address_on_envelope %>
+                    <span class="fa fa-check"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Default place of service</label>
+                <div class="col-lg-6">
+                  <%= clinic_preference_f.select :default_place_of_service, AppConfig['options']['places_of_service'], {include_blank: 'Select Place of Service'}, { class: 'form-control m-b select2-1' } %>
+                </div>
+              </div>
+
+            <% end %>
+
+            <div class="clearfix"></div>
+            <hr>
+            <div class="form-group">
+              <div class="col-sm-4 col-sm-offset-2">
+                <%= link_to 'Cancel', clinics_path, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+                <%= form.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+              </div>
+            </div>            
+
+          <% end %>
         </div>
       </div>
 

@@ -8,7 +8,7 @@ class ClinicsController < BaseController
 
 	def new
     @clinic = current_account.clinics.build
-    # @clinic.build_clinic_preference
+    @clinic.build_clinic_preference
     @clinic.build_contact
     @clinic.build_address
     @clinic.build_billing_address 
@@ -27,6 +27,7 @@ class ClinicsController < BaseController
     @clinic.build_contact unless @clinic.contact.present?
     @clinic.build_address unless @clinic.address.present?
     @clinic.build_billing_address  unless @clinic.billing_address.present?
+    @clinic.build_clinic_preference unless @clinic.clinic_preference.present?
 	end
 
 	def update
