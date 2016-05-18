@@ -63,3 +63,11 @@ gem "jquery-validation-rails"
 
 ## Decent Expose
 gem 'decent_exposure'
+
+## FriendlyId is the "Swiss Army bulldozer" of slugging and permalink plugins for Active Record. It lets you create pretty URLs and work with human-friendly strings as if they were numeric ids.
+gem 'friendly_id', '~> 5.1'
+
+## calling destroy on an ActiveRecord object doesn't actually destroy the database record
+gem "paranoia", "~> 2.0"
+
+gem 'sweetalert2'

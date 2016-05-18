@@ -1,0 +1,197 @@
+<h3><%= @clinic.name %>
+  <small>Once you signup, make sure you setup the clinic contact information and other preferences here</small>
+</h3>
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class='col-md-6'>
+			<legend>Clinic Setup Info.</legend>
+			<div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>Clinic Name</td>
+              <td><%= @clinic.try(:name) %></td>
+            </tr>
+            <tr>
+              <td>Address</td>
+              <td><%= @clinic.address.line1 %></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td><%= @clinic.address.line2 %></td>
+            </tr>
+            <tr>
+              <td>Phone Number</td>
+              <td><%= @clinic.phone_number %></td>
+            </tr>
+            <tr>
+            	<td>Fax Number</td>
+            	<td><%= @clinic.fax_number %></td>
+            </tr>
+            <tr>
+            	<td>Email</td>
+            	<td><%= @clinic.contact_email %></td>
+            </tr>
+            <tr>
+            	<td>Provider</td>
+            	<td><%= @clinic.provider_name %></td>
+            </tr>
+          </tbody>
+        </table>
+     	</div>
+		</div>
+		<div class='col-md-6'>
+			<legend>Billing Office Info.</legend>
+			<div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>Address</td>
+              <td><%= @clinic.try(:billing_office_address) %></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td><%= @clinic.try(:billing_office_address_line2) %></td>
+            </tr>
+            <tr>
+              <td>Phone Number</td>
+              <td><%= @clinic.try(:billing_office_phone_number) %></td>
+            </tr>
+					</tbody>
+				</table>
+			</div>
+
+      <legend>Corporate Data</legend>
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>Tax UUID</td>
+              <td><%= @clinic.try(:tax_uuid) %></td>
+            </tr>
+            <tr>
+              <td>Type II NPI</td>
+              <td><%= @clinic.try(:type_ii_npi_uuid) %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+		</div>
+
+    <div class="col-md-12">
+       <legend>Clinic Preferences : New Patient Options</legend> 
+        <div class="table-responsive">
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>Patient Number Option</td>
+                <td><%= @clinic.clinic_preference.patient_number_scheme || 'Undefine' %></td>
+              </tr>
+              <tr>
+                <td>Send overdue patients a statement</td>
+                <td><%= @clinic.clinic_preference.should_send_statements_when_overdue? ? 'Yes' : 'No'  %></td>
+              </tr>
+              <tr>
+                <td>Charge interest on overdue account</td>
+                <td><%= @clinic.clinic_preference.should_charge_overdue_account? ? 'Yes' : 'No' %></td>
+              </tr>
+              <tr>
+                <td>Interest Rate</td>
+                <td><%= @clinic.clinic_preference.overdue_fee_percentage || 0 %> %</td>
+              </tr>
+              <tr>
+                <td>Insurance assignment policy</td>
+                <td><%= @clinic.clinic_preference.insurance_carrier_assignment_policy.present? ? @clinic.clinic_preference.insurance_carrier_assignment_policy.join(', ') : 'Undefine' %></td>
+              </tr>
+              <tr>
+                <td>Show clinic on letter</td>
+                <td><%= @clinic.clinic_preference.should_show_clinic_on_letter? ? 'Yes' : 'No' %></td>
+              </tr>
+              <tr>
+                <td>On letter use</td>
+                <td><%= @clinic.clinic_preference.letter_use || 'Undefine' %></td>
+              </tr>
+              <tr>
+                <td>Show clinic on bill</td>
+                <td><%= @clinic.clinic_preference.should_show_clinic_on_bill? ? 'Yes' : 'No' %></td>
+              </tr>
+              <tr>
+                <td>On Patient statement use</td>
+                <td><%= @clinic.clinic_preference.statement_use || 'Undefine' %></td>
+              </tr>
+              <tr>
+                <td>Print clinic address on envelope</td>
+                <td><%= @clinic.clinic_preference.should_print_clinic_address_on_envelope? ? 'Yes' : 'No' %></td>
+              </tr>
+              <tr>
+                <td>Default place of service</td>
+                <td><%= @clinic.clinic_preference.default_place_of_service || 'Undefine' %></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+      <legend>Clinic Preferences : Custom Statement Messages </legend>     
+      <div class="table-responsive">
+        <table class="table">
+          <tr>
+            <td>Current</td>
+            <td><%= @clinic.clinic_preference.patient_current_statement_message || 'Undefine' %></td>
+          </tr>
+          <tr>
+            <td>30 Days</td>
+            <td><%= @clinic.clinic_preference.patient_30days_statement_message || 'Undefine' %></td>
+          </tr>
+          <tr>
+            <td>60 Days</td>
+            <td><%= @clinic.clinic_preference.patient_60days_statement_message || 'Undefine' %></td>
+          </tr>
+          <tr>
+            <td>90 Days</td>
+            <td><%= @clinic.clinic_preference.patient_90days_statement_message || 'Undefine' %></td>
+          </tr>
+          <tr>
+            <td>120 Days</td>
+            <td><%= @clinic.clinic_preference.patient_120days_statement_message || 'Undefine' %></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <legend>Clinic Preferences : Basic HCFA Printing Options</legend>     
+      <div class="table-responsive">
+        <table class="table">
+          <tr>
+            <td>In box 32 use</td>
+            <td><%= @clinic.clinic_preference.box_32_use || 'Undefine' %></td>
+          </tr>
+          <tr>
+            <td>In box 33 use</td>
+            <td><%= @clinic.clinic_preference.box_33_use || 'Undefine' %></td>
+          </tr>
+          <tr>
+            <td>Print Dx. description</td>
+            <td><%= @clinic.clinic_preference.should_print_diagnosis_description_on_hcfa? ? 'Yes' : 'No' %></td>
+          </tr>
+          <tr>
+            <td>Workers Comp Service</td>
+            <td><%= @clinic.clinic_preference.workmanscomp_boilerplate || 'Undefine' %></td>
+          </tr>
+          <tr>
+            <td>Top Margin</td>
+            <td><%= @clinic.clinic_preference.hcfa_top_margin || 'Undefine' %></td>
+          </tr>
+          <tr>
+            <td>Left Margin</td>
+            <td><%= @clinic.clinic_preference.hcfa_left_margin || 'Undefine' %></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+	</div>
+</div>

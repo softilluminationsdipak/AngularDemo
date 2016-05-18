@@ -1,9 +1,14 @@
 class Clinic < ActiveRecord::Base
+
+  extend FriendlyId
+  friendly_id :title, use: :slugged
+
 	include Contactable
   include Addressable
 
   acts_as_contactable
   acts_as_addressable
+  acts_as_paranoid
 
   ## Callbacks
   before_save :if_billing_address_same_as_service_address
@@ -18,6 +23,10 @@ class Clinic < ActiveRecord::Base
 
   has_one :clinic_preference, :dependent => :destroy
   accepts_nested_attributes_for :clinic_preference
+
+  has_many :providers
+
+  belongs_to :main_provider, class_name: 'Provider'
 
   ## Validation
   validates :account_id, presence: true
@@ -47,11 +56,42 @@ class Clinic < ActiveRecord::Base
     return unless same_as_service_location == true
     [ "street", "street2", "city", "state", "zipcode" ].each do |clone_attr|
       self.billing_address.send(clone_attr + "=", self.address.send(clone_attr))
+      self.billing_address.addressable_id = id
+      self.billing_address.addressable_type = Clinic
     end
   end
 
   def save_billing_addressable
-    build_billing_address.addressable = contact
+    return unless same_as_service_location == false
+    build_billing_address(addressable_id: id, addressable_type: Clinic)
+  end
+
+  def phone_number
+    contact.present? && contact.phone1.present? ? contact.phone1 : 'Undefine'
+  end
+
+  def fax_number
+    contact.present? && contact.fax1.present? ? contact.fax1 : 'Undefine'
+  end
+
+  def contact_email
+    contact.present? && contact.email1.present? ? contact.email1 : 'Undefine'
+  end
+
+  def provider_name
+    main_provider.present? ? main_provider.try(:signature_name) : 'Undefine'
+  end
+
+  def billing_office_address
+    billing_address.present? ? billing_address.line1 : 'Undefine'
+  end
+
+  def billing_office_address_line2
+    billing_address.present? ? billing_address.line2 : 'Undefine'
+  end
+
+  def billing_office_phone_number
+    contact.present? && contact.phone2.present? ? contact.phone2 : 'Undefine'
   end
 
   private 

@@ -2,15 +2,15 @@
   <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
     <div class="panel panel-default">
       
-      <div id="headingOne" role="tab" class="panel-heading">
+      <div id="clinicHeadingOne" role="tab" class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="">
+          <a data-toggle="collapse" data-parent="#accordion" href="#clinicOne" aria-expanded="true" aria-controls="clinicOne" class="">
             Clinic Information
           </a>
         </h4>
       </div>
       
-      <div id="collapseOne" role="tabpanel" aria-labelledby="headingOne" class="panel-collapse collapse in" aria-expanded="true" style="">
+      <div id="clinicOne" role="tabpanel" aria-labelledby="clinicHeadingOne" class="panel-collapse collapse in" aria-expanded="true" style="">
         <div class="panel-body">
           <%= nested_form_for @clinic, html: {class: 'form-horizontal', id: 'validate_new_clinic'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
             <div>
@@ -78,7 +78,7 @@
                       <div class="form-group">
                         <label class="col-lg-3 control-label">Fax Number</label>
                         <div class="col-lg-9">                    
-                          <%= contact_f.text_field :fax1, placeholder: 'Fax Number', class: 'form-control' %>
+                          <%= contact_f.text_field :fax1, placeholder: 'Fax Number', class: 'form-control phone_number' %>
                         </div>
                       </div>
 
@@ -88,6 +88,14 @@
                           <%= contact_f.email_field :email1, placeholder: 'Write your email address here...', class: 'form-control' %>
                         </div>
                       </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Provider</label>
+                        <div class="col-lg-9">                    
+                          <%= form.select :main_provider_id, current_account.providers.collect{|p| [p.signature_name, p.id]}, {include_blank: 'Select Your Provider'}, { class: 'form-control m-b select2-1' } %>
+                        </div>
+                      </div>
+
                     </div>
 
                     <div class='col-md-6'>
@@ -106,7 +114,7 @@
                       <div class="form-group">
                         <label class="col-lg-3 control-label">Address</label>
                         <div class="col-lg-9">
-                          <% if not form.object.new_record? && form.object.same_as_service_location == true %>
+                          <% if form.object.same_as_service_location == true %>
                             <%= billing_address_f.text_field :street, placeholder: 'Write your address line 1 here...', class: 'form-control', disabled: true %>
                           <% else %>
                             <%= billing_address_f.text_field :street, placeholder: 'Write your address line 1 here...', class: 'form-control' %>
@@ -117,7 +125,7 @@
                       <div class="form-group">
                         <label class="col-lg-3 control-label">&nbsp;</label>
                         <div class="col-lg-9">
-                          <% if not form.object.new_record? && form.object.same_as_service_location == true %>
+                          <% if form.object.same_as_service_location == true %>
                             <%= billing_address_f.text_field :street2, placeholder: 'Write your address line 2 here...', class: 'form-control', disabled: true %>
                           <% else %>
                             <%= billing_address_f.text_field :street2, placeholder: 'Write your address line 2 here...', class: 'form-control' %>
@@ -128,7 +136,7 @@
                       <div class="form-group">
                         <label class="col-lg-3 control-label">City</label>
                         <div class="col-lg-9">
-                          <% if not form.object.new_record? && form.object.same_as_service_location == true %>
+                          <% if form.object.same_as_service_location == true %>
                             <%= billing_address_f.text_field :city, placeholder: 'City Name', class: 'form-control', disabled: true %>
                           <% else %>
                             <%= billing_address_f.text_field :city, placeholder: 'City Name', class: 'form-control' %>
@@ -139,7 +147,7 @@
                       <div class="form-group">
                         <label class="col-lg-3 control-label">State</label>
                         <div class="col-lg-9">                    
-                          <% if not form.object.new_record? && form.object.same_as_service_location == true %>
+                          <% if form.object.same_as_service_location == true %>
                             <%= billing_address_f.select :state, options_for_select(us_states, selected: billing_address_f.object.try(:state)), {include_blank: 'Select Your State'}, { class: 'form-control m-b select2-1', disabled: true } %>
                           <% else %>
                             <%= billing_address_f.select :state, options_for_select(us_states, selected: billing_address_f.object.try(:state)), {include_blank: 'Select Your State'}, { class: 'form-control m-b select2-1' } %>
@@ -150,7 +158,7 @@
                       <div class="form-group">
                         <label class="col-lg-3 control-label">Zipcode</label>
                         <div class="col-lg-9">                    
-                          <% if not form.object.new_record? && form.object.same_as_service_location == true %>
+                          <% if form.object.same_as_service_location == true %>
                             <%= billing_address_f.text_field :zipcode, placeholder: 'Zipcode', class: 'form-control', disabled: true %>
                           <% else %>
                             <%= billing_address_f.text_field :zipcode, placeholder: 'Zipcode', class: 'form-control' %>
@@ -173,7 +181,7 @@
                       <div class="form-group">
                         <label class="col-lg-3 control-label" title='Corporate Tax ID'>Tax UUID</label>
                         <div class="col-lg-9">                    
-                          <%= form.text_field :tax_uuid, placeholder: 'Tax UUID', class: 'form-control' %>
+                          <%= form.text_field :tax_uuid, placeholder: 'Tax UUID', class: 'form-control tax_number' %>
                         </div>
                       </div>
 
@@ -203,15 +211,15 @@
     </div>
     
     <div class="panel panel-default">
-      <div id="headingTwo" role="tab" class="panel-heading">
+      <div id="clinicHeadingTwo" role="tab" class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" class="collapsed">
-            Clinic Preferences
+          <a data-toggle="collapse" data-parent="#accordion" href="#clinicTwo" aria-expanded="false" aria-controls="clinicTwo" class="collapsed">
+            Clinic Preferences : New Patient Option
           </a>
         </h4>
       </div>
       
-      <div id="collapseTwo" role="tabpanel" aria-labelledby="headingTwo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px; ">
+      <div id="clinicTwo" role="tabpanel" aria-labelledby="clinicHeadingTwo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px; ">
         <div class="panel-body">
           <%= nested_form_for @clinic, html: {class: 'form-horizontal', id: 'validate_new_clinic2'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
             <%= form.fields_for :clinic_preference do |clinic_preference_f| %>
@@ -251,7 +259,7 @@
               </div>
 
               <div class="form-group">
-                <label class="col-lg-4 control-label">Send overdue patients a statement</label>
+                <label class="col-lg-4 control-label">Insurance assignment policy</label>
                 <div class="col-lg-8 multic-box">                  
                   <% AppConfig['options']['insurance_carrier_assignment_policy'].each_key do |key| %>
                     <label class="checkbox-inline c-checkbox">
@@ -357,16 +365,142 @@
     </div>
     
     <div class="panel panel-default">
-      <div id="headingThree" role="tab" class="panel-heading">
+      <div id="clinicHeadingThree" role="tab" class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree" class="collapsed">
-            Collapsible Group Item #3
+          <a data-toggle="collapse" data-parent="#accordion" href="#clinicCollapseThree" aria-expanded="false" aria-controls="clinicCollapseThree" class="collapsed">
+            Clinic Preferences : Custom Statement Messages & Basic HCFA Printing Options
           </a>
         </h4>
       </div>
-      <div id="collapseThree" role="tabpanel" aria-labelledby="headingThree" class="panel-collapse collapse" aria-expanded="false">
+      <div id="clinicCollapseThree" role="tabpanel" aria-labelledby="clinicHeadingThree" class="panel-collapse collapse" aria-expanded="false">
         <div class="panel-body">
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
+          <%= nested_form_for @clinic, html: {class: 'form-horizontal', id: 'validate_new_clinic3'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+            <div>
+              <%= form.fields_for :clinic_preference do |clinic_preference_f| %>
+                <div class='col-md-6'>
+                  <legend>Custom Statement Messages</legend>
+
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">Current</label>
+                    <div class="col-lg-9">
+                      <%= clinic_preference_f.text_area :patient_current_statement_message, rows: 3, class: 'form-control note-editor' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">30 Days</label>
+                    <div class="col-lg-9">
+                      <%= clinic_preference_f.text_area :patient_30days_statement_message, rows: 3, class: 'form-control note-editor' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">60 Days</label>
+                    <div class="col-lg-9">
+                      <%= clinic_preference_f.text_area :patient_60days_statement_message, rows: 3, class: 'form-control note-editor' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">90 Days</label>
+                    <div class="col-lg-9">
+                      <%= clinic_preference_f.text_area :patient_90days_statement_message, rows: 3, class: 'form-control note-editor' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">120 Days</label>
+                    <div class="col-lg-9">
+                      <%= clinic_preference_f.text_area :patient_120days_statement_message, rows: 3, class: 'form-control note-editor' %>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class='col-md-6'>
+                  <legend>Basic HCFA Printing Options</legend>
+    
+                  <div class="form-group">
+                    <label class="col-lg-5 control-label">In box 32 use</label>
+                    <div class="col-lg-6">
+                      <label class="radio-inline c-radio">
+                        <%= clinic_preference_f.radio_button :box_32_use, 'provider' %>
+                        <span class="fa fa-circle"></span>
+                        Provider                    
+                      </label>
+
+                      <label class="radio-inline c-radio">
+                        <%= clinic_preference_f.radio_button :box_32_use, 'clinic name' %>
+                        <span class="fa fa-circle"></span>
+                        Clinic Name
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-5 control-label">In box 33 use</label>
+                    <div class="col-lg-6">
+                      <label class="radio-inline c-radio">
+                        <%= clinic_preference_f.radio_button :box_33_use, 'provider' %>
+                        <span class="fa fa-circle"></span>
+                        Provider                    
+                      </label>
+
+                      <label class="radio-inline c-radio">
+                        <%= clinic_preference_f.radio_button :box_33_use, 'clinic name' %>
+                        <span class="fa fa-circle"></span>
+                        Clinic Name
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-5 control-label">Print Dx. description</label>
+                    <div class="col-lg-6">
+                      <label class="checkbox-inline c-checkbox">
+                        <%= clinic_preference_f.check_box :should_print_diagnosis_description_on_hcfa %>
+                        <span class="fa fa-check"></span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-5 control-label">Workers Comp Service</label>
+                    <div class="col-lg-7">
+                      <%= clinic_preference_f.text_field :workmanscomp_boilerplate, placeholder: 'Workers Comp. Service', class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-5 control-label">Top Margin</label>
+                    <div class="input-group col-lg-6 pd-left">
+                      <%= clinic_preference_f.text_field :hcfa_top_margin, placeholder: 'Top Margin', class: 'form-control' %>
+                      <span class="input-group-addon">In</span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-5 control-label">Left Margin</label>
+                    <div class="input-group col-lg-6 pd-left">
+                      <%= clinic_preference_f.text_field :hcfa_left_margin, placeholder: 'Left Margin', class: 'form-control' %>
+                      <span class="input-group-addon">In</span>
+                    </div>
+                  </div>
+
+                </div>
+              <% end %>
+            </div>
+            
+            <div class="clearfix"></div>
+            <hr>
+            <div class="form-group">
+              <div class="col-sm-4 col-sm-offset-2">
+                <%= link_to 'Cancel', clinics_path, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+                <%= form.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+              </div>
+            </div>
+
+          <% end %>
         </div>
       </div>
     </div>

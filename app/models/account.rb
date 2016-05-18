@@ -4,6 +4,7 @@ class Account < ActiveRecord::Base
 	has_many :users, dependent: :destroy
 	has_many :admin, -> { where admin: true }, class_name: 'User'
   has_many :clinics, dependent: :destroy
+  has_many :providers, through: :clinics
   
 	## Validations
 	validates :name, presence: true

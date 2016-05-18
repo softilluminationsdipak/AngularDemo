@@ -54,9 +54,9 @@ Rails.application.routes.draw do
   end
 
   ## 1. Clinic - Main
-  resources :clinics do
-    
-  end
+  resources :clinics
+
+  resources :providers
   
   
   root 'welcome#home'

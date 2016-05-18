@@ -1,4 +1,14 @@
-<h3>Clinics </h3>
+<h3>
+  Clinics
+  <ol class="breadcrumb pull-right">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Elements</a></li>
+    <li class="active">Notifications</li>
+  </ol>
+  <small>
+    Once you signup, make sure you setup the clinic contact information and other preferences here
+  </small>
+</h3>
 <div class="row">
   <div class="col-lg-12">
     <div class="panel panel-default">
@@ -17,14 +27,14 @@
               </thead>
               <tbody>
                 <% @clinics.each_with_index do |clinic, index| %>
-                  <tr>
+                  <tr class='clinic_<%= clinic.slug %>'>
                     <td><%= index + 1 %></td>
                     <td><%= clinic.title %></td>
                     <td><%= clinic.created_at.strftime('%A, %d %b %Y - %H:%M %p') %></td>
                     <td>
                       <%= link_to "<em class='fa fa-eye'></em> Show".html_safe, clinic_path(clinic), class: 'btn btn-default btn-xs', data: {disable_with: 'Please wait...'} %>
                       <%= link_to "<em class='fa fa-pencil'></em> Edit".html_safe, edit_clinic_path(clinic), class: 'btn btn-primary btn-xs', data: {disable_with: 'Please wait...'} %>
-                      <%= link_to "<em class='fa fa-trash'></em> Delete".html_safe, clinic_path(clinic), class: 'btn btn-danger btn-xs', data: {disable_with: 'Please wait...', confirm: 'Are you sure?'}, method: :delete %>
+                      <%= link_to "<em class='fa fa-trash'></em> Delete".html_safe, clinic_path(clinic), class: 'btn btn-danger btn-xs', data: {behavior: 'delete', klass: "clinic_#{clinic.slug}"} %>
                     </td>
                   </tr>
                 <% end %>

@@ -20,6 +20,8 @@
  *= require dashboard/bootstrap-datetimepicker.min.css
  *= require dashboard/select2.css
  *= require dashboard/select2-bootstrap.css
+ * require dashboard/sweetalert.css
+ *= require sweetalert2
  *= require dashboard/app.css
  *= require_self
  */
@@ -38,4 +40,8 @@
 	margin: 1px !important;
   text-align: justify;
   width: 23%;
+}
+
+.pd-left{
+	padding-left: 3% !important;
 }

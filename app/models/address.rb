@@ -5,7 +5,7 @@ class Address < ActiveRecord::Base
 	## Validations
 	validates :city, presence: true, if: :should_validate_city?
 	validates :state, presence: true, if: :should_validate_state?
-  validates :zip, presence: true, if: :should_validate_zip?
+  validates :zipcode, presence: true, if: :should_validate_zip?
   validates :street, presence: true, if: :should_validate_street?	
 	validates :state, length: {is: 2, allow_blank: true}
 
@@ -15,15 +15,23 @@ class Address < ActiveRecord::Base
 	## Methods
 
   def line1
-    [street, street2].compact.join(" ")
+    if street.present? || street2.present?
+      [street, street2].compact.join(", ")
+    else
+      ''
+    end
   end
   
   def line2
-    [city, state, zip].compact.join(" ")
+    if city.present? || state.present? || zipcode.present?
+      [city, state, zipcode].compact.join(", ")
+    else
+      ''
+    end
   end
 
   def one_liner
-    "#{city}, #{state} #{zip} #{street}"
+    "#{city}, #{state} #{zipcode} #{street}"
   end
 
 	def should_validate_city?
@@ -45,7 +53,7 @@ class Address < ActiveRecord::Base
   def address
     address = []
     address << state unless state.blank?
-    address << zip unless zip.blank?
+    address << zipcode unless zipcode.blank?
     address << street unless street.blank?
     address << street2 unless street2.blank?
 

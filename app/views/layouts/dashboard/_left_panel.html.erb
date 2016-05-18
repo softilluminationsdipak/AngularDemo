@@ -45,7 +45,7 @@
           <% end %>
           <ul id="clinic" class="nav sidebar-subnav collapse <%= 'in' if controller.controller_name == 'clinics' %>">
             <li class="sidebar-subnav-header">Clinics</li>
-            <li class="<%= 'active' if controller.controller_name == 'clinics' && controller.action_name == 'index' %>">
+            <li class="<%= 'active' if controller.controller_name == 'clinics' && (controller.action_name == 'index' || controller.action_name == 'edit')%>">
               <%= link_to clinics_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %>
                 <span>Clinic Listing</span>
               <% end %>
@@ -57,6 +57,32 @@
             </li>
           </ul>
         </li>
+
+        <li class="nav-heading ">
+          <span data-localize="sidebar.heading.HEADER">Settings</span>
+        </li>
+
+        <li class="<%= 'active' if controller.controller_name == 'providers' %>">
+          <%= link_to '#provider', title: 'Providers', data: {toggle: 'collapse'}, class: 'collapsed' do %>
+            <em class="icon-grid"></em>
+            <span>Providers</span>            
+          <% end %>
+          <ul id="provider" class="nav sidebar-subnav collapse <%= 'in' if controller.controller_name == 'providers' %>">
+            <li class="sidebar-subnav-header">Providers</li>
+            <li class="<%= 'active' if controller.controller_name == 'providers' && (controller.action_name == 'index' || controller.action_name == 'edit')%>">
+              <%= link_to providers_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %>
+                <span>Provider Listing</span>
+              <% end %>
+            </li>
+            <li class="<%= 'active' if controller.controller_name == 'providers' && controller.action_name == 'new' %>">
+              <%= link_to new_provider_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %> 
+                <span>Add Provider</span>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+
+
       </ul>
       <!-- END sidebar nav-->
     </nav>

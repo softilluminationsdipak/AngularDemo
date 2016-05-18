@@ -1,0 +1,151 @@
+<div class="panel-body">
+  <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
+    <div class="panel panel-default">
+      
+      <div id="headingOne" role="tab" class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="">
+            Provider Information
+          </a>
+        </h4>
+      </div>
+      
+      <div id="collapseOne" role="tabpanel" aria-labelledby="headingOne" class="panel-collapse collapse in" aria-expanded="true" style="">
+        <div class="panel-body">
+          <%= nested_form_for @provider, html: {class: 'form-horizontal', id: 'validate_new_provider'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+            <div>
+              <%= form.fields_for :contact do |contact_f| %>
+                <div class='col-md-6'>
+                  <div class="form-group">
+                    <label class="col-lg-5 control-label">Clinic</label>
+                    <div class="col-lg-7">
+                      <%= form.select :clinic_id, current_account.clinics.collect{|c| [c.name, c.id]}, {include_blank: 'Select Clinic'}, { class: 'form-control m-b select2-1' } %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-5 control-label">Full Name & Credentail</label>
+                    <div class="col-lg-7">
+                      <%= form.text_field :signature_name, placeholder: 'Full name & Credentail', class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-5 control-label">Provide Type</label>
+                    <div class="col-lg-7">
+                      <%= form.select :provider_type_code, AppConfig['options']['doctor']['type'], {include_blank: 'Select Provider Type Code'}, { class: 'form-control m-b select2-1' } %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-5 control-label">Tax ID</label>
+                    <div class="col-lg-7">
+                      <%= form.text_field :tax_uid, placeholder: 'Tax ID', class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-5 control-label">UPIN</label>
+                    <div class="col-lg-7">
+                      <%= form.text_field :upin_uid, placeholder: 'UPIN', class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-5 control-label">NY W'Comp. Testify Times</label>
+                    <div class="col-lg-7">
+                      <%= form.text_field :nycomp_testify, placeholder: "NY W'Comp. Testify Times", class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-5 control-label">Type I NPI</label>
+                    <div class="col-lg-7">
+                      <%= form.text_field :npi_uid, placeholder: "Type I NPI", class: 'form-control' %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class='col-md-6'>
+
+                  <div class="form-group">
+                    <label class="col-lg-4 control-label">First Name</label>
+                    <div class="col-lg-7">
+                      <%= contact_f.text_field :first_name, placeholder: "First Name", class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-4 control-label">Last Name</label>
+                    <div class="col-lg-7">
+                      <%= contact_f.text_field :last_name, placeholder: "Last Name", class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-4 control-label">Phone Number</label>
+                    <div class="col-lg-7">
+                      <%= contact_f.text_field :phone1, placeholder: "Phone Number", class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-4 control-label">Fax Number</label>
+                    <div class="col-lg-7">
+                      <%= contact_f.text_field :fax1, placeholder: "Fax Number", class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-4 control-label">Email</label>
+                    <div class="col-lg-7">
+                      <%= contact_f.email_field :email1, placeholder: "Email", class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-lg-4 control-label">Notes</label>
+                    <div class="col-lg-7">
+                      <%= contact_f.text_area :notes, rows: 3, class: 'form-control note-editor' %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+
+            <div class="clearfix"></div>
+            <hr>
+            <div class="form-group">
+              <div class="col-sm-4 col-sm-offset-2">
+                <%= link_to 'Cancel', providers_path, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+                <%= form.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+              </div>
+            </div>
+
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div id="headingTwo" role="tab" class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" class="collapsed">
+            Legacy IDs
+          </a>          
+        </h4>
+      </div>
+      
+      <div id="collapseTwo" role="tabpanel" aria-labelledby="headingTwo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px; "> 
+        <div class="panel-body">
+          <%#= nested_form_for @clinic, html: {class: 'form-horizontal', id: 'validate_new_clinic'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+            <div>
+            </div>
+          <%# end %>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

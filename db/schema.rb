@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160515130442) do
+ActiveRecord::Schema.define(version: 20160518182918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 20160515130442) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  add_index "accounts", ["deleted_at"], name: "index_accounts_on_deleted_at", using: :btree
 
   create_table "addresses", force: :cascade do |t|
     t.string   "street"
@@ -37,6 +39,8 @@ ActiveRecord::Schema.define(version: 20160515130442) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
+
+  add_index "addresses", ["deleted_at"], name: "index_addresses_on_deleted_at", using: :btree
 
   create_table "auth_tokens", force: :cascade do |t|
     t.integer  "user_id"
@@ -83,6 +87,8 @@ ActiveRecord::Schema.define(version: 20160515130442) do
     t.datetime "updated_at",                                                 null: false
   end
 
+  add_index "clinic_preferences", ["deleted_at"], name: "index_clinic_preferences_on_deleted_at", using: :btree
+
   create_table "clinics", force: :cascade do |t|
     t.integer  "contact_id"
     t.integer  "address_id"
@@ -95,7 +101,11 @@ ActiveRecord::Schema.define(version: 20160515130442) do
     t.datetime "deleted_at"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.string   "slug"
   end
+
+  add_index "clinics", ["deleted_at"], name: "index_clinics_on_deleted_at", using: :btree
+  add_index "clinics", ["slug"], name: "index_clinics_on_slug", using: :btree
 
   create_table "contacts", force: :cascade do |t|
     t.string   "first_name"
@@ -121,7 +131,11 @@ ActiveRecord::Schema.define(version: 20160515130442) do
     t.string   "contactable_type"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.string   "slug"
   end
+
+  add_index "contacts", ["deleted_at"], name: "index_contacts_on_deleted_at", using: :btree
+  add_index "contacts", ["slug"], name: "index_contacts_on_slug", using: :btree
 
   create_table "plan_facilities", force: :cascade do |t|
     t.string   "name"
@@ -142,6 +156,28 @@ ActiveRecord::Schema.define(version: 20160515130442) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
   end
+
+  create_table "providers", force: :cascade do |t|
+    t.integer  "clinic_id"
+    t.string   "signature_name"
+    t.string   "provider_type_code"
+    t.string   "tax_uid"
+    t.string   "upin_uid"
+    t.string   "license"
+    t.text     "notes"
+    t.string   "nycomp_testify"
+    t.string   "npi_uid"
+    t.integer  "contact_id"
+    t.integer  "address_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.datetime "deleted_at"
+  end
+
+  add_index "providers", ["address_id"], name: "index_providers_on_address_id", using: :btree
+  add_index "providers", ["clinic_id"], name: "index_providers_on_clinic_id", using: :btree
+  add_index "providers", ["contact_id"], name: "index_providers_on_contact_id", using: :btree
+  add_index "providers", ["deleted_at"], name: "index_providers_on_deleted_at", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "firstname"

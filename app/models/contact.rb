@@ -1,4 +1,7 @@
 class Contact < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :company_name, use: :slugged
+
   ## Relationships
   belongs_to :contactable, :polymorphic => true
 
