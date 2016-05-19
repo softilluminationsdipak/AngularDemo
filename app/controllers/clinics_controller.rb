@@ -1,12 +1,17 @@
 class ClinicsController < BaseController
 
 	before_filter :find_clinic, only: [:edit, :update, :destroy, :show]
+	add_breadcrumb "Home", :root_path
 
 	def index
+		add_breadcrumb "Clinics", clinics_path
 		@clinics = current_account.clinics.alphabetically
 	end
 
 	def new
+		add_breadcrumb "Clinics", clinics_path
+		add_breadcrumb "New Clinic"
+
     @clinic = current_account.clinics.build
     @clinic.build_clinic_preference
     @clinic.build_contact
@@ -24,6 +29,9 @@ class ClinicsController < BaseController
 	end
 
 	def edit		
+		add_breadcrumb "Clinics", clinics_path
+		add_breadcrumb "Edit Clinic"
+
     @clinic.build_contact unless @clinic.contact.present?
     @clinic.build_address unless @clinic.address.present?
     @clinic.build_billing_address  unless @clinic.billing_address.present?
@@ -44,7 +52,6 @@ class ClinicsController < BaseController
 			format.html{redirect_to clinics_path, notice: 'Successfully deleted clinic.'}
 			format.json{ render json: @clinic}
 		end
-		
 	end
 	
 	private

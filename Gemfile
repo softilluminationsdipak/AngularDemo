@@ -71,3 +71,5 @@ gem 'friendly_id', '~> 5.1'
 gem "paranoia", "~> 2.0"
 
 gem 'sweetalert2'
+
+gem "breadcrumbs_on_rails"

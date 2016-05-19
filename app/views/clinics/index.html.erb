@@ -1,9 +1,7 @@
 <h3>
   Clinics
   <ol class="breadcrumb pull-right">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Elements</a></li>
-    <li class="active">Notifications</li>
+    <%= render_breadcrumbs tag: :li, separator: '' %>
   </ol>
   <small>
     Once you signup, make sure you setup the clinic contact information and other preferences here
@@ -30,7 +28,7 @@
                   <tr class='clinic_<%= clinic.slug %>'>
                     <td><%= index + 1 %></td>
                     <td><%= clinic.title %></td>
-                    <td><%= clinic.created_at.strftime('%A, %d %b %Y - %H:%M %p') %></td>
+                    <td><%= clinic.created_at.strftime('%a, %d %b %Y - %H:%M %p') %></td>
                     <td>
                       <%= link_to "<em class='fa fa-eye'></em> Show".html_safe, clinic_path(clinic), class: 'btn btn-default btn-xs', data: {disable_with: 'Please wait...'} %>
                       <%= link_to "<em class='fa fa-pencil'></em> Edit".html_safe, edit_clinic_path(clinic), class: 'btn btn-primary btn-xs', data: {disable_with: 'Please wait...'} %>

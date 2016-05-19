@@ -16,7 +16,6 @@
 //= require jquery_ujs
 //= require dashboard/bootstrap.js
 //= require dashboard/jquery.storageapi.js
-// require login/parsley.min.js
 //= require dashboard/jquery.easing.js
 //= require dashboard/animo.js
 //= require dashboard/jquery.slimscroll.min.js
@@ -41,6 +40,6 @@
 //= require dashboard/app.js
 //= require jquery_nested_form
 //= require dashboard/clinics.js
-// require dashboard/sweetalert.min.js
+//= require dashboard/provider.js
 //= require sweetalert2
 //= require turbolinks
