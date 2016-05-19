@@ -29,9 +29,20 @@ class ProvidersController < BaseController
 	end
 
 	def update
+		if @provider.update_attributes(provider_params)
+			redirect_to providers_path, notice: 'Provider successfully updated.'
+		else
+			render action: :edit
+		end
 	end
 
 	def destroy
+	end
+
+	def checkUniqueSignName
+		signature_name 	= params[:provider][:signature_name]
+		provider 				= current_account.providers.where('signature_name = ? AND providers.id != ?', signature_name, params['id'].to_i).try(:last)
+		render json: !provider
 	end
 
 	private

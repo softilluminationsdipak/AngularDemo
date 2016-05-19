@@ -56,7 +56,11 @@ Rails.application.routes.draw do
   ## 1. Clinic - Main
   resources :clinics
 
-  resources :providers
+  resources :providers do 
+    collection do
+      post 'checkUniqueSignName'
+    end
+  end
   
   
   root 'welcome#home'
