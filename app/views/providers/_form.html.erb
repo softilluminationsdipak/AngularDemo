@@ -10,7 +10,7 @@
         </h4>
       </div>
       
-      <div id="collapseOne" role="tabpanel" aria-labelledby="headingOne" class="panel-collapse collapse in" aria-expanded="true" style="">
+      <div id="collapseOne" role="tabpanel" aria-labelledby="headingOne" class="panel-collapse collapse <%= 'in' unless @provider.errors.present? %>" aria-expanded="" style="">
         <div class="panel-body">
           <%= nested_form_for @provider, html: {class: 'form-horizontal', id: 'validate_new_provider'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
             <div>
@@ -136,12 +136,49 @@
         </h4>
       </div>
       
-      <div id="collapseTwo" role="tabpanel" aria-labelledby="headingTwo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px; "> 
+      <div id="collapseTwo" role="tabpanel" aria-labelledby="headingTwo" class="panel-collapse collapse <%= 'in' if @provider.errors.present? %>" aria-expanded="" style=""> 
         <div class="panel-body">
-          <%#= nested_form_for @clinic, html: {class: 'form-horizontal', id: 'validate_new_clinic'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+          <%= nested_form_for @provider, html: {class: 'form-horizontal', id: 'validate_new_provider'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
             <div>
+              <%= form.fields_for :providers_legacy_id_labels do |legacy_id_fields| %>
+                <%= legacy_id_fields.hidden_field :legacy_id_label_id %>  
+                <%= legacy_id_fields.fields_for :legacy_id_label do |legacy_id_label_fields| %>
+                  <div class='col-md-6'>
+                    <div class="form-group">
+                      <label class="col-lg-5 control-label">Label</label>
+                      <div class="col-lg-7">
+                        <%= legacy_id_label_fields.text_field :label, class: 'form-control', placeholder: 'Label' %>
+                        <% if legacy_id_label_fields.object.new_record? %>
+                          <ul class="parsley-errors-list filled">
+                            <li class="parsley-required"><%= display_error_messages @provider.errors, [:"providers_legacy_id_labels.legacy_id_label.label"] %></li>
+                          </ul>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-md-6'>
+                    <div class="form-group">
+                      <label class="col-lg-2 control-label">Code</label>
+                      <div class="col-lg-7">
+                        <%= legacy_id_fields.text_field :legacy_id_value, class: 'form-control', placeholder: 'Code' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                <% end %>
+              <% end %>              
             </div>
-          <%# end %>
+
+            <div class="clearfix"></div>
+            <hr>
+            <div class="form-group">
+              <div class="col-sm-4 col-sm-offset-2">
+                <%= link_to 'Cancel', providers_path, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+                <%= form.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+              </div>
+            </div>
+
+          <% end %>
         </div>
       </div>
 

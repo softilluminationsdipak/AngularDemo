@@ -27,8 +27,8 @@
                 </tr>
               </thead>
               <tbody>
-              	<% @providers.each_with_index do |provider, index| %>
-              		<tr>
+              	<% @providers.each_with_index do |provider, index| %>              		
+                  <tr class='provider_<%= provider.slug %>'>
               			<td><%= index + 1 %></td>
               			<td><%= provider.signature_name %></td>
               			<td><%= link_to provider.try(:clinic).try(:name), clinic_path(provider.try(:clinic)), data: {disable_with: 'Please Wait...'} %></td>
@@ -36,7 +36,7 @@
               			<td>
               				<%= link_to "<em class='fa fa-eye'></em> Show".html_safe, provider_path(provider), class: 'btn btn-default btn-xs', data: {disable_with: 'Please wait...'} %>
                       <%= link_to "<em class='fa fa-pencil'></em> Edit".html_safe, edit_provider_path(provider), class: 'btn btn-primary btn-xs', data: {disable_with: 'Please wait...'} %>
-                      <%= link_to "<em class='fa fa-trash'></em> Delete".html_safe, provider_path(provider), class: 'btn btn-danger btn-xs', data: {behavior: 'delete', klass: "provider_#{provider.id}"} %>
+                      <%= link_to "<em class='fa fa-trash'></em> Delete".html_safe, provider_path(provider), class: 'btn btn-danger btn-xs', data: {behavior: 'delete', klass: "provider_#{provider.slug}"} %>
               			</td>
               		</tr>
               	<% end %>

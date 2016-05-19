@@ -69,7 +69,7 @@
           <% end %>
           <ul id="provider" class="nav sidebar-subnav collapse <%= 'in' if controller.controller_name == 'providers' %>">
             <li class="sidebar-subnav-header">Providers</li>
-            <li class="<%= 'active' if controller.controller_name == 'providers' && (controller.action_name == 'index' || controller.action_name == 'edit')%>">
+            <li class="<%= 'active' if controller.controller_name == 'providers' && (controller.action_name == 'index' || controller.action_name == 'edit' || controller.action_name == 'show')%>">
               <%= link_to providers_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %>
                 <span>Provider Listing</span>
               <% end %>

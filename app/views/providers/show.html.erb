@@ -1,0 +1,114 @@
+<h3><%= @provider.name %>
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+  	Providers supply services and/or products to your patients. Information on this screen is used for printing insurance claims for your patients. <br>
+  	The reports button lets you list your providers or generate a productivity report over a specific date range.
+  </small>
+</h3>
+<div class="panel panel-default">
+	<div class="panel-body">
+		<legend>Provider Information</legend>
+		<div class='col-md-6'>
+			<div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Clinic Name</th>
+              <td><%= @provider.try(:clinic).try(:name) %></td>
+            </tr>
+            <tr>
+              <th>Full Name & Credentails</th>
+              <td><%= @provider.try(:signature_name) %></td>
+            </tr>
+
+            <tr>
+              <th>Provider Type</th>
+              <td><%= @provider.try(:provider_type_code) %></td>
+            </tr>
+
+            <tr>
+              <th>Tax ID</th>
+              <td><%= @provider.try(:tax_id) %></td>
+            </tr>
+
+            <tr>
+              <th>UPIN</th>
+              <td><%= @provider.try(:upin_uid) %></td>
+            </tr>
+
+            <tr>
+              <th>NY W'Comp. Testify Time</th>
+              <td><%= @provider.try(:nycomp_testify) %></td>
+            </tr>
+
+            <tr>
+              <th>Type I NPI</th>
+              <td><%= @provider.try(:npi_uid) %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+		</div>
+
+		<div class='col-md-6'>
+			<div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>First Name</th>
+              <td><%= @provider.try(:contact).try(:first_name) %></td>
+            </tr>
+            <tr>
+              <th>Last Name</th>
+              <td><%= @provider.try(:contact).try(:last_name) %></td>
+            </tr>
+            <tr>
+              <th>Phone Number</th>
+              <td><%= @provider.try(:contact).try(:phone1) %></td>
+            </tr>
+            <tr>
+              <th>Fax Number</th>
+              <td><%= @provider.try(:contact).try(:fax1) %></td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td><%= @provider.try(:contact).try(:email) %></td>
+            </tr>
+            <tr>
+              <th>Notes</th>
+              <td><%= @provider.try(:contact).try(:notes) %></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+		
+		<legend>Legacy IDs</legend>
+    <div class='col-md-12'>
+			<div class="table-responsive">
+        <table class="table">
+        	<thead>
+        		<tr>
+        			<th>Label</th>
+        			<th>Code</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        		<% @provider.providers_legacy_id_labels.each do |legacy| %>
+        			<tr>
+        				<td><%= legacy.try(:legacy_id_label).try(:label) %></td>
+        				<td><%= legacy.legacy_id_value %></td>
+        			</tr>
+        		<% end %>
+        	</tbody>
+        </table>
+      </div>    
+    </div>
+
+	</div>
+</div>

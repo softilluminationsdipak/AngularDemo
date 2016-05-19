@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160519043415) do
+ActiveRecord::Schema.define(version: 20160519173709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,6 +137,12 @@ ActiveRecord::Schema.define(version: 20160519043415) do
   add_index "contacts", ["deleted_at"], name: "index_contacts_on_deleted_at", using: :btree
   add_index "contacts", ["slug"], name: "index_contacts_on_slug", using: :btree
 
+  create_table "legacy_id_labels", force: :cascade do |t|
+    t.string   "label"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "plan_facilities", force: :cascade do |t|
     t.string   "name"
     t.integer  "plan_id"
@@ -180,6 +186,17 @@ ActiveRecord::Schema.define(version: 20160519043415) do
   add_index "providers", ["contact_id"], name: "index_providers_on_contact_id", using: :btree
   add_index "providers", ["deleted_at"], name: "index_providers_on_deleted_at", using: :btree
   add_index "providers", ["slug"], name: "index_providers_on_slug", using: :btree
+
+  create_table "providers_legacy_id_labels", force: :cascade do |t|
+    t.integer  "legacy_id_label_id"
+    t.integer  "provider_id"
+    t.string   "legacy_id_value"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "providers_legacy_id_labels", ["legacy_id_label_id"], name: "index_providers_legacy_id_labels_on_legacy_id_label_id", using: :btree
+  add_index "providers_legacy_id_labels", ["provider_id"], name: "index_providers_legacy_id_labels_on_provider_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "firstname"
