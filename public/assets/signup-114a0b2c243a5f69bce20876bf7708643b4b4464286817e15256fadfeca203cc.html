@@ -1,0 +1,61 @@
+<div class=col-lg-5>
+  <h1>Signup</h1>
+  <form name="registerForm" ng-controller='SignupController' ng-submit='registerForm.$valid && signup(registerForm, user)' novalidate>
+    <div class="form-group" ng-class="{ 'has-error': registerForm.firstname.$touched && registerForm.firstname.$invalid }">
+    	<label>First Name</label>
+    	<input type="text" name="firstname" class="form-control" placeholder='First Name' ng-model="user.firstname" ng-minlength="3"  ng-maxlength="20" required/>
+      <div class="help-block" ng-messages="registerForm.firstname.$error" ng-show="registerForm.firstname.$touched">
+        <p data-ng-show="registerForm.firstname.$error.minlength" ng-message="minlength">Your firstname is too short.</p>
+        <p data-ng-show="registerForm.firstname.$error.maxlength" ng-message="maxlength">Your firstname is too long.</p>
+        <p data-ng-show="registerForm.firstname.$error.required" ng-message="required">Firstname can't be blank.</p>
+      </div>
+    </div>
+
+   <div class="form-group" ng-class="{ 'has-error': registerForm.lastname.$touched && registerForm.lastname.$invalid }">
+      <label>Last Name</label>
+      <input type="text" name="lastname" class="form-control" placeholder='Last Name' ng-model="user.lastname" ng-minlength="3" ng-maxlength="20"  required>
+      <div class="help-block" ng-messages="registerForm.lastname.$error" ng-show="registerForm.lastname.$touched">
+        <p data-ng-show="registerForm.lastname.$error.minlength" ng-message="minlength">Your lastname is too short.</p>
+        <p data-ng-show="registerForm.lastname.$error.maxlength" ng-message="maxlength">Your lastname is too long.</p>
+        <p data-ng-show="registerForm.lastname.$error.required" ng-message="required">Lastname can't be blank.</p>
+      </div>
+    </div>
+    
+		<div class="form-group" ng-class="{ 'has-error': registerForm.email.$touched && registerForm.email.$invalid }">
+      <label>Email</label>
+      <input type="email" name="email" class="form-control" placeholder='Email' ng-model="user.email" required />
+      <div class="help-block" ng-messages="registerForm.email.$error" ng-show="registerForm.email.$touched">
+        <p data-ng-show="registerForm.email.$error.required" ng-message="required">Email can't be blank.</p>
+        <p data-ng-show="registerForm.email.$error.email" ng-message="email">Invalid email address.</p>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{ 'has-error': registerForm.password.$touched && registerForm.password.$invalid }">
+      <label>Password</label>
+      <input ng-model="user.password" type="password" placeholder='Password' class='form-control' name="password" ng-minlength='8' ng-maxlength='20' data-ng-class="{'ng-invalid':registerForm.password_confirmation.$error.match}" required />
+      <div class="help-block" ng-messages="registerForm.password.$error" ng-show="registerForm.password.$touched">
+        <p data-ng-show="registerForm.password.$error.minlength" ng-message="minlength">Your password is too short.</p>
+        <p data-ng-show="registerForm.password.$error.maxlength" ng-message="maxlength">Your password is too long.</p>
+        <p data-ng-show="registerForm.password.$error.required" ng-message="required">Password can't be blank.</p>
+        <p data-ng-show="registerForm.password_confirmation.$error.match" ng-message='match'>Passwords do not match!</p>
+      </div>
+    </div>
+
+  
+    <div class="form-group" ng-class="{ 'has-error': registerForm.password_confirmation.$touched && registerForm.password_confirmation.$invalid }">
+      <label>Password Confirmation</label>
+      <input ng-model="user.password_confirmation" class='form-control' placeholder='Password Confirmation' type="password" data-match="user.password" ng-minlength='8' ng-maxlength='20' data-ng-class="{'ng-invalid':registerForm.password_confirmation.$error.match}" name="password_confirmation" required />
+      <div class="help-block" ng-messages="registerForm.password_confirmation.$error" ng-show="registerForm.password_confirmation.$touched">
+        <p data-ng-show="registerForm.password_confirmation.$error.minlength" ng-message="minlength">Your password is too short.</p>
+        <p data-ng-show="registerForm.password_confirmation.$error.maxlength" ng-message="maxlength">Your password is too long.</p>
+        <p data-ng-show="registerForm.password_confirmation.$error.required" ng-message="required">Password Confirmation can't be blank.</p>        
+        <p data-ng-show="registerForm.password_confirmation.$error.match" ng-message='match'>Passwords do not match!</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+    	<button type='submit' class='btn btn-danger' ng-disabled="registerForm.$invalid">Save</button>
+    </div>
+    
+ 	</form>
+</div>
