@@ -9,6 +9,9 @@ class ProvidersController < BaseController
 	end
 
 	def new
+		add_breadcrumb "Providers", providers_path
+		add_breadcrumb "New Provider"
+
 		@provider = Provider.new
 		@provider.build_contact contactable_type: 'Provider'
 		@provider.build_address		
@@ -48,7 +51,7 @@ class ProvidersController < BaseController
 	private
 
 	def find_provider
-		@provider = current_account.providers.find_by(id: params[:id])
+		@provider = current_account.providers.find_by(slug: params[:id])
 	end
 
 	def provider_params

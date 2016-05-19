@@ -1,5 +1,8 @@
 class Provider < ActiveRecord::Base
 
+  extend FriendlyId
+  friendly_id :signature_name, use: :slugged
+  
 	include Contactable
   include Addressable
 
@@ -12,6 +15,7 @@ class Provider < ActiveRecord::Base
   alias :search_title :name
 
 	acts_as_addressable	
+	acts_as_paranoid
 
 	## Validations
 	validates :signature_name, presence: true, uniqueness: {scope: :clinic_id}

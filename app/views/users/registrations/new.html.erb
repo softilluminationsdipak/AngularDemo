@@ -18,7 +18,7 @@
 
       <div class="form-group has-feedback">
         <%= account.label :full_domain, "Domain <span class='required'>*</span>".html_safe, class: 'text-muted' %>
-        <%= account.text_field :full_domain, placeholder: 'Domain Name', class: 'form-control', required: true, data: {'parsley-required-message': "Full domain can't be blank."} %>
+        <%= account.text_field :full_domain, placeholder: 'Domain Name', class: 'form-control', required: true, data: {'parsley-required-message': "Full domain can't be blank.", 'parsley-type': 'alphanum'} %>
         <span class="fa fa-at form-control-feedback form-control-feedback-dup text-muted"></span>
         <ul class="parsley-errors-list filled">
           <li class="parsley-required"><%= display_error_messages @user.errors, [:'account.full_domain'] %></li>

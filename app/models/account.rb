@@ -32,7 +32,7 @@ class Account < ActiveRecord::Base
   end
 
   def set_full_domain_name
-    self.full_domain = "#{full_domain}.#{AppConfig['base_domain'].gsub(/(:\d+)$/, '')}"
+    self.full_domain = "#{full_domain.downcase}.#{AppConfig['base_domain'].gsub(/(:\d+)$/, '')}"
   end
 
 end
