@@ -1,0 +1,304 @@
+<div class="panel-body">
+  <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
+    <div class="panel panel-default">
+      
+      <div id="patientHeadingOne" role="tab" class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#patientOne" aria-expanded="true" aria-controls="patientOne" class="">
+            Patient, New Patient
+          </a>
+        </h4>
+      </div>
+      
+      <div id="patientOne" role="tabpanel" aria-labelledby="patientHeadingOne" class="panel-collapse collapse in" aria-expanded="" style="">
+        <div class="panel-body">
+          <%= nested_form_for [@patient.clinic, @patient], html: {class: 'form-horizontal', id: 'validate_new_patient'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+            <%= form.fields_for :contact do |contact| %>
+              <%= form.fields_for :address do |address| %>
+                <%= form.fields_for :employer_address do |employer_address| %>
+                  
+                  <div class='col-md-6'>
+                    <legend>Patient Data</legend>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Last Name</label>
+                        <div class="col-lg-7">
+                          <%= contact.text_field :last_name, placeholder: 'Last Name', class: 'form-control', required: true %>                          
+                        </div>
+                        <div class="col-lg-2">
+                          <%= contact.text_field :middle_initial, placeholder: 'Middle Name', class: 'form-control', required: true, title: 'Middle Name' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">First Name</label>
+                        <div class="col-lg-9">
+                          <%= contact.text_field :first_name, placeholder: 'First Name', class: 'form-control', required: true %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Address</label>
+                        <div class="col-lg-9">
+                          <%= address.text_field :street, placeholder: 'Street Address Line 1', class: 'form-control' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">&nbsp;</label>
+                        <div class="col-lg-9">
+                          <%= address.text_field :street2, placeholder: 'Street Address Line 2', class: 'form-control' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">City</label>
+                        <div class="col-lg-9">
+                          <%= address.text_field :city, placeholder: 'City', class: 'form-control' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">State</label>
+                        <div class="col-lg-9">
+                          <%= address.select :state, options_for_select(us_states, selected: address.object.state), {include_blank: 'Select Your State'}, { class: 'form-control m-b select2-1' } %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Zipcode</label>
+                        <div class="col-lg-9">
+                          <%= address.text_field :zipcode, placeholder: 'Zipcode', class: 'form-control' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">Sex</label>
+                        <div class="col-sm-9">
+                          <label class="radio-inline c-radio">
+                            <%= contact.radio_button :sex, :male, checked: true %>                             
+                            <span class="fa fa-circle"></span>Male
+                          </label>
+                          <label class="radio-inline c-radio">                            
+                            <%= contact.radio_button :sex, :female %>
+                            <span class="fa fa-circle"></span>Female
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">Birthdate</label>
+                        <div class="col-sm-9">
+                          <div class="input-group date" id="datepicker1">
+                            <%= form.text_field :birthdate, value: form.object.birthdate.present? ? form.object.birthdate.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'Birthdate' %>
+                            <span class="input-group-addon">
+                              <span class="fa fa-calendar"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">SSN</label>
+                        <div class="col-lg-9">
+                          <%= form.text_field :ssn, placeholder: 'SSN', class: 'form-control ssn_number' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Cell Phone</label>
+                        <div class="col-lg-9">
+                          <%= contact.text_field :phone3, placeholder: 'Cell Phone', class: 'form-control phone_number' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Home Phone</label>
+                        <div class="col-lg-9">
+                          <%= contact.text_field :phone1, placeholder: 'Home Phone', class: 'form-control phone_number' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Work Phone</label>
+                        <div class="col-lg-7">
+                          <%= contact.text_field :phone2, placeholder: 'Work Phone Number', class: 'form-control phone_number' %>
+                        </div>
+                        <div class="col-lg-2">
+                          <%= contact.text_field :phone2_ext, placeholder: 'Ext.', class: 'form-control' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Email</label>
+                        <div class="col-lg-9">
+                          <%= contact.email_field :email1, placeholder: 'Email', class: 'form-control' %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Category</label>
+                        <div class="col-lg-5">
+                          <%= form.text_field :category, placeholder: 'Category', class: 'form-control category_patient' %>
+                        </div>
+                        <div class="col-lg-4">
+                          <%= select_tag 'category', options_for_select(Patient.distinct_categories.reject(&:blank?)), {include_blank: 'Select Category', class: 'form-control m-b select2-1 patient_category'} %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Notes</label>
+                        <div class="col-lg-9">
+                          <%= contact.text_area :notes, rows: 3, class: 'form-control note-editor' %>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  <div class='col-md-6'>
+                    <legend>Employment Information</legend>
+
+                    <div class="form-group">
+                      <label class="col-lg-3 control-label">Occupation</label>
+                      <div class="col-lg-9">
+                        <%= contact.text_field :occupation, placeholder: 'Occupation', class: 'form-control' %>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-lg-3 control-label">Employer</label>
+                      <div class="col-lg-9">
+                        <%= contact.text_field :company_name, placeholder: 'Employer Name', class: 'form-control' %>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-lg-3 control-label">Work Address</label>
+                      <div class="col-lg-9">
+                        <%= employer_address.text_field :street, placeholder: 'Work Address Line 1', class: 'form-control' %>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-lg-3 control-label">&nbsp;</label>
+                      <div class="col-lg-9">
+                        <%= employer_address.text_field :street2, placeholder: 'Work Address Line 2', class: 'form-control' %>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-lg-3 control-label">City</label>
+                      <div class="col-lg-9">
+                        <%= employer_address.text_field :city, placeholder: 'City', class: 'form-control' %>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-lg-3 control-label">State</label>
+                      <div class="col-lg-9">
+                        <%= employer_address.select :state, options_for_select(us_states, selected: employer_address.object.state), {include_blank: 'Select Your State'}, { class: 'form-control m-b select2-1' } %>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-lg-3 control-label">Zipcode</label>
+                      <div class="col-lg-9">
+                        <%= employer_address.text_field :zipcode, placeholder: 'Zipcode', class: 'form-control' %>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-lg-3 control-label" title='Employment Status'>Employment</label>
+                      <div class="col-lg-9">
+                        <%= form.select :employment_status_code, AppConfig['options']['work_status'].invert, {include_blank: 'Employment Status'}, { class: 'form-control m-b select2-1' } %>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-lg-3 control-label" title='Disability Status'>Disability</label>
+                      <div class="col-lg-9">
+                        <%= form.select :disability_status_code, AppConfig['options']['disability_statuses'].invert, {include_blank: 'Disability Status'}, { class: 'form-control m-b select2-1' } %>
+                      </div>
+                    </div>
+
+                    <legend>Miscellaneous</legend>
+
+                    <div class="form-group">
+                      <label class="col-lg-3 control-label">&nbsp;</label>
+                      <div class="col-lg-9 mrgbtn7">                    
+                        <label class="checkbox-inline c-checkbox">
+                          <%= form.check_box :is_full_time_student %>
+                          <span class="fa fa-check"></span> Full-time student?
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-lg-3 control-label">&nbsp;</label>
+                      <div class="col-lg-9 mrgbtn7">                    
+                        <label class="checkbox-inline c-checkbox">
+                          <%= form.check_box :should_send_statements_when_overdue %>
+                          <span class="fa fa-check"></span> Send statements?
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-lg-3 control-label">Interest</label>
+                      <div class="col-lg-3">
+                        <%= form.text_field :overdue_fee_percentage, placeholder: 'Charging Interest', class: 'form-control' %>
+                      </div>
+                      <span class="col-lg-6 control-label" style="text-align:left;">If Charging Interest, What? </span>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-lg-3 control-label">Statement Message</label>
+                      <div class="col-lg-9">
+                        <%= form.text_area :statement_message, rows: 3, class: 'form-control note-editor' %>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-lg-3 control-label">"To" Stationery Label </label>
+                      <div class="col-lg-9">
+                        <%= form.text_field :address_stationery_to_label, placeholder: 'Stationery Label', class: 'form-control' %>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            <% end %>
+
+            <div class="clearfix"></div>
+            <hr>
+            <div class="form-group">
+              <div class="col-sm-4 col-sm-offset-2">
+                <%= link_to 'Cancel', patients_path, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+                <%= form.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+              </div>
+            </div>            
+
+          <% end %>          
+        </div>
+      </div>
+    
+    </div>
+
+    <% if @patient.try(:id).present? %>
+      <div class="panel panel-default">
+        <div id="patientHeadingTwo" role="tab" class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#patientTwo" aria-expanded="" aria-controls="patientOne" class="">
+              Clinic Information
+            </a>
+          </h4>
+        </div>
+        
+        <div id="patientTwo" role="tabpanel" aria-labelledby="patientHeadingTwo" class="panel-collapse collapse" aria-expanded="" style="">
+          <div class="panel-body">
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

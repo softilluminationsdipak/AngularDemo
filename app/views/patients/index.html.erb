@@ -1,0 +1,63 @@
+<h3>
+  Patients
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+    This screen holds your basic patient information and filling in this data is your first step in establishing a patient at your clinic. <br> Your second step in establishing the patient is done by clicking on Case Data.
+  </small>
+</h3>
+<div class="row">
+  <% if current_account.clinics.count >= 2 %>
+    <div class='col-lg-1'>
+      <label class="control-label mb" style="padding:8px;"> Go To </label>
+    </div>
+    <div class='col-lg-4'>
+      <div class='form-group mb-xl'>
+        <%= select_tag 'clinic', options_for_select(current_account.clinics.latest.collect{|c| [c.name, c.slug]}, params[:clinic_id]), class: 'form-control', id: 'search_clinic_slug', onchange: %(window.location = '/clinics/' + this.value + '/patients') %>
+      </div>
+    </div>
+  <% end %>
+  <%= link_to "<em class='fa fa-plus'></em> Add Patient".html_safe, new_clinic_patient_path(params[:clinic_id]), class: 'btn btn-info btn-xs pull-right pullright2', data: {disable_with: 'Please wait...'} %>
+
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="table-responsive">
+          <% if @patients.present? %>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Patient Name</th>
+                  <th>Phone Number</th>
+                  <th>Address</th>
+                  <th>Modify Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @patients.each_with_index do |patient, index| %>
+                  <tr class='patient_<%= patient.slug %>'>
+                    <td><%= index + 1 %></td>
+                    <td><%= patient.contact.full_name %></td>
+                    <td><%= patient.contact.phone_number %></td>
+                    <td><%= patient.address.to_s %></td>
+                    <td><%= patient.updated_at.strftime('%a, %d %b %Y - %H:%M %p') %></td>
+                    <td>
+                      <%= link_to "<em class='fa fa-eye'></em> Show".html_safe, clinic_patient_path(patient.clinic, patient), class: 'btn btn-default btn-xs', data: {disable_with: 'Please wait...'} %>
+                      <%= link_to "<em class='fa fa-pencil'></em> Edit".html_safe, edit_clinic_patient_path(patient.clinic, patient), class: 'btn btn-primary btn-xs', data: {disable_with: 'Please wait...'} %>
+                      <%= link_to "<em class='fa fa-trash'></em> Delete".html_safe, clinic_patient_path(patient.clinic, patient), class: 'btn btn-danger btn-xs', data: {behavior: 'delete', klass: "patient_#{patient.slug}"} %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <p>No Patient Found Yet!</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

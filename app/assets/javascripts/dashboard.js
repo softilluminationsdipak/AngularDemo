@@ -35,11 +35,15 @@
 //= require dashboard/demo-flot.js
 //= require dashboard/jquery.validate.js
 //= require dashboard/jquery.inputmask.bundle.js
-//= require dashboard/bootstrap-datetimepicker.min.js
+//= require dashboard/bootstrap-datepicker.min.js
 //= require dashboard/select2.js
 //= require dashboard/app.js
 //= require jquery_nested_form
 //= require dashboard/clinics.js
 //= require dashboard/provider.js
+//= require dashboard/patient.js
 //= require sweetalert2
 //= require turbolinks
+
+
+$(".calendar").datepicker({ format: "dd/mm/yyyy" });

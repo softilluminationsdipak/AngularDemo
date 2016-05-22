@@ -61,8 +61,9 @@ $(document).on('ready page:load', function (event) {
 		}
 	});
 	
-	$('.phone_number').inputmask('(999) 999-9999')
-	$('.tax_number').inputmask('999-99-9999')
+	$('.phone_number').inputmask('(999) 999-9999');
+	$('.tax_number').inputmask('999-99-9999');
+	$('.ssn_number').inputmask('999-99-9999');
 });
 
 

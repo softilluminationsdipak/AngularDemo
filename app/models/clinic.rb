@@ -28,6 +28,8 @@ class Clinic < ActiveRecord::Base
 
   belongs_to :main_provider, class_name: 'Provider'
 
+  has_many :patients, dependent: :destroy
+  
   ## Validation
   validates :account_id, presence: true
   validates_associated :address, message: nil
@@ -36,6 +38,7 @@ class Clinic < ActiveRecord::Base
   
   ## Scopes
   scope :alphabetically, -> { includes(:contact).order('contacts.company_name ASC')}
+  scope :latest, -> { order('created_at DESC')}
   
   ## Methods
   def title

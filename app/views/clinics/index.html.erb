@@ -33,6 +33,7 @@
                       <%= link_to "<em class='fa fa-eye'></em> Show".html_safe, clinic_path(clinic), class: 'btn btn-default btn-xs', data: {disable_with: 'Please wait...'} %>
                       <%= link_to "<em class='fa fa-pencil'></em> Edit".html_safe, edit_clinic_path(clinic), class: 'btn btn-primary btn-xs', data: {disable_with: 'Please wait...'} %>
                       <%= link_to "<em class='fa fa-trash'></em> Delete".html_safe, clinic_path(clinic), class: 'btn btn-danger btn-xs', data: {behavior: 'delete', klass: "clinic_#{clinic.slug}"} %>
+                      <%= link_to "<em class='fa fa-plus'></em> Add Patient".html_safe, new_clinic_patient_path(clinic), class: 'btn btn-info btn-xs', data: {disable_with: 'Please wait...'} %>
                     </td>
                   </tr>
                 <% end %>

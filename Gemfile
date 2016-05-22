@@ -73,3 +73,5 @@ gem "paranoia", "~> 2.0"
 gem 'sweetalert2'
 
 gem "breadcrumbs_on_rails"
+
+gem 'jquery-ui-rails'

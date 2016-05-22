@@ -17,10 +17,9 @@
  *= require dashboard/weather-icons.min.css
  *= require dashboard/bootstrap.css
  *= require dashboard/chosen.min.css
- *= require dashboard/bootstrap-datetimepicker.min.css
+ *= require dashboard/bootstrap-datepicker.css
  *= require dashboard/select2.css
  *= require dashboard/select2-bootstrap.css
- * require dashboard/sweetalert.css
  *= require sweetalert2
  *= require dashboard/app.css
  *= require_self
@@ -44,4 +43,12 @@
 
 .pd-left{
 	padding-left: 3% !important;
+}
+
+.pullright2{
+	margin-right: 2%;
+}
+
+.legend-mb0{
+	margin-bottom: 0px !important;
 }

@@ -1,0 +1,141 @@
+<h3>
+	Patient Demographics - <%= @patient.contact.full_name %>	
+	<span>(<small><%= link_to 'Edit', edit_clinic_patient_path(@clinic, @patient), data: {disable_with: 'Please Wait...'} %></small>)</span>
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+  	This screen holds your basic patient information and filling in this data is your first step in establishing a patient at your clinic. <br> Your second step in establishing the patient is done by clicking on Case Data.
+  </small>  
+</h3>
+
+<div class="panel panel-default">
+	<div class="panel-body">		
+		<div class='col-md-6'>
+			<legend class="legend-mb0">Patient Data</legend>
+			
+			<div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Full Name</th>
+              <td><%= @patient.try(:contact).try(:full_name) %></td>
+            </tr>
+            <tr>
+            	<th>Address</th>
+            	<td><%= @patient.try(:address).try(:line1) %></td>
+            </tr>
+            <tr>
+            	<th>&nbsp;</th>
+            	<td><%= @patient.try(:address).try(:line2) %></td>
+            </tr>
+            <tr>
+            	<th>Gender</th>
+            	<td><%= @patient.try(:contact).try(:sex).try(:humanize) %></td>
+            </tr>
+            <tr>
+            	<th>Birthdate</th>
+            	<td><%= @patient.try(:birthdate).present? ? @patient.try(:birthdate).strftime('%d/%m/%Y') : '' %></td>
+            </tr>
+            <tr>
+            	<th>SSN</th>
+            	<td><%= @patient.ssn || 'Undefine' %></td>
+            </tr>
+            <tr>
+            	<th>Cell Phone</th>
+            	<td><%= @patient.contact.phone3 %></td>
+            </tr>
+            <tr>
+            	<th>Home Phone</th>
+            	<td><%= @patient.contact.phone1 %></td>
+            </tr>
+            <tr>
+            	<th>Work Phone</th>
+            	<td><%= @patient.contact.phone2 %> - <%= @patient.contact.phone2_ext %></td>
+            </tr>
+            <tr>
+            	<th>Email</th>
+            	<td><%= @patient.contact.email1 %></td>
+            </tr>
+            <tr>
+            	<th>Category</th>
+            	<td><%= @patient.category %></td>
+            </tr>
+            <tr>
+            	<th>Notes</th>
+            	<td></td>
+            </tr>
+            <% if @patient.try(:contact).try(:notes).present? %>
+	           	<tr>
+	           		<td colspan="2"><%= @patient.try(:contact).try(:notes) %></td>
+	           	</tr>
+	          <% end %>
+          </tbody>
+        </table>
+      </div>      
+    </div>
+
+    <div class='col-md-6'>
+    	<legend class="legend-mb0">Employment Information</legend>
+    	<div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Occupation</th>
+              <td><%= @patient.try(:contact).try(:occupation) %></td>
+            </tr>
+            <tr>
+              <th>Employer</th>
+              <td><%= @patient.try(:contact).try(:company_name) %></td>
+            </tr>
+            <tr>
+              <th>Work Address</th>
+              <td><%= @patient.try(:employer_address).try(:line1) %></td>
+            </tr>
+            <tr>
+              <th>&nbsp;</th>
+              <td><%= @patient.try(:employer_address).try(:line2) %></td>
+            </tr>
+            <tr>
+              <th>Employment Status</th>
+              <td><%= @patient.try(:employment_status_code) %></td>
+            </tr>
+            <tr>
+              <th>Disability Status</th>
+              <td><%= @patient.try(:disability_status_code) %></td>
+            </tr>
+					</tbody>
+				</table>    		
+    	</div>
+    	<legend class="legend-mb0">Miscellaneous</legend>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>Full time student</th>
+            <td><%= @patient.is_full_time_student? ? 'Yes' : 'No' %></td>
+          </tr>
+          <tr>
+            <th>Send Statements?</th>
+            <td><%= @patient.should_send_statements_when_overdue? ? 'Yes' : 'No' %></td>
+          </tr>
+          <tr>
+            <th>If charging interest, what % ? </th>
+            <td><%= @patient.overdue_fee_percentage || 0 %> %</td>
+          </tr>
+          <tr>
+            <th>Statement Message</th>
+            <td></td>
+          </tr>
+          <% if @patient.statement_message.present? %>
+          	<td colspan="2"><%= @patient.try(:statement_message) %></td>
+          <% end %>
+          <tr>
+            <th>"To" Stationery Label</th>
+            <td><%= @patient.try(:address_stationery_to_label) %></td>
+          </tr>
+				</tbody>
+			</table>    	
+    </div>
+
+  </div>
+</div>
