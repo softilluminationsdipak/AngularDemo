@@ -1,7 +1,7 @@
 class PatientsController < BaseController
 	
 	before_filter :find_clinic
-	before_filter :find_patient, only: [:edit, :update, :destroy, :show]
+	before_filter :find_patient, only: [:edit, :update, :destroy, :show, :toggle_active_status]
 
 	add_breadcrumb "Home", :root_path
 	add_breadcrumb "Clinics", :clinics_path	
@@ -58,6 +58,23 @@ class PatientsController < BaseController
 			format.json{ render json: @patient}
 		end
 	end
+
+
+  def toggle_active_status
+  	@patient.update_attributes(is_active: !@patient.is_active)
+  	redirect_to edit_clinic_patient_path(@clinic, @patient), notice: "#{@patient.full_name.titleize} is now an #{@patient.active_text} patient.".html_safe
+  end
+
+  def add_family_member_for
+  	ancestor = @clinic.patients.find_by(slug: params[:id])
+  	if ancestor.present?
+  		@patient = @clinic.patients.build.copy_details_from_patient(ancestor)
+  		@patient.save
+  		redirect_to edit_clinic_patient_path(@clinic, @patient)    
+  	else
+  		redirect_to clinic_patients_path(@clinic)
+  	end
+  end
 
 	private
 

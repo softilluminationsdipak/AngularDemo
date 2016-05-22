@@ -5,7 +5,11 @@
       <div id="patientHeadingOne" role="tab" class="panel-heading">
         <h4 class="panel-title">
           <a data-toggle="collapse" data-parent="#accordion" href="#patientOne" aria-expanded="true" aria-controls="patientOne" class="">
-            Patient, New Patient
+            <% if @patient.try(:id).present? %>
+              Patient, <%= @patient.try(:contact).try(:full_name) %>
+            <% else %>
+              Patient, New Patient
+            <% end %>
           </a>
         </h4>
       </div>
@@ -289,13 +293,22 @@
         <div id="patientHeadingTwo" role="tab" class="panel-heading">
           <h4 class="panel-title">
             <a data-toggle="collapse" data-parent="#accordion" href="#patientTwo" aria-expanded="" aria-controls="patientOne" class="">
-              Clinic Information
+              This patient&rsquo;s account is <strong><%= @patient.active_text.upcase %></strong>
             </a>
           </h4>
         </div>
         
         <div id="patientTwo" role="tabpanel" aria-labelledby="patientHeadingTwo" class="panel-collapse collapse" aria-expanded="" style="">
           <div class="panel-body">
+            <%= form_tag toggle_active_status_clinic_patient_path(@clinic, @patient), method: :put do |f| %>
+              <p>
+                <% if @patient.is_active? %>
+                  <%= submit_tag "Make #{@patient.active_inverse_text.titleize}", class: "btn btn-danger", data: { disable_with: "Please wait..." } %>
+                <% else %>
+                  <%= submit_tag "Make #{@patient.active_inverse_text.titleize}", class: "btn btn-success", data: { disable_with: "Please wait..." } %>
+                <% end %>                  
+              </p>
+            <% end %>
           </div>
         </div>
       </div>

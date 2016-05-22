@@ -55,7 +55,12 @@ Rails.application.routes.draw do
 
   ## 1. Clinic - Main
   resources :clinics do
-    resources :patients
+    resources :patients do
+      member do
+        put 'toggle_active_status'
+        get 'add_family_member_for'
+      end
+    end
   end
 
   resources :patients

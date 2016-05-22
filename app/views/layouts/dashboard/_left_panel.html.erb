@@ -65,7 +65,7 @@
           <% end %>
           <ul id="patient" class="nav sidebar-subnav collapse">
             <li class="sidebar-subnav-header">Patient</li>
-            <% if current_account.clinics.present? %>            
+            <% if current_account.clinics.present? && current_account.clinics.count >= 1 %>            
               <li class="<%= 'active' if controller.controller_name == 'patients' %>">
                 <%= link_to clinic_patients_path(current_account.try(:clinics).try(:latest).try(:first)), title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %>
                   <span>Manage Patients</span>

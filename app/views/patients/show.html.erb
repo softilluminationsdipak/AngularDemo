@@ -137,5 +137,38 @@
 			</table>    	
     </div>
 
+    <% if @patient.family_members.present? %>
+      <div class="col-md-12">
+        <legend class="legend-mb0">Family Member Details</legend>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Full Name</th>
+                <th>Address</th>
+                <th>Contact Number</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @patient.family_members.each_with_index do |patient, index| %>
+                <tr class='patient_<%= patient.slug %>'>
+                  <th><%= index + 1 %></th>
+                  <td><%= patient.try(:contact).try(:full_name) %></td>
+                  <td><%= patient.try(:address).to_s %></td>
+                  <td><%= patient.try(:contact).try(:phone_number) %></td>                  
+                  <td>
+                    <%= link_to "<em class='fa fa-eye'></em> Show".html_safe, clinic_patient_path(patient.clinic, patient), class: 'btn btn-default btn-xs', data: {disable_with: 'Please wait...'} %>
+                    <%= link_to "<em class='fa fa-pencil'></em> Edit".html_safe, edit_clinic_patient_path(patient.clinic, patient), class: 'btn btn-primary btn-xs', data: {disable_with: 'Please wait...'} %>
+                    <%= link_to "<em class='fa fa-trash'></em> Delete".html_safe, clinic_patient_path(patient.clinic, patient), class: 'btn btn-danger btn-xs', data: {behavior: 'delete', klass: "patient_#{patient.slug}"} %>                    
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>

@@ -1,4 +1,10 @@
-<h3>Patient Demographics
+<h3>Patient Demographics - <%= @patient.contact.full_name %>	
+	<span>
+		(<small>
+			<%= link_to "<i class='fa fa-user'></i> Add Family Member".html_safe, add_family_member_for_clinic_patient_path(@clinic, @patient), data: {disable_with: 'Please Wait...'} %>
+		</small>)
+	</span>
+
   <ol class="breadcrumb pull-right">
     <%= render_breadcrumbs tag: :li, separator: '' %>
   </ol>
