@@ -90,4 +90,12 @@ Rails.application.configure do
     :enable_starttls_auto => true
   }
   DOMAIN_NAME = 'http://mytesting.in/'
+
+  Rails.application.config.middleware.use ExceptionNotification::Rack,
+  email: {
+    email_prefix: "[ERROR] ",
+    sender_address: %{"EMR" <dipak@softilluminations.com>},
+    exception_recipients: %w{dipak@softilluminations.com}
+  }
+
 end

@@ -30,7 +30,15 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'unicorn'
 
 # Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+gem 'capistrano-rails', group: :development
+gem 'capistrano'
+gem 'capistrano-bundler'
+gem 'capistrano-rvm'
+
+## Cron Jobs
+gem 'whenever', require: false
+
+gem 'rb-readline'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -75,3 +83,8 @@ gem 'sweetalert2'
 gem "breadcrumbs_on_rails"
 
 gem 'jquery-ui-rails'
+
+## Exception Handling
+gem 'exception_notification', '~> 4.1', '>= 4.1.4'
+
+## 
