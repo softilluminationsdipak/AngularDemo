@@ -10,7 +10,7 @@ set :repo_url, 'git@github.com:softilluminationsdipak/AngularDemo.git'
 
 set :rvm_type, :user
 
-set :rvm_ruby_version, 'ruby-2.2.1'
+set :rvm_ruby_version, 'ruby-2.3.0'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
