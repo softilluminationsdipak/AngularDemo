@@ -38,7 +38,7 @@ server '52.26.120.174', user: 'ubuntu', roles: %w( web app db ), my_property: :m
 #set :ssh_options,  keys: %w( /home/dipak/.ssh/digital_ocean_softillumination.pub )
 set :ssh_options,  keys: %w( /home/dipak/Documents/pemfile/handywork.pem )
 
-set :rvm_custom_path, '/usr/local/rvm'
+# set :rvm_custom_path, '/usr/local/rvm'
 
 
 # Custom SSH Options
