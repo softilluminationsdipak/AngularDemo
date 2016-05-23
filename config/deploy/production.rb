@@ -7,9 +7,9 @@
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
-role :app, %w( root@198.199.76.136 )
-role :web, %w( root@198.199.76.136 )
-role :db,  %w( root@198.199.76.136 )
+role :app, %w( ubuntu@52.26.120.174 )
+role :web, %w( ubuntu@52.26.120.174 )
+role :db,  %w( ubuntu@52.26.120.174 )
 
 # role-based syntax
 # ==================
@@ -24,7 +24,7 @@ role :db,  %w( root@198.199.76.136 )
 # role :db,  %w{deploy@example.com}
 
 
-server '198.199.76.136', user: 'root', roles: %w( web app db ), my_property: :my_value
+server '52.26.120.174', user: 'root', roles: %w( web app db ), my_property: :my_value
 
 # Configuration
 # =============
@@ -35,7 +35,9 @@ server '198.199.76.136', user: 'root', roles: %w( web app db ), my_property: :my
 # Feel free to add new variables to customise your setup.
 
 
-set :ssh_options,  keys: %w( /home/dipak/.ssh/digital_ocean_softillumination.pub )
+#set :ssh_options,  keys: %w( /home/dipak/.ssh/digital_ocean_softillumination.pub )
+set :ssh_options,  keys: %w( /home/dipak/Documents/pemfile/handywork.pem )
+
 set :rvm_custom_path, '/usr/local/rvm'
 
 
