@@ -10,7 +10,7 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require dashboard/font-awesome.min.css
+ * require dashboard/font-awesome.min.css
  * require dashboard/simple-line-icons.css
  * require dashboard/animate.min.css
  * require dashboard/whirl.css
@@ -22,7 +22,7 @@
  * require dashboard/select2-bootstrap.css
  * require sweetalert2
  * require dashboard/app.css
- *= require_self
+ * require_self
  */
 
 
