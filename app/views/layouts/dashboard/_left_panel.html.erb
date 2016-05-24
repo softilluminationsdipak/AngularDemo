@@ -71,6 +71,12 @@
                   <span>Manage Patients</span>
                 <% end %>
               </li>
+            <% else %>
+              <li class="<%= 'active' if controller.controller_name == 'patients' %>">
+                <%= link_to patients_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %>
+                  <span>Manage Patients</span>
+                <% end %>
+              </li>
             <% end %>
           </ul>
         </li>

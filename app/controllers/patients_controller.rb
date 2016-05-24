@@ -7,7 +7,8 @@ class PatientsController < BaseController
 	add_breadcrumb "Clinics", :clinics_path	
 
 	def index
-		return redirect_to clinic_patients_path(current_account.try(:clinics).try(:latest).try(:first)) unless @clinic.present?
+		return redirect_to new_clinic_path, flash: {error: 'Kindly create clinic to manage patients.'} if current_account.clinics.count == 0
+		return redirect_to clinic_patients_path(current_account.try(:clinics).try(:latest).try(:first)) unless @clinic.present?				
 		add_breadcrumb "Patients", clinic_patients_path(@clinic)
 		if @clinic.present?
 			@patients = @clinic.patients			
