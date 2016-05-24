@@ -72,4 +72,41 @@ namespace :deploy do
   end
 
   after :deploy, "deploy:update_crontab"
+
+  desc 'Cleanup expired assets'
+  task :cleanup_assets => [:set_rails_env] do
+    next unless fetch(:keep_assets)
+    on release_roles(fetch(:assets_roles)) do
+     within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, "'assets:clean[#{fetch(:keep_assets)}]'"
+        end
+      end
+    end
+  end
+  after 'deploy:updated', 'deploy:cleanup_assets'
+  
+  desc 'Clobber assets'
+    task :clobber_assets => [:set_rails_env] do
+      on release_roles(fetch(:assets_roles)) do
+        within release_path do
+          with rails_env: fetch(:rails_env) do
+            execute :rake, "assets:clobber"
+          end
+        end
+      end
+    end
+  after 'deploy:updated', 'deploy:clobber_assets'
+
+  desc 'Compile all the assets named'
+   task :precompile do
+     on release_roles(fetch(:assets_roles)) do
+       within release_path do
+          with rails_env: fetch(:rails_env) do
+            execute :rake, "assets:precompile"
+          end
+        end
+      end
+    end
+  after 'deploy:updated', 'deploy:precompile'    
 end
