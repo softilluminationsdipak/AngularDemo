@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(_resource)
     if current_user.system_admin?
-      redirect_to admin_dashboard_path
+      return admin_dashboard_path
     end
   end
   

@@ -37,7 +37,7 @@ namespace :db do
   
   desc "--------3. Create Admin------------------------"
   task add_admin_for_system: :environment do ## rake db:add_admin_for_system
-    account = Account.find_or_create_by(name: 'admin', full_domain: 'admin')
+    account = Account.find_or_create_by(name: 'admin', domain: 'admin')
     user    = account.users.build(firstname: 'Admin', lastname: 'Admin', username: 'admin', email: '11dipak.contact@gmail.com', password: 'password', password_confirmation: 'password', system_admin: true)
     user.skip_confirmation!
     user.save!
