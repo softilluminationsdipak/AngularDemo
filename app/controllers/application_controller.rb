@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :null_session ## For API
   protect_from_forgery with: :exception
   ## before_filter :set_cache_headers ## For API
+  before_filter :only_admin_access_login
 
   include ActionView::Helpers::TextHelper
   respond_to :html, :json
@@ -14,6 +15,12 @@ class ApplicationController < ActionController::Base
   def current_account
     @current_account ||= Account.find_by(full_domain: request.host)
     @current_account
+  end
+
+  def only_admin_access_login
+    if request.subdomain.downcase == 'admin' && ['users/registrations', 'users/passwords'].include?(params[:controller])
+      redirect_to root_path
+    end
   end
 
 	private

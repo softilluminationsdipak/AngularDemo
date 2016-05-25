@@ -20,12 +20,16 @@
           </label>
         </div>
       <% end %>
-      <div class="pull-right">        
-        <%= link_to 'Forget your password?', new_user_password_path, class: 'text-muted', data: {disable_with: 'Please Wait...'} %>
-      </div>
+      <% if not request.subdomain == 'admin' %>
+        <div class="pull-right">        
+          <%= link_to 'Forget your password?', new_user_password_path, class: 'text-muted', data: {disable_with: 'Please Wait...'} %>
+        </div>
+      <% end %>
     </div>
     <%= form.submit 'Login', class: 'btn btn-block btn-primary mt-lg', data: {disable_with: 'Loading...'} %>
   <% end %>
-  <p class="pt-lg text-center"> Need to Signup? </p>
-  <%= link_to 'Register Now', plans_path, class: 'btn btn-block btn-default', data: {disable_with: 'Loading...'} %>
+  <% if not request.subdomain == 'admin' %>
+    <p class="pt-lg text-center"> Need to Signup? </p>
+    <%= link_to 'Register Now', plans_path, class: 'btn btn-block btn-default', data: {disable_with: 'Loading...'} %>
+  <% end %>    
 </div>
