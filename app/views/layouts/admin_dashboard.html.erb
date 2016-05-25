@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Bootstrap Admin App + jQuery">
+    <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
+    <title>EMR - Dashboard</title>
+    <!-- =============== VENDOR STYLES ===============-->
+    <%= stylesheet_link_tag 'dashboard', media: 'all', 'data-turbolinks-track' => true %>   
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <div class="wrapper">
+      <!-- top navbar-->
+      <%= render partial: 'layouts/dashboard/header' %>
+      <!-- sidebar-->
+      <%= render partial: 'layouts/dashboard/admin_left_panel' %>
+
+      <!-- offsidebar-->
+      <aside class="offsidebar hide">
+        <!-- START Off Sidebar (right)-->
+        <nav>
+          <div role="tabpanel">
+            <!-- Nav tabs-->
+            <ul role="tablist" class="nav nav-tabs nav-justified">
+              <li role="presentation" class="active">
+                <a href="#app-settings" aria-controls="app-settings" role="tab" data-toggle="tab">
+                  <em class="icon-equalizer fa-lg"></em>
+                </a>
+              </li>
+                  
+              <li role="presentation">
+                <a href="#app-chat" aria-controls="app-chat" role="tab" data-toggle="tab">
+                  <em class="icon-user fa-lg"></em>
+                </a>
+              </li>
+            </ul>
+               
+            <div class="tab-content">
+              <div id="app-settings" role="tabpanel" class="tab-pane fade in active">
+                <h3 class="text-center text-thin">Settings</h3>
+                <div class="p"></div>
+              </div>
+              <div id="app-chat" role="tabpanel" class="tab-pane fade">
+                <h3 class="text-center text-thin">Connections</h3>
+                <ul class="nav"></ul>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </aside>
+      
+      <section>
+        <div class="content-wrapper">
+          <%= render partial: '/layouts/flash' %>
+          <%= yield %>
+        </div>
+      </section>
+
+      <footer>
+        <span>&copy; 2016 - EMR</span>
+      </footer>
+
+    </div>
+    <%= javascript_include_tag 'dashboard', 'data-turbolinks-track' => true %>
+  </body>
+</html>

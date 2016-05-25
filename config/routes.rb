@@ -16,13 +16,14 @@ Rails.application.routes.draw do
   #get "/*path" => redirect("/?goto=%{path}")
 
   constraints subdomain: AppConfig['admin_subdomain'] do
-    get '/' => 'subscription_admin#index', as: :admin_dashboard
-    namespace 'subscription_admin', path: 'admin', as: 'admin' do
-      resources :subscription_plans
-      resources :subscriptions
-      resources :subscription_discounts
+    get '/admin/dashboard' => 'admin/admin#dashboard', as: :admin_dashboard
+    namespace 'admin', as: 'admin' do
       resources :accounts
-      resources :subscription_affiliates
+      #resources :subscription_plans
+      #resources :subscriptions
+      #resources :subscription_discounts
+      
+      #resources :subscription_affiliates
     end
   end
 

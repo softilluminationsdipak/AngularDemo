@@ -24,4 +24,12 @@ class ApplicationController < ActionController::Base
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
 
+  protected
+
+  def after_sign_in_path_for(_resource)
+    if current_user.system_admin?
+      redirect_to admin_dashboard_path
+    end
+  end
+  
 end

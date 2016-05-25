@@ -1,0 +1,50 @@
+<h3><%= account.name %>
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+</h3>
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class="table-responsive">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>Account Name</th>
+            <td><%= account.try(:name) %></td>
+          </tr>
+          <tr>
+            <th>Domain Name</th>
+            <td><%= account.domain %></td>
+          </tr>
+          <tr>
+            <th>Full Domain Name</th>
+            <td><%= account.full_domain %></td>
+          </tr>
+        </tbody>
+      </table>
+      <% if account.clinics.present? %>
+        <legend>Clinic Info. </legend>
+        <table class="table">
+          <thead>
+            <th>#</th>
+            <th>Clinic Name</th>
+            <th>Address</th>
+            <th># of Patients</th>
+            <th>Created At</th>            
+          </thead> 
+          <tbody>
+            <% account.clinics.each_with_index do |clinic, index| %>
+              <tr>
+                <td><%= index+1 %></td>
+                <td><%= clinic.name %></td>
+                <td><%= clinic.address.to_s %></td>
+                <td><%= clinic.patients.count %></td>
+                <td><%= clinic.display_created_at %></td>
+              </tr>
+            <% end %>
+          </tbody>    
+        </table>
+      <% end %>
+		</div>
+	</div>
+</div>

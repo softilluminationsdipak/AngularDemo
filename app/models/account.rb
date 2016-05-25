@@ -8,31 +8,34 @@ class Account < ActiveRecord::Base
   
 	## Validations
 	validates :name, presence: true
-	validates :full_domain, format: { with: /\A[a-zA-Z][a-zA-Z0-9]*\Z/ }, on: :create
-	validates :full_domain, exclusion: { in: %w(support blog www billing help api #{AppConfig['admin_subdomain']} ), message: "The domain %{value} is not available." }
+	validates :domain, format: { with: /\A[a-zA-Z][a-zA-Z0-9]*\Z/ }
+	validates :domain, exclusion: { in: %w(support blog www billing help api #{AppConfig['admin_subdomain']} ), message: "The domain %{value} is not available." }
 
 	validate :valid_domain?
 
   ## Callbacks
-  before_create :set_full_domain_name
-	
+  before_save :set_full_domain_name
+
+  ## Scopes
+  scope :latest, -> { order('created_at DESC')}
+
 	protected
 
   def valid_domain?
-    conditions = self.new_record? ? ['full_domain = ?', self.full_domain] : ['full_domain = ? and id <> ?', self.full_domain, self.id]
+    conditions = self.new_record? ? ['domain = ?', self.domain] : ['domain = ? and id <> ?', self.domain, self.id]
     if new_record?
-    	if self.full_domain.blank? || self.class.where('full_domain = ?', self.full_domain).count > 0
-    		self.errors.add(:full_domain, 'is not available')
+    	if self.domain.blank? || self.class.where('domain = ?', self.domain).count > 0
+    		self.errors.add(:domain, 'is not available')
     	end
     else
-    	if self.full_domain.blank? || self.class.where('full_domain = ? and id <> ?', self.full_domain, self.id).count > 0
-    		self.errors.add(:full_domain, 'is not available')
+    	if self.domain.blank? || self.class.where('domain = ? and id <> ?', self.domain, self.id).count > 0
+    		self.errors.add(:domain, 'is not available')
     	end
     end
   end
 
   def set_full_domain_name
-    self.full_domain = "#{full_domain.downcase}.#{AppConfig['base_domain'].gsub(/(:\d+)$/, '')}"
+    self.full_domain = "#{domain.downcase}.#{AppConfig['base_domain'].gsub(/(:\d+)$/, '')}"
   end
 
 end

@@ -1,0 +1,43 @@
+<div class="panel-body">
+  <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
+    <div class="panel panel-default">              
+      <div class="panel-body">
+        <%= form_for [:admin, account], html: {class: 'form-horizontal', id: 'validate_new_admin_account'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+          <div class='col-md-12'>
+            <div class="form-group">
+              <label class="col-lg-2 control-label">Name</label>
+              <div class="col-lg-7">
+                <%= form.text_field :name, placeholder: 'Full name', class: 'form-control' %>
+                <ul class="parsley-errors-list filled">
+                  <li class="parsley-required"><%= display_error_messages account.errors, [:name] %></li>
+                </ul>                
+              </div>
+            </div>
+          </div>
+          <div class='col-md-12'>
+            <div class="form-group">
+              <label class="col-lg-2 control-label">Domain Name</label>
+              <div class="col-lg-7">
+                <%= form.text_field :domain, placeholder: 'Domain Name', class: 'form-control' %>
+                <ul class="parsley-errors-list filled">
+                  <li class="parsley-required"><%= display_error_messages account.errors, [:domain] %></li>
+                </ul>
+                <span>.<%= AppConfig['base_domain'] %></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="clearfix"></div>
+          <hr>
+          
+          <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-2">
+              <%= link_to 'Cancel', admin_accounts_path, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+              <%= form.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

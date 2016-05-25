@@ -1,0 +1,53 @@
+<aside class="aside">
+  <!-- START Sidebar (left)-->
+  <div class="aside-inner">
+    <nav data-sidebar-anyclick-close="" class="sidebar">
+    <!-- START sidebar nav-->
+      <ul class="nav">
+        <!-- START user info-->
+        <li class="has-user-block">
+          <div id="user-block" class="collapse">
+            <div class="item user-block">
+            <!-- User picture-->
+              <div class="user-block-picture">
+                <div class="user-block-status">
+                  <img src="/assets/dashboard/user/02.jpg" alt="Avatar" width="60" height="60" class="img-thumbnail img-circle">
+                </div>
+              </div>
+              
+              <!-- Name and Job-->
+              <div class="user-block-info">
+                <span class="user-block-name">Hello, <%= current_user.fullname %></span>
+                <span class="user-block-role">
+                  <%= link_to "LOGOUT", destroy_session_path, method: :delete, data: {disable_with: 'Please wait...'} %>
+                </span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <!-- END user info-->
+        <!-- Iterates over all sidebar items-->
+        <li class="nav-heading ">
+          <span data-localize="sidebar.heading.HEADER">Main Navigation</span>
+        </li>
+            
+        <li class="<%= 'active' if controller.action_name == 'dashboard' && controller.controller_name == 'base' %>">
+          <%= link_to admin_dashboard_path, title: 'Dashboard', data: {disable_with: 'Please Wait...'} do %>
+            <em class="icon-speedometer"></em>
+            <span data-localize="sidebar.nav.DASHBOARD">Dashboard</span>            
+          <% end %>
+        </li>
+
+        <li class="<%= 'active' if controller.controller_name == 'accounts' %>">
+          <%= link_to admin_accounts_path, title: 'Accounts', data: {disable_with: 'Please Wait...'} do %>
+            <em class="fa fa-th-large"></em>
+            <span data-localize="sidebar.nav.DASHBOARD">Accounts</span>            
+          <% end %>
+        </li>
+
+      </ul>
+      <!-- END sidebar nav-->
+    </nav>
+  </div>
+  <!-- END Sidebar (left)-->
+</aside>

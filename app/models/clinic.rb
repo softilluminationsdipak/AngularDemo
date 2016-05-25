@@ -97,6 +97,10 @@ class Clinic < ActiveRecord::Base
     contact.present? && contact.phone2.present? ? contact.phone2 : 'Undefine'
   end
 
+  def display_created_at
+    created_at.strftime('%a, %d %b %Y - %H:%M %p')
+  end
+
   private 
 
   def build_clinic_preference_if_nil

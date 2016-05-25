@@ -15,7 +15,11 @@ class Users::SessionsController < Devise::SessionsController
     if @user.present? && !@message.present? && @user.is_confirmed_user?
       sign_out_all_scopes
       sign_in(@user)
-      redirect_to user_dashboard_path, notice: "You have been logged in successfully. Welcome to EMR!"
+      if @user.system_admin?
+        redirect_to admin_dashboard_path, notice: "You have been logged in successfully. Welcome to EMR!"
+      else
+        redirect_to user_dashboard_path, notice: "You have been logged in successfully. Welcome to EMR!"
+      end
     elsif @user.present? && !@user.is_confirmed_user?
       redirect_to new_session_path, flash: {error: 'Please confirmed your account to login.'}
     else

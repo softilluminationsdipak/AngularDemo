@@ -1,0 +1,54 @@
+<h3>
+  Accounts
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+</h3>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+
+        <div class="table-responsive">
+          <% if accounts.present? %>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Domain Name</th>
+                  <th>Full Domain</th>
+                  <th># Clinics</th>
+                  <th>Created At</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% accounts.each_with_index do |account, index| %>
+                  <tr class='account_<%= account.id %>'>
+                    <td><%= index + 1 %></td>
+                    <td><%= account.name %></td>
+                    <td><%= account.domain %></td>
+                    <td><%= account.full_domain %></td>
+                    <td><%= account.clinics.count %></td>
+                    <td><%= account.created_at.strftime('%a, %d %b %Y - %H:%M %p') %></td>
+                    <td>
+                      <%= link_to "<em class='fa fa-eye'></em> Show".html_safe, admin_account_path(account), class: 'btn btn-default btn-xs', data: {disable_with: 'Please wait...'} %>
+                      <%= link_to "<em class='fa fa-pencil'></em> Edit".html_safe, edit_admin_account_path(account), class: 'btn btn-primary btn-xs', data: {disable_with: 'Please wait...'} %>
+                      <% if current_account != account %>
+                        <%= link_to "<em class='fa fa-trash'></em> Delete".html_safe, admin_account_path(account), class: 'btn btn-danger btn-xs', data: {behavior: 'delete', klass: "account_#{account.id}"} %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <p>No Clinic Found Yet!</p>
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

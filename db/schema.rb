@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160519195457) do
+ActiveRecord::Schema.define(version: 20160524181223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160519195457) do
     t.datetime "deleted_at"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "domain"
   end
 
   add_index "accounts", ["deleted_at"], name: "index_accounts_on_deleted_at", using: :btree
@@ -261,6 +262,7 @@ ActiveRecord::Schema.define(version: 20160519195457) do
     t.datetime "updated_at"
     t.integer  "account_id"
     t.boolean  "admin",                  default: false
+    t.boolean  "system_admin"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
