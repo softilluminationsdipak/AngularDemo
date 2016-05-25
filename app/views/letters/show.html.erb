@@ -1,0 +1,31 @@
+<h3><%= letter.name %>
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+</h3>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <td><%= letter.try(:name) %></td>
+          </tr>
+          <tr>
+            <th>Content (Body)</th>
+            <td><%= letter.body %></td>
+          </tr>
+          <tr>
+            <th>Salutation</th>
+            <td><%= letter.salutation || 'Undefine' %></td>
+          </tr>
+          <tr>
+            <th>Should Sign Clinic Name</th>
+            <td><%= letter.should_sign_clinic_name? ? 'Yes' : 'No' %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

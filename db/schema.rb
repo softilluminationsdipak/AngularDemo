@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160525173446) do
+ActiveRecord::Schema.define(version: 20160525180929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,6 +143,21 @@ ActiveRecord::Schema.define(version: 20160525173446) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "letters", force: :cascade do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.text     "body"
+    t.string   "salutation"
+    t.datetime "deleted_at"
+    t.boolean  "should_sign_clinic_name"
+    t.integer  "account_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "letters", ["account_id"], name: "index_letters_on_account_id", using: :btree
+  add_index "letters", ["slug"], name: "index_letters_on_slug", using: :btree
 
   create_table "patients", force: :cascade do |t|
     t.integer  "clinic_id"

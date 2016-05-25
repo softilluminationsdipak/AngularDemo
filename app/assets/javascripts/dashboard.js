@@ -42,6 +42,7 @@
 //= require dashboard/clinics.js
 //= require dashboard/provider.js
 //= require dashboard/patient.js
+//= require dashboard/letter.js
 //= require sweetalert2
 //= require turbolinks
 

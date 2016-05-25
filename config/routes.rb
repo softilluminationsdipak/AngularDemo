@@ -71,6 +71,12 @@ Rails.application.routes.draw do
       post 'checkUniqueSignName'
     end
   end
+
+  resources :letters do
+    collection do
+      post 'checkUniqueSignName'
+    end
+  end
   
   
   root 'welcome#home'

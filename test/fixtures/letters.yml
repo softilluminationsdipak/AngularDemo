@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  body: MyText
+  salutation: MyString
+  deleted_at: 2016-05-25 23:39:29
+  should_sign_clinic_name: false
+
+two:
+  name: MyString
+  body: MyText
+  salutation: MyString
+  deleted_at: 2016-05-25 23:39:29
+  should_sign_clinic_name: false
