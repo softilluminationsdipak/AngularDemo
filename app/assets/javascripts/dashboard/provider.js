@@ -3,9 +3,9 @@ $(document).on('ready page:load', function (event) {
 	$("#validate_new_provider").validate({
 		errorElement: "span",
 		rules: {
-			'provider[clinic_id]': {
-				required: true
-			},
+			// 'provider[clinic_id]': {
+			// 	required: true
+			// },
 			'provider[license]': {
 				maxlength: 10
 			},
@@ -25,9 +25,9 @@ $(document).on('ready page:load', function (event) {
 			}
 		},
 		messages: {
-			'provider[clinic_id]': {
-				required: "Clinic can't be blank."
-			},
+			// 'provider[clinic_id]': {
+			// 	required: "Clinic can't be blank."
+			// },
 			'provider[license]': {
 				maxlength: "Max 10 digit allow."
 			},

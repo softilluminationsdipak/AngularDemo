@@ -40,31 +40,31 @@
   // Show sticky topbar on scroll
   // -----------------------------------
 
-  var stickyNavScroll;
-  var stickySelector = '.navbar-sticky';
+ // var stickyNavScroll;
+//  var stickySelector = '.navbar-sticky';
 
   // Setup functions based on screen
-  if (matchMedia('(min-width: 992px), (max-width: 767px)').matches) {
-    stickyNavScroll = function () {
-      var top = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-      if (top > 40) $(stickySelector).stop().animate({'top': '0'});
+  // if (matchMedia('(min-width: 992px), (max-width: 767px)').matches) {
+  //   stickyNavScroll = function () {
+  //     var top = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+  //     if (top > 40) $(stickySelector).stop().animate({'top': '-80'});
 
-      else $(stickySelector).stop().animate({'top': '-80'});
-    };
-  }
+  //     else $(stickySelector).stop().animate({'top': '-80'});
+  //   };
+  // }
 
-  if (matchMedia('(min-width: 768px) and (max-width: 991px)').matches) {
-    stickyNavScroll = function () {
-      var top = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-      if (top > 40) $(stickySelector).stop().animate({'top': '0'});
+  // if (matchMedia('(min-width: 768px) and (max-width: 991px)').matches) {
+  //   stickyNavScroll = function () {
+  //     var top = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+  //     if (top > 40) $(stickySelector).stop().animate({'top': '0'});
 
-      else $(stickySelector).stop().animate({'top': '-120'});
-    };
-  }
+  //     else $(stickySelector).stop().animate({'top': '-120'});
+  //   };
+  // }
 
   // Finally attach to events
-  $doc.ready(stickyNavScroll);
-  $win.scroll(stickyNavScroll);
+  // $doc.ready(stickyNavScroll);
+  // $win.scroll(stickyNavScroll);
 
 
   // Sticky Navigation

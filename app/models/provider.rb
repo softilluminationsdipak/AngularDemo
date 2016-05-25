@@ -24,7 +24,7 @@ class Provider < ActiveRecord::Base
 	validates :signature_name, presence: true, uniqueness: {scope: :clinic_id}
 	validates :license, length: { maximum: 10 }, allow_blank: true
 	validates :npi_uid, length: { maximum: 10 }, allow_blank: true
-	validates :clinic_id, presence: true
+	# validates :clinic_id, presence: true
 
 	## Scopes
 	scope :alphabetically, -> { includes(:contact).order('contacts.last_name ASC, contacts.first_name ASC')}
