@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160524181223) do
+ActiveRecord::Schema.define(version: 20160525173446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -218,6 +218,7 @@ ActiveRecord::Schema.define(version: 20160524181223) do
     t.datetime "updated_at",         null: false
     t.datetime "deleted_at"
     t.string   "slug"
+    t.integer  "account_id"
   end
 
   add_index "providers", ["address_id"], name: "index_providers_on_address_id", using: :btree

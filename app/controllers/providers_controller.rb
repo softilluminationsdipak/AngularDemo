@@ -12,7 +12,7 @@ class ProvidersController < BaseController
 		add_breadcrumb "Providers", providers_path
 		add_breadcrumb "New Provider"
     
-    @provider = Provider.new
+    @provider = current_account.providers.build
     
     @provider.build_contact contactable_type: 'Provider'
     @provider.build_address
@@ -23,7 +23,7 @@ class ProvidersController < BaseController
 	end
 
 	def create
-		@provider = Provider.new(provider_params)
+		@provider = current_account.providers.build(provider_params)
 		if @provider.save
 			redirect_to providers_path, notice: 'Provider successfully created.'
 		else
@@ -75,7 +75,7 @@ class ProvidersController < BaseController
 	end
 
 	def provider_params
-		params.require(:provider).permit(:nycomp_testify, :notes, :clinic_id, :signature_name, :provider_type_code, :tax_uid, :upin_uid, :npi_uid, contact_attributes: [:first_name, :last_name, :phone1, :phone1_ext, :fax1, :email1, :id], providers_legacy_id_labels_attributes: [:legacy_id_label_id, :legacy_id_value, :nycomp_testify, :id, legacy_id_label_attributes: [:label, :id] ])
+		params.require(:provider).permit(:account_id, :nycomp_testify, :notes, :clinic_id, :signature_name, :provider_type_code, :tax_uid, :upin_uid, :npi_uid, contact_attributes: [:first_name, :last_name, :phone1, :phone1_ext, :fax1, :email1, :id], providers_legacy_id_labels_attributes: [:legacy_id_label_id, :legacy_id_value, :nycomp_testify, :id, legacy_id_label_attributes: [:label, :id] ])
 	end
 
 end

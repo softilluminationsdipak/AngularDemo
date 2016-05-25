@@ -12,7 +12,7 @@
       
       <div id="collapseOne" role="tabpanel" aria-labelledby="headingOne" class="panel-collapse collapse <%= 'in' unless @provider.errors.present? %>" aria-expanded="" style="">
         <div class="panel-body">
-          <%= nested_form_for @provider, html: {class: 'form-horizontal', id: 'validate_new_provider'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+          <%= nested_form_for @provider, html: {class: 'form-horizontal', id: 'validate_new_provider'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>            
             <div>
               <%= form.fields_for :contact do |contact_f| %>
                 <div class='col-md-6'>

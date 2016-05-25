@@ -8,6 +8,7 @@ class Provider < ActiveRecord::Base
 
 	## Relationships
 	belongs_to :clinic
+  belongs_to :account
 
 	has_many :providers_legacy_id_labels
 	accepts_nested_attributes_for :providers_legacy_id_labels

@@ -21,7 +21,6 @@
                 <tr>
                   <th>#</th>
                   <th>Provider Name</th>
-                  <th>Clinic Name</th>
                   <th>Created At</th>
                   <th>Action</th>
                 </tr>
@@ -30,8 +29,7 @@
               	<% @providers.each_with_index do |provider, index| %>              		
                   <tr class='provider_<%= provider.slug %>'>
               			<td><%= index + 1 %></td>
-              			<td><%= provider.signature_name %></td>
-              			<td><%= link_to provider.try(:clinic).try(:name), clinic_path(provider.try(:clinic)), data: {disable_with: 'Please Wait...'} %></td>
+              			<td><%= provider.signature_name %></td>              			
               			<td><%= provider.created_at.strftime('%a, %d %b %Y - %H:%M %p') %></td>
               			<td>
               				<%= link_to "<em class='fa fa-eye'></em> Show".html_safe, provider_path(provider), class: 'btn btn-default btn-xs', data: {disable_with: 'Please wait...'} %>
