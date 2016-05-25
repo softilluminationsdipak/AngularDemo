@@ -57,6 +57,8 @@ class Clinic < ActiveRecord::Base
   ## Callback Methods
   def if_billing_address_same_as_service_address
     return unless same_as_service_location == true
+    self.build_billing_address unless self.billing_address.present?
+    
     [ "street", "street2", "city", "state", "zipcode" ].each do |clone_attr|
       self.billing_address.send(clone_attr + "=", self.address.send(clone_attr))
       self.billing_address.addressable_id = id
