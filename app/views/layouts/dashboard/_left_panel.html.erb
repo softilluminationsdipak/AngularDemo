@@ -83,7 +83,7 @@
 
 
         <li class="nav-heading ">
-          <span data-localize="sidebar.heading.HEADER">Settings</span>
+          <span data-localize="sidebar.heading.HEADER">Settings - Clinic Data</span>
         </li>
 
         <li class="<%= 'active' if controller.controller_name == 'providers' %>">
@@ -104,6 +104,14 @@
               <% end %>
             </li>
           </ul>
+        </li>
+
+        <li class="nav-heading ">
+          <span data-localize="sidebar.heading.HEADER">Settings - Patient Data</span>
+        </li>
+
+        <li class="nav-heading ">
+          <span data-localize="sidebar.heading.HEADER">Settings - Communications</span>
         </li>
 
         <li class="<%= 'active' if controller.controller_name == 'letters' %>">
@@ -129,6 +137,10 @@
               <% end %>
             </li>            
           </ul>
+        </li>
+
+        <li class="nav-heading ">
+          <span data-localize="sidebar.heading.HEADER">Settings - Resources</span>
         </li>
 
       </ul>
