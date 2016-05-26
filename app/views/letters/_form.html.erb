@@ -27,9 +27,10 @@
             <div class="form-group">
               <label class="col-lg-2 control-label">&nbsp;</label>
               <div class="col-lg-10">
-                <a id="v_toggle" href="javascript:void(0);">Allowed tags</a>
+
+                <%= link_to 'Allowed Tags', 'javascript:void(0);', id: 'v_toggle', onclick: %($("#vertical_slide").toggle()) %>
         
-                <div id="vertical_slide" class="slides">
+                <div id="vertical_slide" class="slides" style="display:none;">
                   <table class='table'>
                     
                     <tr>

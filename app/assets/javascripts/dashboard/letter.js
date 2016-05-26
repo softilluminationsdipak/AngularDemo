@@ -24,15 +24,5 @@ $(document).on('ready page:load', function (event) {
 			}
 		}
 	})
-
-	$("#vertical_slide").hide();
-	$('#v_toggle').click(function(event){		
-		if($( "#vertical_slide" ).is( ":hidden" )){
-	    $( "#vertical_slide" ).show("slow");
-	  }else{
-	    $("#vertical_slide" ).slideUp();
-	  }
-	  event.stopPropagation();		
-	})
-
+	
 });
