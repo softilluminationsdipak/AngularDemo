@@ -16,19 +16,22 @@ class Letter < ActiveRecord::Base
   scope :latest, -> { order('created_at DESC')}
   
   ## Methods
-  def self.import(file)
+  def self.import(file, current_account)
     letters = []
+    messages = []
     begin
-      CSV.foreach(file.path, :quote_char => '"', :col_sep => ',', :row_sep => :auto, :headers => true) do |row|
+      CSV.foreach(file.path, quote_char: '"', col_sep: ',', row_sep: :auto, headers: true) do |row|        
         new_letter = Letter.create({
           name: row[0],
-          body: row[1].gsub("  ", "\n")
+          body: row[1].gsub("  ", "\n"),
+          account_id: current_account.id
         })
         letters << new_letter
+        messages << new_letter.errors.full_messages
       end
     rescue
     end
-    return letters  
+    return letters, messages
   end
 
   def display_created_at

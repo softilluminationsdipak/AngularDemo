@@ -34,6 +34,18 @@ class LettersController < BaseController
 		render json: !letter
 	end
 
+	def import
+		letters_imported, messages = Letter.import(params[:file_letters], current_account)
+    if letters_imported.size > 0 && messages.flatten.count > 0
+      redirect_to letters_path, flash: {notice: "Letters has been imported but some of the data are already imported."}
+    elsif letters_imported.size > 0
+     	redirect_to letters_path, flash: {success: "Letters has been imported." }
+    else
+      flash[:error] = 'Error importing letters.'
+      render 'new_import'
+    end		
+	end
+
 	private
 
 	def letter_params

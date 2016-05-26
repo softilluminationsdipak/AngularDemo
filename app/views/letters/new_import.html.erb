@@ -1,0 +1,39 @@
+<h3>New Import
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+  	The Letters form allows the practice to create and edit letters to be sent to selected people on file in the practice. Thank you letters for referrals, welcome letters to new patients, birthdays and missed appointments are some of the more commonly used letters. Using the HandyWorks letters facility, the practice can create letters for any purpose and prepare the letter for selected patients, referring doctors, attorneys, and any other address stored in HandyWorks.
+  </small>
+</h3>
+<div class="panel-body">
+  <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
+    <div class="panel panel-default">              
+      <div class="panel-body">
+        <%= form_tag import_letters_path, html: {class: 'form-horizontal'}, multipart: true do %>
+          <div class='col-md-12'>
+
+						<div class="form-group">
+              <label class="col-sm-2 control-label">File input</label>
+              <div class="col-sm-10">
+                <%= file_field_tag :file_letters, data: {classbutton: 'btn btn-default', classinput: 'form-control inline'}, class: 'form-control filestyle', id: 'filestyle-0', style: 'position: absolute; clip: rect(0px 0px 0px 0px);' %>
+                <p><strong>Note:</strong> Only CSV file are supported. </p>
+                <%= link_to 'Example CSV Format', '/example_import.csv' %>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+          <hr>
+          
+          <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-2">
+              <%= link_to 'Cancel', letters_path, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+              <%= submit_tag 'Import', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>              
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

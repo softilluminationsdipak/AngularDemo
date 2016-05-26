@@ -37,6 +37,7 @@
 //= require dashboard/jquery.inputmask.bundle.js
 //= require dashboard/bootstrap-datepicker.min.js
 //= require dashboard/select2.js
+//= require dashboard/bootstrap-filestyle.js
 //= require dashboard/app.js
 //= require jquery_nested_form
 //= require dashboard/clinics.js

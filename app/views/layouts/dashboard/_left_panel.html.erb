@@ -123,6 +123,11 @@
                 <span>Add Letter</span>
               <% end %>
             </li>
+            <li class="<%= 'active' if controller.controller_name == 'letters' && controller.action_name == 'new_import' %>">
+              <%= link_to new_import_letters_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %> 
+                <span>Import Letter</span>
+              <% end %>
+            </li>            
           </ul>
         </li>
 

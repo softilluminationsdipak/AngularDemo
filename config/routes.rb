@@ -75,6 +75,8 @@ Rails.application.routes.draw do
   resources :letters do
     collection do
       post 'checkUniqueSignName'
+      get 'new_import'
+      post 'import'      
     end
   end
   
