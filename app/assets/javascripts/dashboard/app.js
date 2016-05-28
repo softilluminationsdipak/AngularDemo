@@ -2455,6 +2455,7 @@
     $('#patient_address_attributes_state').select2({ theme: 'bootstrap'});
     $('#clinic_billing_address_attributes_state').select2({ theme: 'bootstrap'});
     $("#patient_employer_address_attributes_state").select2({theme: 'bootstrap'});
+    $("#insurance_carrier_address_attributes_state").select2({theme: 'bootstrap'});
 
   });
   

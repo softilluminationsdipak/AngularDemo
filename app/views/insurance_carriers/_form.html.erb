@@ -1,0 +1,147 @@
+<div class="panel-body">
+  <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
+    <div class="panel panel-default">              
+      <div class="panel-body">
+        <%= form_for insurance_carrier, html: {class: 'form-horizontal', id: 'validate_new_insurance_carrier'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+
+          <legend>Carrier Information</legend>
+
+          <div class='col-md-6'>
+            <div class="form-group">
+              <label class="col-lg-4 control-label">Carrier Name</label>
+              <div class="col-lg-8">
+                <%= form.text_field :name, placeholder: 'Full name', class: 'form-control', data: {InsuranceCarrierId: form.object.id} %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-lg-4 control-label">Plan Name</label>
+              <div class="col-lg-8">
+                <%= form.text_field :alias_name, placeholder: 'Plan Name', class: 'form-control' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-lg-4 control-label">Carrier Type</label>
+              <div class="col-lg-8">                    
+                <%= form.select :insurance_carrier_type_code, options_for_select(AppConfig['options']['carrier_types'], selected: form.object.insurance_carrier_type_code), {include_blank: 'Select Carrier Type'}, { class: 'form-control m-b select2-1' } %>
+              </div>
+            </div>
+
+            <%= form.fields_for :address do |address_f| %>
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Address</label>
+                <div class="col-lg-8">
+                  <%= address_f.text_field :street, placeholder: 'Street Address', class: 'form-control' %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">&nbsp;</label>
+                <div class="col-lg-8">
+                  <%= address_f.text_field :street2, placeholder: 'Street Address 2', class: 'form-control' %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">City</label>
+                <div class="col-lg-8">
+                  <%= address_f.text_field :city, placeholder: 'City', class: 'form-control' %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">State</label>
+                <div class="col-lg-8">                    
+                  <%= address_f.select :state, options_for_select(us_states, selected: address_f.object.state), {include_blank: 'Select Your State'}, { class: 'form-control m-b select2-1' } %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Zipcode</label>
+                <div class="col-lg-8">                    
+                  <%= address_f.text_field :zipcode, placeholder: 'Zipcode', class: 'form-control' %>
+                </div>
+              </div>                            
+            <% end %>
+
+            <%= form.fields_for :contact do |contact_f| %>
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Phone Number</label>
+                <div class="col-lg-6">                    
+                  <%= contact_f.text_field :phone1, placeholder: 'Phone Number', class: 'form-control phone_number' %>
+                </div>
+                <div class="col-lg-2">                    
+                  <%= contact_f.text_field :phone1_ext, placeholder: 'EXT', class: 'form-control' %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Fax Number</label>
+                <div class="col-lg-8">                    
+                  <%= contact_f.text_field :fax1, placeholder: 'Fax Number', class: 'form-control phone_number' %>
+                </div>
+              </div>                            
+            <% end %>
+          </div>
+
+          <div class='col-md-6'>
+            
+            <div class="form-group">
+              <label class="col-lg-4 control-label">E-Bill Payor ID</label>
+              <div class="col-lg-8">
+                <%= form.text_field :payer_code, placeholder: 'E-Bill Payor ID', class: 'form-control' %>
+              </div>              
+            </div>
+
+            <div class="form-group">
+              <label class="col-lg-4 control-label">Claims Office Code</label>
+              <div class="col-lg-8">
+                <%= form.text_field :claims_office_sub_code, placeholder: 'Claims Office Code', class: 'form-control' %>
+              </div>              
+            </div>
+
+            <div class="form-group">
+              <label class="col-lg-4 control-label">Clinic Legacy ID</label>
+              <div class="col-lg-8">
+                <%= form.text_field :clinic_code, placeholder: 'Clinic Code', class: 'form-control' %>
+              </div>              
+            </div>
+
+            <div class="form-group">
+              <label class="col-lg-4 control-label">Medigap ID</label>
+              <div class="col-lg-8">
+                <%= form.text_field :medigap_code, placeholder: 'Medigap ID', class: 'form-control' %>
+              </div>              
+            </div>
+
+            <div class="form-group">
+              <label class="col-lg-4 control-label">Provider Legacy ID</label>
+              <div class="col-lg-8">
+                <%= form.select :legacy_id_label_id, legacy_id_label_maps, {include_blank: 'Select Provider Legacy ID'}, { class: 'form-control m-b select2-1' } %>
+              </div>              
+            </div>
+
+            <div class="form-group">
+              <label class="col-lg-4 control-label">Notes</label>
+              <div class="col-lg-8">
+                <%= form.text_area :notes, placeholder: 'Write your content here...', class: 'form-control note-editor', rows: 7 %>
+              </div>              
+            </div>
+
+          </div>
+
+          <div class="clearfix"></div>
+          <hr>
+          
+          <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-2">
+              <%= link_to 'Cancel', insurance_carriers_path, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+              <%= form.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

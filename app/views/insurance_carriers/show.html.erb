@@ -1,0 +1,89 @@
+<h3><%= insurance_carrier.name %>
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+  	    Insurance carriers associated with patient cases are stored here. To switch between carriers use the "Go to:" drop down in top-menu. You can print envelopes or labels as well as generate a collections report by clicking on the reports button.
+  </small>
+</h3>
+<div class="panel panel-default">
+	<div class="panel-body">
+		<legend>Carrier Information</legend>
+		<div class='col-md-6'>
+			<div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Carrier Name</th>
+              <td><%= insurance_carrier.try(:name) %></td>
+            </tr>
+            <tr>
+              <th>Plan Name</th>
+              <td><%= insurance_carrier.try(:alias_name) %></td>
+            </tr>
+
+            <tr>
+              <th>Carrier Type</th>
+              <td><%= insurance_carrier.try(:insurance_carrier_type_code) %></td>
+            </tr>
+
+            <tr>
+              <th>Address </th>
+              <td><%= insurance_carrier.try(:address).try(:line1) %></td>
+            </tr>
+
+            <tr>
+              <td>&nbsp;</td>
+              <td><%= insurance_carrier.try(:address).try(:line2) %></td>
+            </tr>
+
+            <tr>
+              <th>Phone Number</th>
+              <td><%= insurance_carrier.try(:contact).try(:phone1) %></td>
+            </tr>
+
+            <tr>
+              <th>Fax Number</th>
+              <td><%= insurance_carrier.try(:contact).try(:fax1) %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+		</div>
+
+		<div class='col-md-6'>
+			<div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>E-Bill Payor ID</th>
+              <td><%= insurance_carrier.try(:payer_code) %></td>
+            </tr>
+            <tr>
+              <th>Claims office code</th>
+              <td><%= insurance_carrier.try(:claims_office_sub_code) %></td>
+            </tr>
+            <tr>
+              <th>Clinic Legacy ID</th>
+              <td><%= insurance_carrier.try(:clinic_code) %></td>
+            </tr>
+            <tr>
+              <th>Medigap ID</th>
+              <td><%= insurance_carrier.try(:medigap_code) %></td>
+            </tr>
+            <tr>
+              <th>Provider Legacy ID</th>
+              <td><%= insurance_carrier.try(:legacy_id_label).try(:label) %></td>
+            </tr>
+            <tr>
+              <th>Notes</th>
+              <td><%= insurance_carrier.try(:notes) %></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+	</div>
+</div>

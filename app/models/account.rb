@@ -6,6 +6,7 @@ class Account < ActiveRecord::Base
   has_many :clinics, dependent: :destroy
   has_many :providers, dependent: :destroy
   has_many :letters, dependent: :destroy
+  has_many :insurance_carriers, dependent: :destroy
   
 	## Validations
 	validates :name, presence: true

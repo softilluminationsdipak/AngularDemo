@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  contact_id: 1
+  insurance_carrier_type_code: 1
+  insurance_type_code: 1
+  payer_code: MyString
+  claims_office_sub_code: MyString
+  clinic_code: MyString
+  medigap_code: MyString
+  alias_name: MyString
+  address_id: 1
+  deleted_at: 2016-05-27 09:35:45
+  name: MyString
+  notes: MyText
+  legacy_id_label_id: 1
+  import_id: 1
+
+two:
+  contact_id: 1
+  insurance_carrier_type_code: 1
+  insurance_type_code: 1
+  payer_code: MyString
+  claims_office_sub_code: MyString
+  clinic_code: MyString
+  medigap_code: MyString
+  alias_name: MyString
+  address_id: 1
+  deleted_at: 2016-05-27 09:35:45
+  name: MyString
+  notes: MyText
+  legacy_id_label_id: 1
+  import_id: 1

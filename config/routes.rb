@@ -80,7 +80,12 @@ Rails.application.routes.draw do
     end
   end
   
-  
+  resources :insurance_carriers do
+    collection do
+      post 'checkUniqueSignName'
+    end
+  end
+
   root 'welcome#home'
 
   # Example of regular route:
