@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160528060537) do
+ActiveRecord::Schema.define(version: 20160529062543) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -297,6 +297,27 @@ ActiveRecord::Schema.define(version: 20160528060537) do
 
   add_index "providers_legacy_id_labels", ["legacy_id_label_id"], name: "index_providers_legacy_id_labels_on_legacy_id_label_id", using: :btree
   add_index "providers_legacy_id_labels", ["provider_id"], name: "index_providers_legacy_id_labels_on_provider_id", using: :btree
+
+  create_table "referrers", force: :cascade do |t|
+    t.integer  "insurance_carrier_id"
+    t.string   "source"
+    t.string   "upin_uid"
+    t.text     "comment"
+    t.string   "npi_uid"
+    t.integer  "address_id"
+    t.integer  "contact_id"
+    t.string   "slug"
+    t.string   "account_id"
+    t.datetime "deleted_at"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "referrers", ["account_id"], name: "index_referrers_on_account_id", using: :btree
+  add_index "referrers", ["address_id"], name: "index_referrers_on_address_id", using: :btree
+  add_index "referrers", ["contact_id"], name: "index_referrers_on_contact_id", using: :btree
+  add_index "referrers", ["insurance_carrier_id"], name: "index_referrers_on_insurance_carrier_id", using: :btree
+  add_index "referrers", ["slug"], name: "index_referrers_on_slug", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "firstname"

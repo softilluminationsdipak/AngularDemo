@@ -183,6 +183,26 @@
           </ul>
         </li>
 
+        <li class="<%= 'active' if controller.controller_name == 'referrers' %>">
+          <%= link_to '#referrer', title: 'Referrer', data: {toggle: 'collapse'}, class: 'collapsed' do %>
+            <em class="icon-grid"></em>
+            <span>Referrers</span>            
+          <% end %>
+          <ul id="referrer" class="nav sidebar-subnav collapse <%= 'in' if controller.controller_name == 'referrers' %>">
+            <li class="sidebar-subnav-header">Referrers</li>
+            <li class="<%= 'active' if controller.controller_name == 'referrers' && (controller.action_name == 'index' || controller.action_name == 'edit' || controller.action_name == 'show')%>">
+              <%= link_to referrers_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %>
+                <span>Manage Referrers</span>
+              <% end %>
+            </li>
+            <li class="<%= 'active' if controller.controller_name == 'referrers' && controller.action_name == 'new' %>">
+              <%= link_to new_referrer_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %> 
+                <span>Add Referrer</span>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+
       </ul>
       <!-- END sidebar nav-->
     </nav>

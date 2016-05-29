@@ -46,6 +46,7 @@
 //= require dashboard/letter.js
 //= require dashboard/insurance_carriers.js
 //= require dashboard/attorneys.js
+//= require dashboard/referrers.js
 //= require sweetalert2
 //= require turbolinks
 

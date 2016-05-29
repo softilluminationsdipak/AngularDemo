@@ -1,0 +1,50 @@
+<h3>
+  Referrer
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small></small>
+</h3>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="table-responsive">
+
+          <% if @referrers.present? %>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Source</th>
+                  <th>Name</th>
+                  <th>Created At</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              	<% @referrers.each_with_index do |referrer, index| %>              		
+                  <tr class='referrer_<%= referrer.slug %>'>
+              			<td><%= index + 1 %></td>
+              			<td><%= referrer.try(:source) %></td>
+                    <td><%= referrer.try(:contact).try(:attention) %></td>
+              			<td><%= referrer.created_at.strftime('%a, %d %b %Y - %H:%M %p') %></td>
+              			<td>
+              				<%= link_to "<em class='fa fa-eye'></em> Show".html_safe, referrer_path(referrer), class: 'btn btn-default btn-xs', data: {disable_with: 'Please wait...'} %>
+                      <%= link_to "<em class='fa fa-pencil'></em> Edit".html_safe, edit_referrer_path(referrer), class: 'btn btn-primary btn-xs', data: {disable_with: 'Please wait...'} %>
+                      <%= link_to "<em class='fa fa-trash'></em> Delete".html_safe, referrer_path(referrer), class: 'btn btn-danger btn-xs', data: {behavior: 'delete', klass: "referrer_#{referrer.slug}"} %>
+              			</td>
+              		</tr>
+              	<% end %>
+							</tbody>
+						</table>
+					<% else %>
+						No Referrer Found.
+					<% end %>        	
+       	</div>
+      </div>
+    </div>
+  </div>
+</div>
+

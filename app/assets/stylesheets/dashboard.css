@@ -52,3 +52,9 @@
 .legend-mb0{
 	margin-bottom: 0px !important;
 }
+.sidebar > .nav > li > a, .sidebar > .nav > li > .nav-item{
+	padding: 5px 24px !important;
+}
+.sidebar-subnav > li > a, .sidebar-subnav > li > .nav-item{
+	padding: 5px 20px 0px 53px !important;
+}

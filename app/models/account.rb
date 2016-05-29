@@ -8,6 +8,7 @@ class Account < ActiveRecord::Base
   has_many :letters, dependent: :destroy
   has_many :insurance_carriers, dependent: :destroy
   has_many :attorneys, dependent: :destroy
+  has_many :referrers, dependent: :destroy
   
 	## Validations
 	validates :name, presence: true

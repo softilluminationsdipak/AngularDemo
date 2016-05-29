@@ -1,0 +1,63 @@
+<h3><%= @referrer.source %>
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+</h3>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <legend>Referrer Information</legend>
+    <div class='col-md-6'>
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Source</th>
+              <td><%= @referrer.source %></td>
+            </tr>
+            <tr>
+              <th>Attention</th>
+              <td><%= @referrer.try(:contact).try(:attention) %></td>
+            </tr>
+            <tr>
+              <th>Referrer's NPI</th>
+              <td><%= @referrer.try(:npi_uid) %></td>
+            </tr>
+            <tr>
+              <th>Address</th>
+              <td><%= @referrer.try(:address).try(:line1) %></td>
+            </tr>
+            <tr>
+              <th>&nbsp;</th>
+              <td><%= @referrer.try(:address).try(:line2) %></td>
+            </tr>
+            <tr>
+              <th>Phone 1</th>
+              <td><%= @referrer.try(:contact).try(:phone1) %>&nbsp;x&nbsp;<%= @referrer.try(:contact).try(:phone1_ext)%></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class='col-md-6'>
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Fax</th>
+              <td><%= @referrer.try(:contact).fax1 %></td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td><%= @referrer.try(:contact).email1 %></td>
+            </tr>
+            <tr>
+              <th>Comment</th>
+              <td><%= @referrer.try(:notes) %></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
