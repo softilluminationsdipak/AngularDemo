@@ -1,0 +1,52 @@
+<h3>
+  Attorneys
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+    This screen can be used to define attorneys associated with patient cases. To switch between attorneys use the "Go to:" drop down in top-menu. You can print envelopes or labels as well as generate a collections report by clicking on the reports button.
+  </small>
+</h3>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="table-responsive">
+
+          <% if @attorneys.present? %>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Attorney Name</th>
+                  <th>Created At</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              	<% @attorneys.each_with_index do |attorney, index| %>              		
+                  <tr class='attorney_<%= attorney.slug %>'>
+              			<td><%= index + 1 %></td>
+              			<td><%= attorney.try(:contact).try(:company_name) %></td>
+                    <td><%= attorney.try(:attorney_name) %></td>
+              			<td><%= attorney.created_at.strftime('%a, %d %b %Y - %H:%M %p') %></td>
+              			<td>
+              				<%= link_to "<em class='fa fa-eye'></em> Show".html_safe, attorney_path(attorney), class: 'btn btn-default btn-xs', data: {disable_with: 'Please wait...'} %>
+                      <%= link_to "<em class='fa fa-pencil'></em> Edit".html_safe, edit_attorney_path(attorney), class: 'btn btn-primary btn-xs', data: {disable_with: 'Please wait...'} %>
+                      <%= link_to "<em class='fa fa-trash'></em> Delete".html_safe, attorney_path(attorney), class: 'btn btn-danger btn-xs', data: {behavior: 'delete', klass: "attorney_#{attorney.slug}"} %>
+              			</td>
+              		</tr>
+              	<% end %>
+							</tbody>
+						</table>
+					<% else %>
+						No Attorney Found.
+					<% end %>        	
+       	</div>
+      </div>
+    </div>
+  </div>
+</div>
+

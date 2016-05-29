@@ -163,6 +163,26 @@
           </ul>
         </li>
 
+        <li class="<%= 'active' if controller.controller_name == 'attorneys' %>">
+          <%= link_to '#attorney', title: 'Attorney', data: {toggle: 'collapse'}, class: 'collapsed' do %>
+            <em class="icon-grid"></em>
+            <span>Attorneys</span>            
+          <% end %>
+          <ul id="attorney" class="nav sidebar-subnav collapse <%= 'in' if controller.controller_name == 'attorneys' %>">
+            <li class="sidebar-subnav-header">Attorneys</li>
+            <li class="<%= 'active' if controller.controller_name == 'attorneys' && (controller.action_name == 'index' || controller.action_name == 'edit' || controller.action_name == 'show')%>">
+              <%= link_to attorneys_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %>
+                <span>Manage Attorneys</span>
+              <% end %>
+            </li>
+            <li class="<%= 'active' if controller.controller_name == 'attorneys' && controller.action_name == 'new' %>">
+              <%= link_to new_attorney_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %> 
+                <span>Add Attorney</span>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+
       </ul>
       <!-- END sidebar nav-->
     </nav>

@@ -1,0 +1,71 @@
+<h3><%= @attorney.attorney_name %>
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+</h3>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <legend>Attorney Information</legend>
+    <div class='col-md-6'>
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Firm</th>
+              <td><%= @attorney.contact.company_name %></td>
+            </tr>
+            <tr>
+              <th>Attorney</th>
+              <td><%= @attorney.attorney_name %></td>
+            </tr>
+            <tr>
+              <th>Attention</th>
+              <td><%= @attorney.try(:contact).try(:attention) %></td>
+            </tr>
+            <tr>
+              <th>Address</th>
+              <td><%= @attorney.try(:address).try(:line1) %></td>
+            </tr>
+            <tr>
+              <th>&nbsp;</th>
+              <td><%= @attorney.try(:address).try(:line2) %></td>
+            </tr>
+            <tr>
+              <th>Phone 1</th>
+              <td><%= @attorney.try(:contact).try(:phone1) %>&nbsp;x&nbsp;<%= @attorney.try(:contact).try(:phone1_ext)%></td>
+            </tr>
+            <tr>
+              <th>Phone 2</th>
+              <td><%= @attorney.try(:contact).try(:phone2) %>&nbsp;x&nbsp;<%= @attorney.try(:contact).try(:phone2_ext)%></td>
+            </tr>
+            <tr>
+              <th>Phone 3</th>
+              <td><%= @attorney.try(:contact).try(:phone3) %>&nbsp;x&nbsp;<%= @attorney.try(:contact).try(:phone3_ext)%></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class='col-md-6'>
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Fax</th>
+              <td><%= @attorney.try(:contact).fax1 %></td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td><%= @attorney.try(:contact).email1 %></td>
+            </tr>
+            <tr>
+              <th>Notes</th>
+              <td><%= @attorney.try(:notes) %></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

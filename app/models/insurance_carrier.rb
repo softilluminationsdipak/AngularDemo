@@ -23,6 +23,7 @@ class InsuranceCarrier < ActiveRecord::Base
 
 	## Scopes
 	scope :alphabetically, -> { order('name	ASC')}
+	scope :without_attorneys, -> {where("id NOT IN (?)", Attorney.where("insurance_carrier_id IS NOT NULL").select("DISTINCT insurance_carrier_id").map(&:insurance_carrier_id))}
 
 	## Methods
 	def insurance_carrier_type

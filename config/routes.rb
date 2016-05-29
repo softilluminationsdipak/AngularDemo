@@ -86,6 +86,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :attorneys do
+    collection do
+      post 'checkUniqueSignName'
+    end
+  end
+
   root 'welcome#home'
 
   # Example of regular route:

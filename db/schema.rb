@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160527040545) do
+ActiveRecord::Schema.define(version: 20160528060537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,25 @@ ActiveRecord::Schema.define(version: 20160527040545) do
   end
 
   add_index "addresses", ["deleted_at"], name: "index_addresses_on_deleted_at", using: :btree
+
+  create_table "attorneys", force: :cascade do |t|
+    t.integer  "address_id"
+    t.integer  "contact_id"
+    t.datetime "deleted_at"
+    t.integer  "insurance_carrier_id"
+    t.text     "notes"
+    t.integer  "account_id"
+    t.string   "slug"
+    t.string   "attorney_name"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "attorneys", ["account_id"], name: "index_attorneys_on_account_id", using: :btree
+  add_index "attorneys", ["address_id"], name: "index_attorneys_on_address_id", using: :btree
+  add_index "attorneys", ["contact_id"], name: "index_attorneys_on_contact_id", using: :btree
+  add_index "attorneys", ["insurance_carrier_id"], name: "index_attorneys_on_insurance_carrier_id", using: :btree
+  add_index "attorneys", ["slug"], name: "index_attorneys_on_slug", using: :btree
 
   create_table "auth_tokens", force: :cascade do |t|
     t.integer  "user_id"
@@ -158,6 +177,11 @@ ActiveRecord::Schema.define(version: 20160527040545) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
   end
+
+  add_index "insurance_carriers", ["account_id"], name: "index_insurance_carriers_on_account_id", using: :btree
+  add_index "insurance_carriers", ["address_id"], name: "index_insurance_carriers_on_address_id", using: :btree
+  add_index "insurance_carriers", ["contact_id"], name: "index_insurance_carriers_on_contact_id", using: :btree
+  add_index "insurance_carriers", ["slug"], name: "index_insurance_carriers_on_slug", using: :btree
 
   create_table "legacy_id_labels", force: :cascade do |t|
     t.string   "label"
