@@ -1,7 +1,7 @@
 class Referrer < ActiveRecord::Base
 
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :source, use: :slugged
 
 	include Contactable
   include Addressable
