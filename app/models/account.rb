@@ -9,7 +9,8 @@ class Account < ActiveRecord::Base
   has_many :insurance_carriers, dependent: :destroy
   has_many :attorneys, dependent: :destroy
   has_many :referrers, dependent: :destroy
-  
+  has_many :diagnosis_codes, dependent: :destroy
+    
 	## Validations
 	validates :name, presence: true
 	validates :domain, format: { with: /\A[a-zA-Z][a-zA-Z0-9]*\Z/ }

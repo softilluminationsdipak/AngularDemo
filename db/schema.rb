@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160529062543) do
+ActiveRecord::Schema.define(version: 20160529154416) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,6 +156,22 @@ ActiveRecord::Schema.define(version: 20160529062543) do
 
   add_index "contacts", ["deleted_at"], name: "index_contacts_on_deleted_at", using: :btree
   add_index "contacts", ["slug"], name: "index_contacts_on_slug", using: :btree
+
+  create_table "diagnosis_codes", force: :cascade do |t|
+    t.string   "name"
+    t.string   "code"
+    t.text     "description"
+    t.datetime "deleted_at"
+    t.integer  "clinic_id"
+    t.integer  "account_id"
+    t.string   "slug"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "diagnosis_codes", ["account_id"], name: "index_diagnosis_codes_on_account_id", using: :btree
+  add_index "diagnosis_codes", ["clinic_id"], name: "index_diagnosis_codes_on_clinic_id", using: :btree
+  add_index "diagnosis_codes", ["slug"], name: "index_diagnosis_codes_on_slug", using: :btree
 
   create_table "insurance_carriers", force: :cascade do |t|
     t.integer  "contact_id"

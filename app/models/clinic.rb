@@ -27,9 +27,10 @@ class Clinic < ActiveRecord::Base
   has_many :providers
 
   belongs_to :main_provider, class_name: 'Provider'
-
-  has_many :patients, dependent: :destroy
   
+  has_many :patients, dependent: :destroy
+  has_many :diagnosis_codes, dependent: :destroy
+
   ## Validation
   validates :account_id, presence: true
   validates_associated :address, message: nil

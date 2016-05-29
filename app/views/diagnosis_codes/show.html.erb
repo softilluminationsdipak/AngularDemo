@@ -1,0 +1,31 @@
+<h3><%= diagnosis_code.name %>
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+</h3>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <td><%= diagnosis_code.try(:name) %></td>
+          </tr>
+          <tr>
+            <th>Code</th>
+            <td><%= diagnosis_code.try(:code) %></td>
+          </tr>
+          <tr>
+            <th>Clinic</th>
+            <td><%= diagnosis_code.try(:clinic).try(:name) %></td>
+          </tr>
+          <tr>
+            <th>Description</th>
+            <td><%= diagnosis_code.try(:description) %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

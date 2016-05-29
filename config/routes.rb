@@ -98,6 +98,13 @@ Rails.application.routes.draw do
     end
   end
   
+  resources :diagnosis_codes do
+    collection do
+      get :import
+      post :import_data
+    end
+  end
+  
   root 'welcome#home'
 
   # Example of regular route:

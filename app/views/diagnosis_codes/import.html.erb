@@ -1,0 +1,51 @@
+<h3>Import Diagnosis Code
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+  	Please attach CSV file here with 3 column: "name, ICD, description". <br>
+	That's it, just those three column separated with comma. This will import your diagnoses to the diagnosis list.
+  </small>
+</h3>
+
+<div class="panel-body">
+  <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
+    <div class="panel panel-default">    	
+      <div class="panel-body">      
+        <%= form_tag import_data_diagnosis_codes_path, class: 'form-horizontal', multipart: true do %>
+          <div class='col-md-12'>
+          	<legend>Diagnosis Import</legend>	
+
+          	<div class="form-group">
+          		<label class="col-sm-2 control-label">Clinic</label>
+          		<div class="col-sm-5">
+          			<%= select_tag 'clinic_id', options_for_select(current_account.clinics.collect{|c| [c.name, c.slug]}), {class: 'form-control m-b select2-1' } %>
+          		</div>
+          	</div>
+
+          	<div class="clearfix"></div>
+
+						<div class="form-group">
+              <label class="col-sm-2 control-label">File input</label>
+              <div class="col-sm-10">
+                <%= file_field_tag :file, data: {classbutton: 'btn btn-default', classinput: 'form-control inline'}, class: 'form-control filestyle', id: 'filestyle-0', style: 'position: absolute; clip: rect(0px 0px 0px 0px);' %>
+                <p><strong>Note:</strong> Only CSV file are supported. </p>
+                <%= link_to 'Example CSV Format', '/example_dc.csv' %>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+          <hr>
+          
+          <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-2">
+              <%= link_to 'Cancel', diagnosis_codes_path, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+              <%= submit_tag 'Import', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>              
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

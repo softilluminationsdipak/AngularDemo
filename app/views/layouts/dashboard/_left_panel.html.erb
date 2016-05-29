@@ -203,6 +203,31 @@
           </ul>
         </li>
 
+        <li class="<%= 'active' if controller.controller_name == 'diagnosis_codes' %>">
+          <%= link_to '#diagnosis_code', title: 'Diagnosis Code', data: {toggle: 'collapse'}, class: 'collapsed' do %>
+            <em class="icon-grid"></em>
+            <span>Diagnosis Code</span>            
+          <% end %>
+          <ul id="diagnosis_code" class="nav sidebar-subnav collapse <%= 'in' if controller.controller_name == 'diagnosis_code' %>">
+            <li class="sidebar-subnav-header">Diagnosis Code</li>
+            <li class="<%= 'active' if controller.controller_name == 'diagnosis_codes' && (controller.action_name == 'index' || controller.action_name == 'edit' || controller.action_name == 'show')%>">
+              <%= link_to diagnosis_codes_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %>
+                <span>Manage Diagnosis Codes</span>
+              <% end %>
+            </li>
+            <li class="<%= 'active' if controller.controller_name == 'diagnosis_codes' && controller.action_name == 'new' %>">
+              <%= link_to new_diagnosis_code_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %> 
+                <span>Add Diagnosis Code</span>
+              <% end %>
+            </li>
+            <li class="<%= 'active' if controller.controller_name == 'diagnosis_codes' && controller.action_name == 'import' %>">
+              <%= link_to import_diagnosis_codes_path,  title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %> 
+                <span>Import Data</span>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+
       </ul>
       <!-- END sidebar nav-->
     </nav>

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  code: MyString
+  description: MyText
+  deleted_at: 2016-05-29 21:14:16
+  clinic_id: 1
+  account_id: 1
+
+two:
+  name: MyString
+  code: MyString
+  description: MyText
+  deleted_at: 2016-05-29 21:14:16
+  clinic_id: 1
+  account_id: 1

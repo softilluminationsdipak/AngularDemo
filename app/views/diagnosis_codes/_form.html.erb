@@ -1,0 +1,50 @@
+<div class="panel-body">
+  <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
+    <div class="panel panel-default">              
+      <div class="panel-body">
+        <%= form_for diagnosis_code, html: {class: 'form-horizontal', id: 'validate_new_diagnosis_code'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+          <legend>Diagnosis Code Information</legend>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Clinic</label>
+            <div class="col-lg-6">
+              <%= form.select :clinic_id, current_account.clinics.collect{|c| [c.name, c.id]}, {include_blank: 'Select Clinic'}, { class: 'form-control m-b select2-1' } %>
+            </div>
+          </div>
+                          
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Name</label>
+            <div class="col-lg-6">
+              <%= form.text_field :name, placeholder: 'Name', class: 'form-control' %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">ICD Code</label>
+            <div class="col-lg-6">
+              <%= form.text_field :code, placeholder: 'ICD Code', class: 'form-control' %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Description</label>
+            <div class="col-lg-6">
+              <%= form.text_area :description, placeholder: 'Write your description here...', class: 'form-control note-editor', rows: 7 %>
+            </div>              
+          </div>                
+
+          <div class="clearfix"></div>
+          <hr>
+          
+          <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-2">
+              <%= link_to 'Cancel', attorneys_path, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+              <%= form.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+            </div>
+          </div>
+
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>  
