@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  type_code: 1
+  service_type_code: 1
+  modifier: MyString
+  tax_rate_percentage: 1
+  modifier2: MyString
+  modifier3: MyString
+  cpt_code: MyString
+  deleted_at: 2016-05-30 09:59:05
+  clinic_id: 1
+  account_id: 1
+  slug: MyString
+
+two:
+  name: MyString
+  description: MyText
+  type_code: 1
+  service_type_code: 1
+  modifier: MyString
+  tax_rate_percentage: 1
+  modifier2: MyString
+  modifier3: MyString
+  cpt_code: MyString
+  deleted_at: 2016-05-30 09:59:05
+  clinic_id: 1
+  account_id: 1
+  slug: MyString

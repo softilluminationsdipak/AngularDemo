@@ -208,7 +208,7 @@
             <em class="icon-grid"></em>
             <span>Diagnosis Code</span>            
           <% end %>
-          <ul id="diagnosis_code" class="nav sidebar-subnav collapse <%= 'in' if controller.controller_name == 'diagnosis_code' %>">
+          <ul id="diagnosis_code" class="nav sidebar-subnav collapse <%= 'in' if controller.controller_name == 'diagnosis_codes' %>">
             <li class="sidebar-subnav-header">Diagnosis Code</li>
             <li class="<%= 'active' if controller.controller_name == 'diagnosis_codes' && (controller.action_name == 'index' || controller.action_name == 'edit' || controller.action_name == 'show')%>">
               <%= link_to diagnosis_codes_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %>
@@ -226,6 +226,20 @@
               <% end %>
             </li>
           </ul>
+        </li>
+
+        <li class="<%= 'active' if controller.controller_name == 'procedure_codes' %>">          
+          <% if current_account.clinics.present? %>          
+            <%= link_to clinic_procedure_codes_path(current_account.clinics.try(:latest).try(:first)), title: 'Procedure Code', data: {disable_with: 'Please Wait...'}, class: '' do %>
+              <em class="icon-grid"></em>
+              <span>Procedure Code</span>            
+            <% end %>
+          <% else %>
+            <%= link_to new_clinic_path, title: 'Procedure Code', data: {disable_with: 'Please Wait...'}, class: '' do %>
+              <em class="icon-grid"></em>
+              <span>Procedure Code</span>            
+            <% end %>
+          <% end %>        
         </li>
 
       </ul>

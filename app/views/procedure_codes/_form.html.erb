@@ -1,0 +1,158 @@
+<div class="col-lg-12 text-right">
+  <% if not @procedure_code.new_record? %>
+    <%= link_to "<em class='fa fa-plus'></em> Add Procedure Code".html_safe, new_clinic_procedure_code_path(params[:clinic_id]), class: 'btn btn-primary btn-xs start', data: {disable_with: 'Please wait...'} %>
+  <% end %>
+  <%= link_to "<em class='fa fa-list'></em> List Procedure Codes".html_safe, clinic_procedure_codes_path(params[:clinic_id]), class: 'btn btn-primary btn-xs start', data: {disable_with: 'Please wait...'} %>
+</div> 
+<div class="clearfix"></div>
+
+<div class="panel-body">
+  <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
+    <div class="panel panel-default">              
+      <div class="panel-body">
+        <%= nested_form_for [@procedure_code.clinic, @procedure_code], html: {class: 'form-horizontal', id: 'validate_new_procedure_code'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+
+          <legend>Procedure Codes and Fee Schedules</legend>
+
+          <div class='col-md-6'>
+
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Name</label>
+              <div class="col-lg-9">
+                <%= form.text_field :name, placeholder: 'Name', class: 'form-control' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Description</label>
+              <div class="col-lg-9">
+                <%= form.text_area :description, placeholder: 'Description', class: 'form-control', class: 'form-control note-editor', rows: 4 %>
+              </div>
+            </div>
+
+            <div id='cpt_code_label' class="form-group">
+              <label class="col-lg-3 control-label">CPT Code</label>
+              <div class="col-lg-9">                    
+                <%= form.text_field :cpt_code, placeholder: 'CPT Code', class: 'form-control' %>
+              </div>
+            </div>
+
+            <div id='tax_rate_percentage_container' class="form-group" <% if [0, 1, 2, 3].include?(@procedure_code.type_code) %> style="display: none;"<% end %>>
+              <label class="col-lg-3 control-label">Tax Rate %</label>
+              <div class="col-lg-9">                    
+                <%= form.text_field :tax_rate_percentage, placeholder: 'Tax Rate Percentage', class: 'form-control' %>
+              </div>
+            </div>
+
+            <div id='modifiers_container' class="form-group" <% if [0, 1, 2, 3].include?(@procedure_code.type_code) %> style="display: none;"<% end %>>
+              <label class="col-lg-3 control-label">Modifiers</label>
+              <div class="col-lg-3">
+                <%= form.text_field :modifier, placeholder: 'Modifier', class: 'form-control' %>
+              </div>
+              <div class="col-lg-3">
+                <%= form.text_field :modifier2, placeholder: 'Modifier2', class: 'form-control' %>
+              </div>
+              <div class="col-lg-3">
+                <%= form.text_field :modifier3, placeholder: 'Modifier3', class: 'form-control' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Type</label>
+              <div class="col-lg-9">                                    
+                <% types = ProcedureCode::TYPES %>
+                <%= form.select :type_code,
+                  if form.object.new_record? #or form.object.patient_visit_details.empty?
+                    disabled = false
+                    types
+                  else
+                    if form.object.type_code == 6
+                      disabled = false
+                      types.select{|t| [6, 7].include?(t[1])}
+                    else
+                      disabled = true
+                      types
+                    end
+                  end,
+                    { },
+                    {
+                      onchange: "typeCodeChanged(this.value, #{@clinic.id})",
+                      disabled: disabled,
+                      class: 'form-control m-b select2-1'
+                    }
+                %>                
+              </div>
+            </div>
+
+            <div id='service_type_code_container' class="form-group" <% if [0, 1, 2, 3].include?(@procedure_code.type_code) %> style="display: none;"<% end %>>
+              <label class="col-lg-3 control-label">Service type</label>
+              <div class="col-lg-9">
+                <%= form.select :service_type_code, options_for_select(ProcedureCode::TYPES_OF_SERVICES, selected: form.object.service_type_code), {include_blank: 'Select Service Type'}, { class: 'form-control m-b select2-1' } %>
+              </div>
+            </div>
+
+          </div>
+
+          <div id='feeSchedulesContainer' class='col-md-6'  style="display: <%= @procedure_code.can_have_fee_schedules? ? "block" : "none" %>">
+            <div class="form-group procedure-code-n-fee-schedule">
+              <label class="col-lg-3 control-label">Fee Schedule</label>
+              <label class="col-lg-3 control-label width20" style="padding-left:0px;">Amount</label>
+              <label class="col-lg-2 control-label">Copay</label>
+              <label class="col-lg-1 control-label">%</label>
+              <label class="col-lg-3 control-label">Expected Ins.</label>
+
+              <%= form.fields_for :procedure_codes_fee_schedule_labels do |fee_schedule_f| %>
+                <%= fee_schedule_f.hidden_field :fee_schedule_label_id %>
+                
+                <div class="col-lg-3 fee-schedule-label">
+                  <%= fee_schedule_f.fields_for :fee_schedule_label do |fee_schedule_label_fields| %>
+                    <%= fee_schedule_label_fields.hidden_field :clinic_id if fee_schedule_label_fields.object.new_record? %>
+                    <%= fee_schedule_label_fields.text_field :label, class: 'form-control', placeholder: 'Label' %>
+                    
+                      <ul class="parsley-errors-list filled">
+                        <li class="parsley-required"><%= display_error_messages @procedure_code.errors, [:"procedure_codes_fee_schedule_labels.fee_schedule_label.label"] %></li>
+                      </ul>                    
+                    
+                  <% end %>
+                </div>
+
+                <div class="col-lg-3 input-group m-b pull-left width20">
+                  <span class="input-group-addon" style="padding:0px 10px;">$</span>
+                  <%= fee_schedule_f.number_field :fee_cents, size: 7, class: 'changesExpectedInsurance form-control', placeholder: 'Enter Fee Cents', style: 'padding: 7px;' %>
+                </div>
+
+                <div class="col-lg-2" style="padding-right: 1px;">
+                  <%= fee_schedule_f.text_field :copay, size: 2, class: 'changesExpectedInsurance form-control', placeholder: 'Copay' %>
+                </div>
+
+                <div class="col-lg-1 checkbox c-checkbox">
+                  <label>
+                    <%= fee_schedule_f.check_box :is_percentage, class: 'changesExpectedInsurance' %>
+                    <span class="fa fa-check"></span>
+                  </label>
+                </div>
+
+                <div class="col-lg-2 input-group m-b pull-left width23">
+                  <span class="input-group-addon" style="padding:0px 10px;">$</span>
+                  <%= fee_schedule_f.text_field :expected_insurance_payment_cents, size: 7, class: 'form-control rdonly', placeholder: 'Payment', readonly: true %>
+                </div>
+                
+                <div class="clearfix"></div>
+              <% end %>
+            </div>            
+          </div>
+
+          <div class="clearfix"></div>
+          <hr>
+          
+          <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-2">
+              <%= link_to 'Cancel', clinic_procedure_codes_path(@clinic), class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+              <%= form.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

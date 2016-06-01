@@ -10,6 +10,8 @@ class Account < ActiveRecord::Base
   has_many :attorneys, dependent: :destroy
   has_many :referrers, dependent: :destroy
   has_many :diagnosis_codes, dependent: :destroy
+  has_many :procedure_codes, dependent: :destroy
+  has_many :fee_schedule_labels, dependent: :destroy
     
 	## Validations
 	validates :name, presence: true

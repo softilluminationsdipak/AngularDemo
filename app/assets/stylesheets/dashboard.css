@@ -25,7 +25,6 @@
  *= require_self
  */
 
-
 .error {
   border-color: #f05050 !important;
   color: #f05050 !important;
@@ -36,13 +35,13 @@
 }
 
 .multic-box label{
-	margin: 1px !important;
+  margin: 1px !important;
   text-align: justify;
   width: 23%;
 }
 
 .pd-left{
-	padding-left: 3% !important;
+  padding-left: 3% !important;
 }
 
 .pullright2{
@@ -52,9 +51,52 @@
 .legend-mb0{
 	margin-bottom: 0px !important;
 }
+
 .sidebar > .nav > li > a, .sidebar > .nav > li > .nav-item{
 	padding: 5px 24px !important;
 }
+
 .sidebar-subnav > li > a, .sidebar-subnav > li > .nav-item{
 	padding: 5px 20px 0px 53px !important;
+}
+
+.sidebar .nav-heading{
+  padding: 5px 15px !important;
+}
+.width23{
+  width: 23% !important;
+}
+.width20{
+  width: 20% !important;
+}
+
+.procedure-code-n-fee-schedule .fields{
+  padding-top: 0px;
+}
+
+.procedure-code-n-fee-schedule label{
+  text-align: left !important;
+}
+.padding8{
+  padding: 8px !important;
+}
+
+.procedure-code-n-fee-schedule input{
+  padding: 10px;
+}
+
+.procedure-code-n-fee-schedule div{
+  padding-top: 5px;
+}
+.rdonly{
+  background-color: white !important;
+}
+.extra-links-inner-page{
+  padding: 0px 0px 7px 0px;
+}
+.height25{
+  height: 25px;
+}
+.font14{
+  font-size: 14px;
 }

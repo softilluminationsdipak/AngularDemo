@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160529154416) do
+ActiveRecord::Schema.define(version: 20160530043237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,6 +173,17 @@ ActiveRecord::Schema.define(version: 20160529154416) do
   add_index "diagnosis_codes", ["clinic_id"], name: "index_diagnosis_codes_on_clinic_id", using: :btree
   add_index "diagnosis_codes", ["slug"], name: "index_diagnosis_codes_on_slug", using: :btree
 
+  create_table "fee_schedule_labels", force: :cascade do |t|
+    t.string   "label"
+    t.integer  "clinic_id"
+    t.integer  "account_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "fee_schedule_labels", ["account_id"], name: "index_fee_schedule_labels_on_account_id", using: :btree
+  add_index "fee_schedule_labels", ["clinic_id"], name: "index_fee_schedule_labels_on_clinic_id", using: :btree
+
   create_table "insurance_carriers", force: :cascade do |t|
     t.integer  "contact_id"
     t.integer  "insurance_carrier_type_code"
@@ -276,6 +287,39 @@ ActiveRecord::Schema.define(version: 20160529154416) do
     t.boolean  "primary",    default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+  end
+
+  create_table "procedure_codes", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "type_code"
+    t.integer  "service_type_code"
+    t.string   "modifier"
+    t.integer  "tax_rate_percentage"
+    t.string   "modifier2"
+    t.string   "modifier3"
+    t.string   "cpt_code"
+    t.datetime "deleted_at"
+    t.integer  "clinic_id"
+    t.integer  "account_id"
+    t.string   "slug"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "procedure_codes", ["account_id"], name: "index_procedure_codes_on_account_id", using: :btree
+  add_index "procedure_codes", ["clinic_id"], name: "index_procedure_codes_on_clinic_id", using: :btree
+  add_index "procedure_codes", ["slug"], name: "index_procedure_codes_on_slug", using: :btree
+
+  create_table "procedure_codes_fee_schedule_labels", force: :cascade do |t|
+    t.integer  "procedure_code_id"
+    t.integer  "fee_schedule_label_id"
+    t.float    "fee_cents"
+    t.integer  "copay"
+    t.boolean  "is_percentage",                    default: false
+    t.float    "expected_insurance_payment_cents", default: 0.0
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
   end
 
   create_table "providers", force: :cascade do |t|

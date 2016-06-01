@@ -1,0 +1,98 @@
+<h3><%= @procedure_code.name %>
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+  	Procedures are used for entering services and payments or adjustments. Services can have different fee schedules and this allows you to customize your system for different insurance plans. If you set the expected insurance owes on a service procedure to less than its initial calculation, an automatic write-off will be made when you use that procedure code.
+  </small>
+</h3>
+
+<div class="">
+  <div class="col-lg-12 text-right">                     
+    <%= link_to "<em class='fa fa-plus'></em> Add Procedure Code".html_safe, new_clinic_procedure_code_path(params[:clinic_id]), class: 'btn btn-primary btn-xs start', data: {disable_with: 'Please wait...'} %>
+    <%= link_to "<em class='fa fa-pencil'></em> Edit Procedure Code".html_safe, edit_clinic_procedure_code_path(params[:clinic_id], @procedure_code), class: 'btn btn-primary btn-xs start', data: {disable_with: 'Please wait...'} %>
+  </div> 
+  <div class="clearfix"></div>   
+
+  <div class="panel-body col-lg-12">
+    <div class="panel panel-default">
+    	<div class="panel-body">
+    		<legend>Procedure Information</legend>
+    		<div class='col-md-6'>
+    			<div class="table-responsive">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th>Name</th>
+                  <td><%= @procedure_code.try(:name) %></td>
+                </tr>
+                <tr>
+                  <th>Description</th>
+                  <td><%= @procedure_code.try(:description) %></td>
+                </tr>
+
+                <tr>
+                  <th>CPT Code</th>
+                  <td><%= @procedure_code.try(:cpt_code) %></td>
+                </tr>
+
+                <tr>
+                  <th>Tax Rate %</th>
+                  <td><%= @procedure_code.try(:tax_rate_percentage) %></td>
+                </tr>
+
+                <tr>
+                  <td>Modifiers</td>
+                  <td>
+                    <%= @procedure_code.try(:modifier) %> - 
+                    <%= @procedure_code.try(:modifier2) %> -
+                    <%= @procedure_code.try(:modifier3) %> 
+                  </td>
+                </tr>
+
+                <tr>
+                  <th>Type</th>
+                  <td><%= @procedure_code.try(:type_code_name) %></td>
+                </tr>
+
+                <tr>
+                  <th>Service Type</th>
+                  <td><%= @procedure_code.try(:service_type_code_name) %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+    		</div>
+
+    		<div class='col-md-6'>
+    			<div class="table-responsive">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th>Fee Schedule</th>
+                  <th>Amount</th>
+                  <th>Copay</th>
+                  <th>%</th>
+                  <th>Expected Ins.</th>
+                </tr>
+                <% if @procedure_code.procedure_codes_fee_schedule_labels.present? %>
+                  <% @procedure_code.procedure_codes_fee_schedule_labels.each do |pc_fsl| %>
+                    <tr>
+                      <td><%= pc_fsl.fee_schedule_label.label %></td>
+                      <td><%= "$ #{pc_fsl.fee_cents}" %></td>
+                      <td><%= pc_fsl.copay %></td>
+                      <td><%= pc_fsl.is_percentage? ? 'Yes' : 'No' %></td>
+                      <td><%= "$ #{pc_fsl.expected_insurance_payment_cents}" %></td>
+                    </tr>
+                  <% end %>
+                <% end %>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+    	</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  procedure_code_id: 1
+  fee_schedule_label_id: 1
+  fee_cents: 1
+  copay: 1
+  is_percentage: false
+  expected_insurance_payment_cents: 1
+
+two:
+  procedure_code_id: 1
+  fee_schedule_label_id: 1
+  fee_cents: 1
+  copay: 1
+  is_percentage: false
+  expected_insurance_payment_cents: 1

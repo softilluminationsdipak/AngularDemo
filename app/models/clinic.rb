@@ -30,7 +30,9 @@ class Clinic < ActiveRecord::Base
   
   has_many :patients, dependent: :destroy
   has_many :diagnosis_codes, dependent: :destroy
-
+  has_many :procedure_codes, dependent: :destroy
+  has_many :fee_schedule_labels, dependent: :destroy
+  
   ## Validation
   validates :account_id, presence: true
   validates_associated :address, message: nil

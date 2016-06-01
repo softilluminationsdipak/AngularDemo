@@ -62,6 +62,13 @@ Rails.application.routes.draw do
         get 'add_family_member_for'
       end
     end
+
+    resources :procedure_codes do
+      collection do
+        get :import
+        post :type_code_selected
+      end
+    end    
   end
 
   resources :patients

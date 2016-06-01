@@ -48,6 +48,7 @@
 //= require dashboard/attorneys.js
 //= require dashboard/referrers.js
 //= require dashboard/diagnosis_codes.js
+//= require dashboard/procedure_codes.js
 //= require sweetalert2
 //= require turbolinks
 

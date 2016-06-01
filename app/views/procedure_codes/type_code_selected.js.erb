@@ -1,0 +1,19 @@
+<% if params[:type_code_id] == '6' || params[:type_code_id] == '7' %>
+	$("#service_type_code_container").show();
+	$("#feeSchedulesContainer").show();
+	$('#cpt_code_label').addClass('required')
+<% else %>
+	$("#service_type_code_container").hide();
+	$("#feeSchedulesContainer").hide();
+	$('#cpt_code_label').removeClass('required')
+<% end %>
+
+<% if [0, 1, 2, 3].include?(params[:type_code_id].to_i) %>
+	$("#tax_rate_percentage_container").hide();
+  $("#modifiers_container").hide();
+  $("#service_type_code_container").hide();
+<% else %>
+  $("#tax_rate_percentage_container").show();
+  $("#modifiers_container").show();
+  $("#service_type_code_container").show();
+<% end %>
