@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160530043237) do
+ActiveRecord::Schema.define(version: 20160603185428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -378,6 +378,100 @@ ActiveRecord::Schema.define(version: 20160530043237) do
   add_index "referrers", ["contact_id"], name: "index_referrers_on_contact_id", using: :btree
   add_index "referrers", ["insurance_carrier_id"], name: "index_referrers_on_insurance_carrier_id", using: :btree
   add_index "referrers", ["slug"], name: "index_referrers_on_slug", using: :btree
+
+  create_table "subscription_affiliates", force: :cascade do |t|
+    t.string   "name"
+    t.decimal  "rate",       precision: 6, scale: 4, default: 0.0
+    t.string   "token"
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+  end
+
+  create_table "subscription_discounts", force: :cascade do |t|
+    t.string   "name"
+    t.string   "code"
+    t.decimal  "amount",                 precision: 6, scale: 2, default: 0.0
+    t.boolean  "percent",                                        default: false
+    t.date     "start_on"
+    t.date     "end_on"
+    t.boolean  "apply_to_setup",                                 default: true
+    t.boolean  "apply_to_recurring",                             default: true
+    t.integer  "trial_period_extension",                         default: 0
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
+  end
+
+  create_table "subscription_payments", force: :cascade do |t|
+    t.integer  "account_id"
+    t.integer  "subscription_id"
+    t.decimal  "amount",                    precision: 10, scale: 2, default: 0.0
+    t.string   "transaction_id"
+    t.boolean  "setup",                                              default: false
+    t.boolean  "misc",                                               default: false
+    t.integer  "subscription_affiliate_id"
+    t.decimal  "affiliate_amount",          precision: 6,  scale: 2, default: 0.0
+    t.datetime "created_at",                                                         null: false
+    t.datetime "updated_at",                                                         null: false
+  end
+
+  add_index "subscription_payments", ["account_id"], name: "index_subscription_payments_on_account_id", using: :btree
+  add_index "subscription_payments", ["subscription_id"], name: "index_subscription_payments_on_subscription_id", using: :btree
+
+  create_table "subscription_plans", force: :cascade do |t|
+    t.integer  "plan_id"
+    t.string   "name"
+    t.decimal  "amount",                                precision: 10, scale: 2
+    t.integer  "user_limit"
+    t.integer  "renewal_period",                                                 default: 1
+    t.decimal  "setup_amount",                          precision: 10, scale: 2
+    t.integer  "trial_period",                                                   default: 1
+    t.integer  "patient_limit"
+    t.integer  "events_limit"
+    t.integer  "emarketing_campaigns_limit_per_month"
+    t.integer  "clinic_limit"
+    t.integer  "office_staff_limit"
+    t.integer  "provider_limit"
+    t.integer  "file_storage_limit_megabytes"
+    t.boolean  "is_import_export_limited"
+    t.boolean  "is_hcfa_printing_limited"
+    t.boolean  "is_invoicing_limited"
+    t.boolean  "time_tracking"
+    t.boolean  "is_appointment_scheduling_limited"
+    t.boolean  "online_patient_scheduling"
+    t.boolean  "website_templates"
+    t.boolean  "vendor_integration"
+    t.boolean  "inventory_tracking"
+    t.boolean  "own_domain_name"
+    t.boolean  "soap_note_report_writer"
+    t.boolean  "address_verification"
+    t.boolean  "labs_integration"
+    t.boolean  "user_tracking_and_auditing"
+    t.boolean  "daily_backups"
+    t.boolean  "bookkeeping"
+    t.boolean  "custom_transaction_gateway"
+    t.decimal  "yearly_amount",                         precision: 10
+    t.boolean  "is_user_tracking_and_auditing_limited"
+    t.boolean  "is_online_patient_scheduling_limited"
+    t.boolean  "is_website_templates_limited"
+    t.boolean  "is_office_staff_unlimited"
+    t.datetime "created_at",                                                                 null: false
+    t.datetime "updated_at",                                                                 null: false
+  end
+
+  add_index "subscription_plans", ["plan_id"], name: "index_subscription_plans_on_plan_id", using: :btree
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer  "account_id"
+    t.decimal  "amount",                   precision: 10, scale: 2
+    t.datetime "next_renewal_at"
+    t.string   "state",                                             default: "trial"
+    t.integer  "subscription_plan_id"
+    t.integer  "subscription_discount_id",                          default: 0
+    t.datetime "created_at",                                                          null: false
+    t.datetime "updated_at",                                                          null: false
+  end
+
+  add_index "subscriptions", ["account_id"], name: "index_subscriptions_on_account_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "firstname"

@@ -49,6 +49,7 @@
 //= require dashboard/referrers.js
 //= require dashboard/diagnosis_codes.js
 //= require dashboard/procedure_codes.js
+//= require dashboard/accounts.js
 //= require sweetalert2
 //= require turbolinks
 

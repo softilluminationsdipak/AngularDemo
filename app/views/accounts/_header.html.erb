@@ -1,0 +1,9 @@
+<h3>
+  Account Preferences
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+  	Hi, <strong><%= current_account.try(:name) %>!</strong> What would you like to do?
+  </small>
+</h3>

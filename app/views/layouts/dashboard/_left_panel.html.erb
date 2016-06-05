@@ -11,7 +11,7 @@
             <!-- User picture-->
               <div class="user-block-picture">
                 <div class="user-block-status">
-                  <img src="/assets/dashboard/user/02.jpg" alt="Avatar" width="60" height="60" class="img-thumbnail img-circle">
+                  <%= link_to image_tag('/assets/dashboard/user/02.jpg', alt: 'Avatar', width: '60', height: '60', class: 'img-thumbnail img-circle'), accounts_path %>                  
                 </div>
               </div>
               
@@ -229,7 +229,7 @@
         </li>
 
         <li class="<%= 'active' if controller.controller_name == 'procedure_codes' %>">          
-          <% if current_account.clinics.present? %>          
+          <% if current_account.clinics.present? && current_account.clinics.count >= 1 %>          
             <%= link_to clinic_procedure_codes_path(current_account.clinics.try(:latest).try(:first)), title: 'Procedure Code', data: {disable_with: 'Please Wait...'}, class: '' do %>
               <em class="icon-grid"></em>
               <span>Procedure Code</span>            

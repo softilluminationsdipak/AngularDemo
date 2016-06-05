@@ -1,0 +1,41 @@
+<%= render partial: '/accounts/header' %>
+<div class="table-grid table-grid-desktop">
+  <%= render partial: '/accounts/left_panel' %>
+  <div class="col">
+    <div class="panel panel-default">
+      <div class="panel-body">
+
+				<%= form_tag plan_accounts_url, html: {class: '', id: 'validate_current_account_change_plan'}, data: {'parsley-validate': ''}, novalidate: '' do %>
+				  <legend>Change Plan</legend>
+				  
+				  <p> You can change your plan level at any time.  The position limits and other features of the new plan that you select will be effective as soon as you make the change, but your bill amount will not change until your next bill date.  Your next bill date is <strong><%= @subscription.next_renewal_at.strftime('%A, %d %B %Y') %>. </strong> </p>
+
+					<% if @subscription.needs_payment_info? -%>
+					  <p> 
+					  	Please make sure you <%= link_to('Enter your billing information', billing_accounts_path) %> before your bill date to prevent an interruption in service. 
+					  </p>
+					<% end %>
+
+					<p> You are currently subscribed to the <strong><%= @subscription.subscription_plan.name %> Plan</strong>.  Please select your desired plan and click the "Change my plan" button. </p>
+
+				  <div class="form-group col-lg-6">
+				    <label>Choose Plan</label>
+				    <%= select_tag "plan_id", options_for_select(@plans.collect{|p| [p, p.id]}), {prompt: "Select Plan", onchange: 'enableButton()', class: 'form-control'} %>
+				  </div>
+
+				  <div class="clearfix"></div>
+				  <hr>
+				  
+				  <div class="form-group">
+				    <div class="col-sm-4 col-sm-offset-2">				      
+				      <%= submit_tag 'Change My Plan', class: 'btn btn-primary', data: { disable_with: "Please Wait..." }, id: 'commit', disabled: 'disabled' %>
+				      <%= link_to 'Cancel', accounts_path, class: 'btn btn-danger', data: { disable_with: 'Please Wait...'} %>
+				    </div>
+				  </div>
+
+				<% end %>
+      	
+    	</div>
+   	</div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<%= render partial: '/accounts/header' %>
+<div class="table-grid table-grid-desktop">
+  <%= render partial: '/accounts/left_panel' %>
+  <div class="col">
+    <div class="panel panel-default">
+      <div class="panel-body">
+      	<legend>Cancel Account</legend>
+      	
+				<p>
+					You are about to cancel your account.  This will <strong>permanently delete all your data</strong>.  
+					Once you do this, you will no longer have access to your data, so be sure this is really what you want to do. 
+				</p>
+				
+				<h3><small><i> Wait!  Before you go...</i></small></h3>
+
+				<p>
+				  Instead of canceling your account, perhaps you'd like to just switch your plan.  				  
+				  <%= link_to 'Change your subscription level now', plan_accounts_path, data: {disable_with: 'Please Wait...'} %>
+				</p>
+
+				<%= form_tag cancel_accounts_path do %>
+
+				  <div class="form-group">				   
+	          <div class="col-lg-12 checkbox c-checkbox">
+	            <label>
+	            	<%= check_box_tag 'confirm', false, false, class: 'changesExpectedInsurance' %> 	            	
+	              <span class="fa fa-check"></span>
+	              I really do want to cancel my account and delete all my data.
+	            </label>
+	          </div>
+				  </div>
+
+				  <div class="clearfix"></div>
+				  <hr>
+				  
+				  <div class="form-group">
+				    <div class="col-sm-4 col-sm-offset-2">				      
+				      <%= submit_tag 'Submit', class: 'btn btn-primary', data: { disable_with: "Please Wait..." } %>
+				      <%= link_to 'Cancel', 'javascript:history.go(-1);', class: 'btn btn-danger', data: { disable_with: 'Please Wait...'} %>
+				    </div>
+				  </div>
+
+				<% end %>
+
+    	</div>
+   	</div>
+  </div>
+</div>

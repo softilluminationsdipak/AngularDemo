@@ -4,6 +4,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   before_action :build_user, only: [:new, :create]
   before_action :build_account, only: [:new, :create]
+  before_action :build_subscription, only: [:new, :create]
 
   layout 'login'
 
@@ -59,6 +60,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def build_account
     @account = @user.account.present? ? @user.account : @user.build_account
+  end
+
+  def build_subscription    
+    plan = SubscriptionPlan.find_by_name(params[:plan])
+    return redirect_to plans_path unless plan.present?
+    @account.build_subscription(subscription_plan_id: plan.id, amount: plan.amount.to_f)    
   end
 
   # If you have extra params to permit, append them to the sanitizer.

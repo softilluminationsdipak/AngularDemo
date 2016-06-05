@@ -1,0 +1,43 @@
+<%= render partial: '/accounts/header' %>
+<div class="table-grid table-grid-desktop">
+  <%= render partial: '/accounts/left_panel' %>
+  <div class="col">
+    <div class="panel panel-default">
+      <div class="panel-body">
+
+			  <legend>View / Change Billing Information</legend>
+			  
+				<% if @subscription.state == 'trial' %>
+				  <% if @subscription.next_renewal_at > Time.now %>
+				    <p>
+				      Thank you for trying <strong><%= AppConfig['app_name'] %>! </strong>  Your trial account will expire in <%= pluralize(@subscription.trial_days, 'day', 'days') %>, at which time you will no longer have access to your account.  To maintain access to your account, enter your credit card information below.  Your first charge will happen on <strong><%= @subscription.next_renewal_at.to_s(:long_day) %> </strong>.
+				    </p>
+				  <% else %>
+				    <p>
+				    	Thank you for trying <strong><%= AppConfig['app_name'] %>! </strong> Your trial account has expired.  To regain access to your account, enter your credit card information below.  Your first charge will happen immediately, and you will be billed monthly thereafter.
+				    </p>
+				  <% end %>
+				<% end %>
+
+				<fieldset>
+				  <label>Plan:</label>
+				  <%= @subscription.subscription_plan.name %> (<a href="/accounts/plan">Change plan</a>)
+
+				  <% if @subscription.state == 'trial' %>
+				    <label>Trial expiration date:</label>
+				    <%= @subscription.next_renewal_at.to_s(:long_day) %>
+				  <% else %>
+				    <% if @subscription.amount > 0 %>
+				      <label>Next charge date:</label>
+				      <%= @subscription.next_renewal_at.to_s(:long_day) %>
+				      <br/>
+				      <label>Next charge amount:</label>
+				      <%= number_to_currency @subscription.amount %>
+				    <% end %>
+				  <% end %>
+				</fieldset>
+      	
+    	</div>
+   	</div>
+  </div>
+</div>

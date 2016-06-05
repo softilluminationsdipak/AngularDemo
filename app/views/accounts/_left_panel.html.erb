@@ -1,0 +1,36 @@
+<div class="col col-md">
+  <div class="pr">
+    <div class="mb-boxes collapse">
+			<div class="panel panel-default">
+        <div class="panel-body">
+          <ul class="nav nav-pills nav-stacked">
+            <li class="<%= 'active' if controller.controller_name == 'accounts' && ['index', 'edit'].include?(controller.action_name) %>">
+              <a href="<%= accounts_path %>">                  
+                <em class="fa fa-fw fa-lg fa-pencil"></em>
+                <span>Edit Account</span>
+              </a>
+            </li>
+            <li class="<%= 'active' if controller.controller_name == 'accounts' && ['plan'].include?(controller.action_name) %>">
+            	<a href="<%= plan_accounts_path %>">
+                <em class="fa fa-fw fa-lg fa-pencil"></em>
+                <span>Change Plan</span>
+              </a>
+            </li>
+            <li class="<%= 'active' if controller.controller_name == 'accounts' && ['billing'].include?(controller.action_name) %>">
+            	<a href="<%= billing_accounts_path %>">
+                <em class="fa fa-fw fa-lg fa-credit-card"></em>
+                <span>Billing Info</span>
+              </a>
+            </li>
+            <li class="<%= 'active' if controller.controller_name == 'accounts' && ['cancel'].include?(controller.action_name) %>">
+            	<a href="<%= cancel_accounts_path %>">
+                <em class="fa fa-fw fa-lg fa-times-circle-o"></em>
+                <span>Cancel Plan</span>
+              </a>
+            </li>              
+          </ul>
+        </div>
+      </div>
+    </div>      
+  </div>
+</div>
