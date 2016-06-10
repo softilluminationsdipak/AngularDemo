@@ -8,6 +8,11 @@ class DiagnosisCode < ActiveRecord::Base
 	belongs_to :account
 	belongs_to :clinic
 
+	has_many :patient1_cases, class_name: 'PatientCase', foreign_key: 'diagnosis1_id'
+  has_many :patient2_cases, class_name: 'PatientCase', foreign_key: 'diagnosis2_id'
+  has_many :patient3_cases, class_name: 'PatientCase', foreign_key: 'diagnosis3_id'
+  has_many :patient4_cases, class_name: 'PatientCase', foreign_key: 'diagnosis4_id'
+
 	## Scopes
 	scope :alphabetically, -> { order('name ASC') }
 
@@ -44,4 +49,11 @@ class DiagnosisCode < ActiveRecord::Base
 		end  	
   end
 
+  def dropdown_title
+    "#{code} - #{name} - #{description}"
+  end
+
+  def title
+    "#{name} - #{code} - #{description}"
+  end
 end

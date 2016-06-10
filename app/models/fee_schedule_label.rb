@@ -2,6 +2,7 @@ class FeeScheduleLabel < ActiveRecord::Base
 	## Relationships
 	belongs_to :clinic
 	belongs_to :account
+	
 	has_many :procedure_codes_fee_schedule_labels, dependent: :destroy
 	## Scopes
 	scope :ascend_by_label, -> {order('label ASC')}

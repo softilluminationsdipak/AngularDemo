@@ -13,12 +13,12 @@ class AttorneysController < BaseController
 		@attorney = current_account.attorneys.build
     @attorney.build_contact unless @attorney.contact.present?
     @attorney.build_address unless @attorney.address.present?
-    @attorney.build_insurance_carrier unless @attorney.insurance_carrier.present?
 	end
 
 	def create
 		add_breadcrumb 'New Attorney', new_attorney_path
 		@attorney = current_account.attorneys.build(attorney_params)
+		@attorney.build_insurance_carrier(name: "Insurance Carrier #{InsuranceCarrier.count.to_s}", account_id: current_account.id) unless @attorney.insurance_carrier.present?
 		if @attorney.save
 			redirect_to attorneys_path, flash: {success: 'Successfully created attorney.'}
 		else

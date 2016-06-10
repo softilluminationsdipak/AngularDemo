@@ -1,0 +1,11 @@
+<h3>Patient Case Information for <strong><%= @patient.name %> </strong>
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+  	Basic insurance and diagnosis information is defined for your patient on this screen. 
+  	You can have more than 1 open case at a time, which is useful when you are treating a patient with different responsible parties at the same time. 
+  	The area at the bottom of the form is for work related injuries and supplemental Medicare information.
+  </small>
+</h3>
+<%= render partial: 'form' %>

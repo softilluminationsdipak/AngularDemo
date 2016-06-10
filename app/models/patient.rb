@@ -1,7 +1,4 @@
 class Patient < ActiveRecord::Base
-	## Slug
-  extend FriendlyId
-  friendly_id :full_name, use: :slugged
 
 	include Contactable
   include Addressable
@@ -15,7 +12,11 @@ class Patient < ActiveRecord::Base
   acts_as_referrerable
 
   ## Relationship
-  attr_accessor :ssn
+  attr_accessor :ssn, :patient_name
+
+  ## Slug
+  extend FriendlyId
+  friendly_id :name, use: :slugged
   
 	belongs_to :clinic
 
@@ -28,28 +29,41 @@ class Patient < ActiveRecord::Base
 	accepts_nested_attributes_for :employer_address
 
 	has_many :family_members, class_name: 'Patient', foreign_key: 'parent_patient_id'
-	## Validations
+	
+  has_many :patient_cases, dependent: :destroy
+
+  ## Validations
 	validate :contact_last_name_blank, :contact_sex_blank
 	validates :overdue_fee_percentage, numericality: { greater_than: 0}, allow_blank: true
 	validates :ssn, format: { with: /(\d{3}[-]?\d{2}[-]?\d{4}$)/, message: "should be in the following format: XXX-XX-XXXX" }, allow_blank: true
 
 	## Callbacks
 	before_save :assign_employer_addressable
+  before_save :set_slug_name
 
 	## Scopes
 	scope :active, -> { where( is_active: true ) }
 	scope :inactive, -> { where( is_active: false ) }
 	scope :alphabetically, -> { includes(:contact).order('contacts.last_name ASC, contacts.first_name ASC')}
+  scope :with_contact, -> { where('patients.contact_id is NOT NULL') }
 
 	## Callback Methods
 	def assign_employer_addressable
 		employer_address.addressable = employer_contact
 	end
 
+  def set_slug_name
+    self.patient_name = self.title
+  end
+
 	## Instance Methods
 	def title
 		contact.name
 	end
+
+  def should_generate_new_friendly_id?
+    contact.first_name_changed? || contact.last_name_changed?
+  end
 
   def address_stamp
     address_stamp = []
@@ -65,6 +79,10 @@ class Patient < ActiveRecord::Base
 	def self.distinct_categories
 	  Patient.active.map(&:category).uniq
 	end
+
+  def phone
+    contact.try(:phone1) || contact.try(:phone2) || contact.try(:phone3)
+  end
 
   def ssn
     encrypted_ssn

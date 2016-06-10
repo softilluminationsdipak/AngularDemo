@@ -1,7 +1,7 @@
 class Attorney < ActiveRecord::Base
 
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :attorney_name, use: :slugged
 
   include Contactable
   include Addressable
@@ -19,23 +19,29 @@ class Attorney < ActiveRecord::Base
 	belongs_to :insurance_carrier
 	accepts_nested_attributes_for :insurance_carrier
 
+  has_many :patient_cases
+  
+  ## Callbacks
+  before_create :default_value
+
 	## Validations
   validate :contact_company_name_blank
-  validate :unique_name
+  validates :attorney_name, presence: true, uniqueness: {scope: :account_id}
 
 	## Scopes
   scope :ascend_by_your_code, -> { order('contacts.company_name ASC')}
   scope :ascend_by_company, -> { order('contacts.company_name ASC')}
   scope :ascend_by_zip, -> { order('addresses.zip ASC')}
 
-  def unique_name
-    if contact.contactable_id.present?
-      contact = Contact.where('contactable_type = ? and company_name = ? and first_name = ? and last_name = ? and contactable_id = ?', self.class.name, self.contact.company_name, self.contact.first_name, self.contact.last_name, self.contact.contactable_id).try(:first)
-    else
-      contact = Contact.where('contactable_type = ? and company_name = ? and first_name = ? and last_name = ?', self.class.name, self.contact.company_name, self.contact.first_name, self.contact.last_name).try(:first)
-    end
-  
-    errors.add(:attorney, "name already has been taken") if contact.present?
+  def default_value
+    self.contact.first_name = "A New"
+    self.contact.last_name = "Attorney"
+    self.contact.company_name = "A New Attorney Company"
   end
-
+  
+  def attorney=(name)
+    names = name.split(" ")
+    self.contact.first_name = names.first
+    self.contact.last_name = names[1..names.size].join(" ")
+  end
 end

@@ -105,8 +105,9 @@
                 <%= fee_schedule_f.hidden_field :fee_schedule_label_id %>
                 
                 <div class="col-lg-3 fee-schedule-label">
-                  <%= fee_schedule_f.fields_for :fee_schedule_label do |fee_schedule_label_fields| %>
+                  <%= fee_schedule_f.fields_for :fee_schedule_label do |fee_schedule_label_fields| %>                    
                     <%= fee_schedule_label_fields.hidden_field :clinic_id if fee_schedule_label_fields.object.new_record? %>
+                    <%= fee_schedule_label_fields.hidden_field :account_id, value: current_account.id if fee_schedule_label_fields.object.new_record? %>
                     <%= fee_schedule_label_fields.text_field :label, class: 'form-control', placeholder: 'Label' %>
                     
                       <ul class="parsley-errors-list filled">

@@ -13,6 +13,7 @@ class Account < ActiveRecord::Base
   has_many :procedure_codes, dependent: :destroy
   has_many :fee_schedule_labels, dependent: :destroy
   has_many :subscription_payments
+  has_many :patients, through: :clinics
   
   has_one :subscription, dependent: :destroy
     

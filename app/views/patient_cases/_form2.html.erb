@@ -1,0 +1,242 @@
+<%= form_for [@clinic, @patient, @patient_case], html: {class: 'form-horizontal', id: 'validate_new_patient_case2'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+	<div class='col-md-4'>
+		<legend>Current Diagnosis</legend>
+		<% (1..4).to_a.each do |number| %>
+	    <div class="form-group">
+	      <label class="col-lg-1 control-label"><%= number %>.</label>
+	      <div class="col-lg-5">                
+	        <%= form.select("diagnosis#{number}_id", @diagnosis_codes.collect { |hash| [hash[:title], hash[:id]] }, { include_blank: true }, {class: 'form-control m-b select2-1', onchange: "showInfoForSelectedDiagnosisCode('#patient_case_diagnosis#{number}_id', #{number})"}) %>
+	      </div>
+	      <div class="col-lg-1 info-diagnosis">
+	        <a id='<%= "diagnosis#{number}_description" %>' title='' data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="Description">
+	        	<i class="fa fa-info-circle"></i>
+	        </a>
+	      </div>
+	      <div class="col-lg-4 info-diagnosis">
+          <span id="diagnosisCode<%=number %>_code" class=''>
+            <% if form.object.send("diagnosis#{number}".to_sym).present? %>
+              <%= form.object.send("diagnosis#{number}".to_sym).send(:code) %>
+            <% end %>
+          </span>	      	
+	      </div>
+	    </div>
+		<% end %>
+	</div>
+
+	<div class='col-md-8'>
+		<legend>Work Injuries, Accident Desc. (C4), or HCFA Box 19</legend>
+    <div class="form-group">
+      <label class="col-lg-3 control-label">Accident Desc.</label>
+      <div class="col-lg-9">
+        <%= form.text_area :accident_description, rows: 3, class: 'form-control note-editor' %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+
+	    <div class="form-group">
+	      <label class="col-sm-6 control-label label-lg">Returned to work</label>
+	      <div class="col-sm-6">
+	        <div class="input-group date" id="datepicker1">
+	          <%= form.text_field :workmanscomp_return_to_work_date, value: form.object.workmanscomp_return_to_work_date.present? ? form.object.workmanscomp_return_to_work_date.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'DD/MM/YY' %>
+	          <span class="input-group-addon">
+	            <span class="fa fa-calendar"></span>
+	          </span>
+	        </div>
+	      </div>
+	    </div>
+
+	    <div class="form-group">
+	      <label class="col-sm-6 control-label label-lg">Total Disability Started</label>
+	      <div class="col-sm-6">
+	        <div class="input-group date" id="datepicker1">
+	          <%= form.text_field :workmanscomp_start_disability_date, value: form.object.workmanscomp_start_disability_date.present? ? form.object.workmanscomp_start_disability_date.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'DD/MM/YY' %>
+	          <span class="input-group-addon">
+	            <span class="fa fa-calendar"></span>
+	          </span>
+	        </div>
+	      </div>
+	    </div>
+
+	    <div class="form-group">
+	      <label class="col-sm-6 control-label label-lg">Total Disability Ended</label>
+	      <div class="col-sm-6">
+	        <div class="input-group date" id="datepicker1">
+	          <%= form.text_field :workmanscomp_end_disability_date, value: form.object.workmanscomp_end_disability_date.present? ? form.object.workmanscomp_end_disability_date.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'DD/MM/YY' %>
+	          <span class="input-group-addon">
+	            <span class="fa fa-calendar"></span>
+	          </span>
+	        </div>
+	      </div>
+	    </div>
+
+      <div class="form-group">
+        <label class="col-lg-6 control-label label-lg">Accident State</label>
+        <div class="col-lg-6">                    
+          <%= form.select :accident_state, options_for_select(us_states, selected: form.object.accident_state), {include_blank: 'State'}, { class: 'form-control m-b select2-1' } %>
+        </div>
+      </div>
+
+	    <div class="form-group">
+	      <label class="col-lg-6 control-label label-lg">Accident City</label>
+	      <div class="col-lg-6">        
+	        <%= form.text_field :accident_city, placeholder: 'City', class: 'form-control' %>
+	      </div>
+	    </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+	    <div class="form-group">
+	      <label class="col-sm-6 control-label label-lg">Part. Disability Started</label>
+	      <div class="col-sm-6">
+	        <div class="input-group date" id="datepicker1">
+	          <%= form.text_field :workmanscomp_start_partial_disability_date, value: form.object.workmanscomp_start_partial_disability_date.present? ? form.object.workmanscomp_start_partial_disability_date.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'DD/MM/YY' %>
+	          <span class="input-group-addon">
+	            <span class="fa fa-calendar"></span>
+	          </span>
+	        </div>
+	      </div>
+	    </div>
+
+	    <div class="form-group">
+	      <label class="col-sm-6 control-label label-lg">Part. Disability Ended</label>
+	      <div class="col-sm-6">
+	        <div class="input-group date" id="datepicker1">
+	          <%= form.text_field :workmanscomp_end_partial_disability_date, value: form.object.workmanscomp_end_partial_disability_date.present? ? form.object.workmanscomp_end_partial_disability_date.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'DD/MM/YY' %>
+	          <span class="input-group-addon">
+	            <span class="fa fa-calendar"></span>
+	          </span>
+	        </div>
+	      </div>
+	    </div>
+
+      <div class="form-group">
+        <label class="col-lg-6 control-label label-lg">Disability Status</label>
+        <div class="col-lg-6">                    
+          <%= form.select :disability_status_code, AppConfig['options']['disability_statuses'].invert, {include_blank: 'Status'}, { class: 'form-control m-b select2-1' } %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-6 control-label label-lg">Initial W&rsquo;Comp.</label>
+        <div class="col-lg-6 mrgbtn7">                    
+          <label class="checkbox-inline c-checkbox">
+            <%= form.check_box :nys_workmanscomp_is_initial_or_final  %>
+            <span class="fa fa-check"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-6 control-label label-lg">Initial W&rsquo;Comp.</label>
+        <div class="col-lg-6">                    
+          <%= form.text_field :workmanscomp_uid, placeholder: 'Initial W&rsquo;Comp', class: 'form-control' %>
+        </div>
+      </div>      
+    </div>
+	</div>
+
+	<div class="clearfix"></div>
+	<hr>
+
+	<div class='col-md-4'>
+    <div class="form-group">
+      <label class="col-lg-5 control-label label-lg">Subluxation Level</label>
+      <div class="col-lg-7">                    
+        <%= form.text_field :subx_level, placeholder: 'Subluxation Level', class: 'form-control' %>
+      </div>
+    </div>      
+
+    <div class="form-group">
+      <label class="col-lg-5 control-label label-lg">Treatment Phase</label>
+      <div class="col-lg-7">                    
+        <%= form.select :treatment_phase, AppConfig['options']['treatment_phases'], {include_blank: 'Treatment Phase'}, { class: 'form-control m-b select2-1' } %>
+      </div>
+    </div>
+
+	  <div class="form-group">
+	    <label class="col-sm-5 control-label label-lg">Last X-Ray</label>
+	    <div class="col-sm-7">
+	      <div class="input-group date" id="datepicker1">
+	        <%= form.text_field :xray_date, value: form.object.xray_date.present? ? form.object.xray_date.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'DD/MM/YY' %>
+	        <span class="input-group-addon">
+	          <span class="fa fa-calendar"></span>
+	        </span>
+	      </div>
+	    </div>
+	  </div>
+
+	</div>
+
+	<div class='col-md-4'>
+    <div class="form-group">
+      <label class="col-lg-5 control-label large-lg pad0">Exacerbation /<br> Reoccurrence?</label>
+      <div class="col-lg-7">                    
+      	<%= form.select :exacerbation_or_reoccurence, AppConfig['options']['exacer_rec'], {include_blank: 'Select Any'}, { class: 'form-control m-b select2-1' }  %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-5 control-label label-lg">Exacerbation date</label>
+      <div class="col-sm-7">
+        <div class="input-group date" id="datepicker1">
+          <%= form.text_field :exacerbation_date, value: form.object.exacerbation_date.present? ? form.object.exacerbation_date.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'DD/MM/YY' %>
+          <span class="input-group-addon">
+            <span class="fa fa-calendar"></span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-lg-5 control-label label-lg">Is X-Ray available?</label>
+      <div class="col-lg-7 mrgbtn7">                    
+        <label class="checkbox-inline c-checkbox">
+          <%= form.check_box :nys_workmanscomp_is_initial_or_final  %>
+          <span class="fa fa-check"></span>
+        </label>
+      </div>
+    </div>    
+	</div>
+
+	<div class='col-md-4'>
+
+		<div class="form-group">
+      <label class="col-lg-6 control-label label-lg">Medicaid resubmission</label>
+      <div class="col-lg-6">        
+        <%= form.text_field :hcfa_medicaid_resubmission, placeholder: 'Medicaid Resubmission', class: 'form-control' %>
+      </div>
+    </div>
+
+		<div class="form-group">
+      <label class="col-lg-6 control-label label-lg">HCFA Line 10D</label>
+      <div class="col-lg-6">        
+        <%= form.text_field :hcfa_10d, placeholder: 'HCFA Line 10D', class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-lg-6 control-label label-lg">ABN Waiver Signed?</label>
+      <div class="col-lg-6 mrgbtn7">                    
+        <label class="checkbox-inline c-checkbox">
+          <%= form.check_box :medicare_abn_waiver_signed  %>
+          <span class="fa fa-check"></span>
+        </label>
+      </div>
+    </div>
+
+	</div>
+
+	<div class="clearfix"></div>
+	<hr>
+
+  <div class="form-group">
+    <div class="col-sm-4 col-sm-offset-2">
+      <%= link_to 'Cancel', clinic_patients_path(@clinic), class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+      <%= form.submit 'Save Diagnosis', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+    </div>
+  </div>
+
+<% end %>

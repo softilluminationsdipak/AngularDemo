@@ -7,7 +7,8 @@
     <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
     <title>EMR - Dashboard</title>
     <!-- =============== VENDOR STYLES ===============-->
-    <%= stylesheet_link_tag 'dashboard', media: 'all', 'data-turbolinks-track' => true %>   
+    <%= stylesheet_link_tag 'dashboard', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'djquery', 'data-turbolinks-track' => true %>  
     <%= csrf_meta_tags %>
   </head>
   <body>
@@ -64,5 +65,6 @@
 
     </div>
     <%= javascript_include_tag 'dashboard', 'data-turbolinks-track' => true %>
+    <%= yield :patient_case_javascript %>
   </body>
 </html>

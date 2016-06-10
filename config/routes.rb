@@ -61,6 +61,8 @@ Rails.application.routes.draw do
         put 'toggle_active_status'
         get 'add_family_member_for'
       end
+
+      resources :patient_cases
     end
 
     resources :procedure_codes do

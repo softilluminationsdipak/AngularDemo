@@ -11,13 +11,15 @@ module Contactable
 
 			## Reationships
 			belongs_to :contact, dependent: :destroy
+            
 			accepts_nested_attributes_for :contact
 		end
 	end
 
 	module InstanceMethods
 		delegate :last_name_first, to: :contact
-		delegate :full_name, to: :contact
+		delegate :full_name, to: :contact    
+    delegate :slugname, to: :contact
 
     def contact_first_name_blank
       if contact && contact.first_name.blank?

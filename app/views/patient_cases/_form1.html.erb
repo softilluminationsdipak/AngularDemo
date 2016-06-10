@@ -1,0 +1,324 @@
+<%= form_for [@clinic, @patient, @patient_case], html: {class: 'form-horizontal', id: 'validate_new_patient_case'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+  <div class='col-md-4'>
+    <div class="form-group">
+      <label class="col-lg-4 control-label">Description</label>
+      <div class="col-lg-8">        
+        <%= form.text_field :description, placeholder: 'Case - A New Patient', class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-lg-4 control-label">Provider</label>
+      <div class="col-lg-8">                
+        <%= form.select :provider_id, current_account.providers.map { |p| [p.name, p.id] }, {include_blank: 'Select Provider'}, { class: 'form-control m-b select2-1' } %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-lg-4 control-label">Referrer</label>
+      <div class="col-lg-8">                
+        <%= form.select :p_referrer_id, current_account.referrers.referrers_list(@patient.clinic, current_account), { include_blank: 'Select Referrer' }, { class: 'form-control m-b select2-1' } %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-lg-4 control-label">Attorney</label>
+      <div class="col-lg-8">                
+      	<%= form.select :attorney_id, current_account.attorneys.map { |a| [a.attorney_name, a.id] }, { include_blank: 'Select Attorney' }, { class: 'form-control m-b select2-1' } %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-lg-4 control-label">FeeSchedule</label>
+      <div class="col-lg-8">                
+      	<%= form.select :fee_schedule_label_id,  @clinic.account.fee_schedule_labels.map { |l| [l.label, l.id] }, { include_blank: 'Select Any' }, { class: 'form-control m-b select2-1' }%>
+      </div>
+    </div>
+
+	</div>
+
+	<div class='col-md-4'>
+    <div class="form-group">
+      <label class="col-sm-5 control-label">On Set</label>
+      <div class="col-sm-7">
+        <div class="input-group date" id="datepicker1">
+          <%= form.text_field :onset_at, value: form.object.onset_at.present? ? form.object.onset_at.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'Onset At' %>
+          <span class="input-group-addon">
+            <span class="fa fa-calendar"></span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-5 control-label">First Treatment</label>
+      <div class="col-sm-7">
+        <div class="input-group date" id="datepicker1">
+          <%= form.text_field :first_treated_at, value: form.object.first_treated_at.present? ? form.object.first_treated_at.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'First Treatment' %>
+          <span class="input-group-addon">
+            <span class="fa fa-calendar"></span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-5 control-label">Symptoms</label>
+      <div class="col-sm-7">
+        <div class="input-group date" id="datepicker1">
+          <%= form.text_field :hcfa_similar_symptoms_date, value: form.object.hcfa_similar_symptoms_date.present? ? form.object.hcfa_similar_symptoms_date.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'Similar Symptoms' %>
+          <span class="input-group-addon">
+            <span class="fa fa-calendar"></span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-5 control-label">Accident Date</label>
+      <div class="col-sm-7">
+        <div class="input-group date" id="datepicker1">
+          <%= form.text_field :accident_date, value: form.object.accident_date.present? ? form.object.accident_date.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'Accident Date' %>
+          <span class="input-group-addon">
+            <span class="fa fa-calendar"></span>
+          </span>
+        </div>
+      </div>
+    </div>		
+
+    <div class="form-group">
+      <label class="col-lg-5 control-label">Accident Time</label>
+      <div class="col-lg-7">                      	
+      	<%= form.time_select :accident_time, { include_blank: 'Select Any' }, { class: 'form-control-time m-b select2-1' } %>
+      </div>
+    </div>    
+	</div>
+
+	<div class='col-md-4'>
+    
+    <div class="form-group">
+      <label class="col-lg-1 control-label">&nbsp;</label>
+      <div class="col-lg-11 mrgbtn7">                    
+        <label class="checkbox-inline c-checkbox">
+          <%= form.check_box :hcfa_is_employment_related %>
+          <span class="fa fa-check"></span> Work Accident?
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-lg-1 control-label">&nbsp;</label>
+      <div class="col-lg-9 mrgbtn7">                    
+        <label class="checkbox-inline c-checkbox">
+          <%= form.check_box :hcfa_is_auto_accident %>
+          <span class="fa fa-check"></span> Auto Accident?
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-lg-1 control-label">&nbsp;</label>
+      <div class="col-lg-9 mrgbtn7">                    
+        <label class="checkbox-inline c-checkbox">
+          <%= form.check_box :hcfa_is_non_auto_accident %>
+          <span class="fa fa-check"></span> Non-auto accident?
+        </label>
+      </div>
+    </div>
+
+	</div>
+
+  <div class="clearfix"></div>
+
+  <div class='col-md-6'>
+  	<legend>1st Carrier</legend>
+
+  	<div class='col-md-6'>
+
+	    <div class="form-group">
+	      <label class="col-lg-5 control-label">Carrier</label>
+	      <div class="col-lg-7">                      	
+					<%= form.select :primary_insurance_carrier_id, InsuranceCarrier.without_attorneys.map { |c| [c.name, c.id] }, {include_blank: true}, { class: 'form-control m-b select2-1' } %>      	
+	      </div>
+	    </div>    
+
+	    <div class="form-group">
+	      <label class="col-lg-5 control-label"> Assigned?</label>
+	      <div class="col-lg-7 mrgbtn7">                    
+	        <label class="checkbox-inline c-checkbox">
+	          <%= form.check_box :primary_insurance_carrier_assignment %>
+	          <span class="fa fa-check"></span>
+	        </label>
+	      </div>
+	    </div>
+
+	    <div class="form-group">
+	      <label class="col-lg-5 control-label">Relation</label>
+	      <div class="col-lg-7">                      	
+					<%= form.select :relationship_to_primary_guarantor, AppConfig['options']['guarantor_relations'].invert, {include_blank: true}, {class: 'form-control m-b select2-1', onchange: %Q(forceGuarantorContactIfRelationshipIsSelf(this.value, "#patient_case_primary_guarantor_contact_id", "#{@patient.contact_id}");)} %>
+	      </div>
+	    </div>    
+
+	    <div class="form-group">
+	      <label class="col-lg-5 control-label">Guarantor</label>
+	      <div class="col-lg-7">                      	
+		      <%= form.select :primary_guarantor_contact_id, current_account.patients.with_contact.collect { |p| [p.name, p.id] }, {include_blank: true}, {class: 'form-control m-b select2-1'} %>
+          <ul class="parsley-errors-list filled">
+            <li class="parsley-required"><%= display_error_messages @patient_case.errors, [:primary_guarantor_contact_id] %></li>
+          </ul>                    
+	      </div>
+	    </div>    
+	  </div>
+
+	  <div class="col-md-6">
+			
+			<div class="form-group mb">
+        <label class="col-lg-5 control-label mb">Deduct</label>
+        <div class="col-lg-7">
+          <div id="" class="input-group primary-deducatible">
+           	<%= form.text_field :primary_deductible_cents, placeholder: 'Primary Deductible', class: 'form-control' %>
+            <span class="input-group-addon">
+              <span class="fa fa-dollar"></span>
+            </span>
+          </div>
+       	</div>
+      </div>
+
+			<div class="form-group mb">
+        <label class="col-lg-5 control-label mb">Paid</label>
+        <div class="col-lg-7">
+          <div id="" class="input-group primary-deducatible">
+           	<%= form.text_field :primary_paid_cents, placeholder: 'Primary Paid Cents', class: 'form-control' %>
+            <span class="input-group-addon">
+              <span class="fa fa-dollar"></span>
+            </span>
+          </div>
+       	</div>
+      </div>
+
+			<div class="form-group">
+        <label class="col-lg-5 control-label">HCFA Box 1A</label>
+        <div class="col-lg-7">
+          <%= form.text_field :hcfa_1a_primary, placeholder: 'HCFA Box 1A', class: 'form-control', size: 10 %>
+       	</div>
+      </div>
+
+			<div class="form-group">
+        <label class="col-lg-5 control-label">Policy #</label>
+        <div class="col-lg-7">
+          <%= form.text_field :primary_insurance_carrier_policy_uid, placeholder: 'Policy #', class: 'form-control', size: 10 %>
+       	</div>
+      </div>
+
+			<div class="form-group">
+        <label class="col-lg-5 control-label">Group #</label>
+        <div class="col-lg-7">
+          <%= form.text_field :primary_insurance_carrier_group_uid, placeholder: 'Group #', class: 'form-control', size: 10 %>
+       	</div>
+      </div>
+
+	  </div>
+  </div>
+
+  <div class='col-md-6'>
+  	<legend>2nd Carrier</legend>
+
+  	<div class='col-md-6'>
+
+	    <div class="form-group">
+	      <label class="col-lg-5 control-label">Carrier</label>
+	      <div class="col-lg-7">                      	
+					<%= form.select :secondary_insurance_carrier_id, InsuranceCarrier.without_attorneys.map { |c| [c.name, c.id] }, {include_blank: true}, { class: 'form-control m-b select2-1' } %>      	
+	      </div>
+	    </div>    
+
+	    <div class="form-group">
+	      <label class="col-lg-5 control-label"> Assigned?</label>
+	      <div class="col-lg-7 mrgbtn7">                    
+	        <label class="checkbox-inline c-checkbox">
+	          <%= form.check_box :secondary_insurance_carrier_assignment %>
+	          <span class="fa fa-check"></span>
+	        </label>
+	      </div>
+	    </div>
+
+	    <div class="form-group">
+	      <label class="col-lg-5 control-label">Relation</label>
+	      <div class="col-lg-7">                      	
+					<%= form.select :relationship_to_secondary_guarantor, AppConfig['options']['guarantor_relations'].invert, {include_blank: true}, {class: 'form-control m-b select2-1', onchange: %Q(forceGuarantorContactIfRelationshipIsSelf(this.value, "#patient_case_secondary_guarantor_contact_id", "#{@patient_case.patient.contact_id}");)} %>
+	      </div>
+	    </div>    
+
+	    <div class="form-group">
+	      <label class="col-lg-5 control-label">Guarantor</label>
+	      <div class="col-lg-7">                      	
+		      <%= form.select :secondary_guarantor_contact_id, current_account.patients.with_contact.collect { |p| [p.name, p.id] }, {include_blank: true}, {class: 'form-control m-b select2-1'} %>
+          <ul class="parsley-errors-list filled">
+            <li class="parsley-required"><%= display_error_messages @patient_case.errors, [:secondary_guarantor_contact_id] %></li>
+          </ul>          
+	      </div>
+	    </div>    
+	  </div>
+
+	  <div class="col-md-6">
+			
+			<div class="form-group mb">
+        <label class="col-lg-5 control-label mb">Deduct</label>
+        <div class="col-lg-7">
+          <div id="" class="input-group primary-deducatible">
+           	<%= form.text_field :secondary_deductible_cents, placeholder: 'Primary Deductible', class: 'form-control' %>
+            <span class="input-group-addon">
+              <span class="fa fa-dollar"></span>
+            </span>
+          </div>
+       	</div>
+      </div>
+
+			<div class="form-group mb">
+        <label class="col-lg-5 control-label mb">Paid</label>
+        <div class="col-lg-7">
+          <div id="" class="input-group primary-deducatible">
+           	<%= form.text_field :secondary_paid_cents, placeholder: 'Primary Paid Cents', class: 'form-control' %>
+            <span class="input-group-addon">
+              <span class="fa fa-dollar"></span>
+            </span>
+          </div>
+       	</div>
+      </div>
+
+			<div class="form-group">
+        <label class="col-lg-5 control-label">HCFA Box 1A</label>
+        <div class="col-lg-7">
+          <%= form.text_field :hcfa_1a_secondary, placeholder: 'HCFA Box 1A', class: 'form-control', size: 10 %>
+       	</div>
+      </div>
+
+			<div class="form-group">
+        <label class="col-lg-5 control-label">Policy #</label>
+        <div class="col-lg-7">
+          <%= form.text_field :secondary_insurance_carrier_policy_uid, placeholder: 'Policy #', class: 'form-control', size: 10 %>
+       	</div>
+      </div>
+
+			<div class="form-group">
+        <label class="col-lg-5 control-label">Group #</label>
+        <div class="col-lg-7">
+          <%= form.text_field :secondary_insurance_carrier_group_uid, placeholder: 'Group #', class: 'form-control', size: 10 %>
+       	</div>
+      </div>
+
+	  </div>
+
+  </div>
+
+  <div class="clearfix"></div>
+  <hr>
+  
+  <div class="form-group">
+    <div class="col-sm-4 col-sm-offset-2">
+      <%= link_to 'Cancel', clinic_patients_path(@clinic), class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+      <%= form.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+    </div>
+  </div>
+
+<% end %>

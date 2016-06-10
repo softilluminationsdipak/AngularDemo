@@ -1,0 +1,69 @@
+<div class="panel-body">
+  <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
+    
+    <div class="panel panel-default">
+      <div id="patientCaseHeadingOne" role="tab" class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#patientcaseOne" aria-expanded="true" aria-controls="patientcaseOne" class="">
+            Essential Case Data
+          </a>
+        </h4>
+      </div>
+
+      <div id="patientcaseOne" role="tabpanel" aria-labelledby="patientHeadingOne" class="panel-collapse collapse in" aria-expanded="" style="">
+        <div class="panel-body">
+        	<%= render partial: 'form1' %>
+        </div>
+      </div>
+    </div>
+
+	  <div class="panel panel-default">
+	    <div id="patientcaseHeadingTwo" role="tab" class="panel-heading">
+	      <h4 class="panel-title">
+	        <a data-toggle="collapse" data-parent="#accordion" href="#patientcaseTwo" aria-expanded="" aria-controls="patientcaseTwo" class="">
+	          Diagnosis
+	        </a>
+	      </h4>
+	    </div>
+	    
+	    <div id="patientcaseTwo" role="tabpanel" aria-labelledby="patientcaseHeadingTwo" class="panel-collapse collapse" aria-expanded="" style="">
+	      <div class="panel-body">
+	      	<%= render partial: 'form2' %>
+	     	</div>
+	    </div>
+	  </div> 
+
+	  <div class="panel panel-default">
+	    <div id="patientcaseHeadingThree" role="tab" class="panel-heading">
+	      <h4 class="panel-title">
+	        <a data-toggle="collapse" data-parent="#accordion" href="#patientcaseThree" aria-expanded="" aria-controls="patientcaseThree" class="">
+	          Accounting
+	        </a>
+	      </h4>
+	    </div>
+	    
+	    <div id="patientcaseThree" role="tabpanel" aria-labelledby="patientcaseHeadingThree" class="panel-collapse collapse" aria-expanded="" style="">
+	      <div class="panel-body">
+	      	<%= render partial: 'form3' %>
+	     	</div>
+	    </div>
+	  </div> 
+  </div>
+</div>
+
+<%= content_for :patient_case_javascript do %>
+	<script type="text/javascript">
+	  $(document).on('ready page:load', function (event) {
+	    forceGuarantorContactIfRelationshipIsSelf($("#patient_case_relationship_to_primary_guarantor").val(), '#patient_case_primary_guarantor_contact_id', "<%= @patient_case.patient.contact_id %>");
+	    forceGuarantorContactIfRelationshipIsSelf($("#patient_case_relationship_to_secondary_guarantor").val(), "#patient_case_secondary_guarantor_contact_id", "<%= @patient_case.patient.contact_id %>");
+	    updateDiagnosisCodeSelects();
+	  });
+  </script>  
+<% end %>
+
+<script type="text/javascript">
+  var contactId = <%= @patient_case.patient.contact_id %>;
+	var currentClinicId = <%= @clinic.try(:id).try(:to_json) %>;
+  var patientCaseId = <%= @patient_case.try(:id).try(:to_json) %>;
+	var diagnosisCodes = <%= @diagnosis_codes_hash.to_json.html_safe %>;
+</script>

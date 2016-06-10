@@ -2458,6 +2458,7 @@
     $("#insurance_carrier_address_attributes_state").select2({theme: 'bootstrap'});
     $("#attorney_address_attributes_state").select2({theme: 'bootstrap'});
     $("#referrer_address_attributes_state").select2({theme: 'bootstrap'});
+    // $('#patient_case_accident_state').select2({theme: 'bootstrap'});
   });
   
 })(window, document, window.jQuery);

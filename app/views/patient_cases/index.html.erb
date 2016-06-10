@@ -1,0 +1,60 @@
+<h3>
+  Patient Cases of <strong><%= @patient.name %></strong>
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+    Basic insurance and diagnosis information is defined for your patient on this screen. You can have more than 1 open case at a time, which is useful when you are treating a patient with different responsible parties at the same time. The area at the bottom of the form is for work related injuries and supplemental Medicare information.
+  </small>
+</h3>
+
+<div class="row">
+  <div class="col-lg-12 text-right">                     
+    <%= link_to "<em class='fa fa-plus'></em> Add Patient Case".html_safe, new_clinic_patient_patient_case_path(@clinic, @patient), class: 'btn btn-info btn-xs pull-right', data: {disable_with: 'Please wait...'} %>
+  </div>
+  <div class="clearfix"></div> 
+
+
+  <div class="panel-body col-lg-12">
+    <div class="panel panel-default">
+      
+      <div class="panel-body">
+        <div class="table-responsive">
+          
+          <% if @patient_cases.present? %>
+            <table class="table table-hover">
+              <thead>
+                <tr>                  
+                  <th>#</th>
+                  <th>Phone Number</th>
+                  <th>Description</th>
+                  <th>Created Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @patient_cases.each_with_index do |patient_case, index| %>
+                  <tr class='patient_case_<%= patient_case.slug %>'>
+                    <td><%= index + 1 %></td>
+                    <td><%= @patient.phone %></td>
+                    <td><%= patient_case.description %></td>
+                    <td><%= patient_case.display_created_at %></td>
+                    <td>
+                      <%= link_to "<em class='fa fa-eye'></em> Show".html_safe, clinic_patient_patient_case_path(@clinic, @patient, patient_case), class: 'btn btn-default btn-xs', data: {disable_with: 'Please wait...'} %>
+                      <%= link_to "<em class='fa fa-pencil'></em> Edit".html_safe, edit_clinic_patient_patient_case_path(@clinic, @patient, patient_case), class: 'btn btn-primary btn-xs', data: {disable_with: 'Please wait...'} %>
+                      <%= link_to "<em class='fa fa-trash'></em> Delete".html_safe, clinic_patient_patient_case_path(@clinic, @patient, patient_case), class: 'btn btn-danger btn-xs', data: {behavior: 'delete', klass: "patient_case_#{patient_case.slug}"} %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+          	<p>No Patient Cases found for this patient. </p>
+          <% end %>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

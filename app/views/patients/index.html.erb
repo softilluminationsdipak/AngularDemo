@@ -32,6 +32,7 @@
             <table class="table table-hover">
               <thead>
                 <tr>
+                  <th></th>
                   <th>#</th>
                   <th>Patient Name</th>
                   <th>Phone Number</th>
@@ -43,6 +44,7 @@
               <tbody>
                 <% @patients.each_with_index do |patient, index| %>
                   <tr class='patient_<%= patient.slug %>'>
+                    <td><%= link_to "<i class='fa fa-briefcase'></i>".html_safe, clinic_patient_patient_cases_path(patient.clinic, patient), data: {disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe} %></td>
                     <td><%= index + 1 %></td>
                     <td><%= patient.contact.full_name %></td>
                     <td><%= patient.contact.phone_number %></td>

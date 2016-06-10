@@ -21,6 +21,10 @@
                   <label class="col-lg-4 control-label">Attorney</label>
                   <div class="col-lg-8">
                     <%= form.text_field :attorney_name, placeholder: 'Attorney', class: 'form-control' %>
+                    <ul class="parsley-errors-list filled">
+                      <li class="parsley-required"><%= display_error_messages @attorney.errors, [:attorney_name] %></li>
+                    </ul>
+
                   </div>
                 </div>
 

@@ -100,3 +100,48 @@
 .font14{
   font-size: 14px;
 }
+.form-control-time{
+  width: 47%;
+  height: 35px;
+  padding: 6px 16px;
+  font-size: 14px;
+  line-height: 1.52857143;
+  color: #3a3f51;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #dde6e9;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;  
+}
+.primary-deducatible .input-group-addon{
+  padding: 6px 10px;
+}
+.primary-deducatible input{
+  padding: 5px;
+}
+
+#validate_new_patient_case div > .form-group > label{
+  padding: 5px;
+}
+.info-diagnosis a{
+  line-height: 35px;
+}
+.info-diagnosis span{
+  line-height: 35px; 
+}
+.label-lg{
+  padding: 7px 0px 0px 0px !important;
+}
+#datepicker1 span.input-group-addon{
+  padding: 6px 9px !important;
+}
+.datepicker{
+  padding: 10px !important;
+}
+.pad0{
+  padding: 0px !important;
+}

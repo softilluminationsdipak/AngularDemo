@@ -1,14 +1,14 @@
 class Clinic < ActiveRecord::Base
 
-  extend FriendlyId
-  friendly_id :title, use: :slugged
-
 	include Contactable
   include Addressable
 
   acts_as_contactable
   acts_as_addressable
   acts_as_paranoid
+
+  extend FriendlyId
+  friendly_id :title, use: :slugged
 
   ## Callbacks
   before_save :if_billing_address_same_as_service_address
@@ -48,6 +48,10 @@ class Clinic < ActiveRecord::Base
     contact.company_name
   end
   alias :name :title
+
+  def should_generate_new_friendly_id?
+    contact.company_name_changed?
+  end
 
   def self.build(configuration={})
     c = self.new(configuration)

@@ -13,6 +13,8 @@ class Provider < ActiveRecord::Base
 	has_many :providers_legacy_id_labels
 	accepts_nested_attributes_for :providers_legacy_id_labels
 
+  has_many :patient_cases
+  
 	acts_as_contactable
   alias :name  :full_name
   alias :title :full_name

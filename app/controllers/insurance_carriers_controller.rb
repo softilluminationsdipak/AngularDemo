@@ -1,7 +1,7 @@
 class InsuranceCarriersController < BaseController
   expose(:insurance_carriers) { current_account.insurance_carriers.alphabetically }	
 	expose(:insurance_carrier, attributes: :insurance_carrier_params, finder: :find_by_slug)
-	expose(:legacy_id_label_maps) { ProvidersLegacyIdLabel.includes(:provider, :legacy_id_label).where('providers.id IN (?)', current_account.providers.map(&:id)).references(:provider, :legacy_id_label).map{|t| [t.legacy_id_label.label, t.legacy_id_label_id]}}
+	expose(:legacy_id_label_maps) { ProvidersLegacyIdLabel.includes(:provider, :legacy_id_label).where('providers.id IN (?)', current_account.providers.map(&:id)).references(:provider, :legacy_id_label).map{|t| [t.try(:legacy_id_label).try(:label), t.legacy_id_label_id]}}
 
 	before_filter :set_breadcrum
 	before_filter :build_resource, only: [:new, :create, :edit, :update]
