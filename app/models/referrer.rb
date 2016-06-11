@@ -16,8 +16,9 @@ class Referrer < ActiveRecord::Base
   belongs_to :insurance_carrier
   belongs_to :account
 
-  has_many :patient_cases, as: :referrer
-
+  has_many :patient_cases, as: :referrer, dependent: :nullify
+  has_many :patients, dependent: :nullify
+  
   ## Validations
   validates :source, presence: true, uniqueness: {scope: :account_id}
 

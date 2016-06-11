@@ -1,0 +1,620 @@
+<h3>
+  Patient Cases of <strong><%= @patient.name %></strong>
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+    Basic insurance and diagnosis information is defined for your patient on this screen. You can have more than 1 open case at a time, which is useful when you are treating a patient with different responsible parties at the same time. The area at the bottom of the form is for work related injuries and supplemental Medicare information.
+  </small>
+</h3>
+
+<div class="row">
+  <div class="col-lg-12 text-right">                     
+    <%= link_to "<em class='fa fa-pencil'></em> Edit Patient Case".html_safe, edit_clinic_patient_patient_case_path(@clinic, @patient, @patient_case), class: 'btn btn-info btn-xs pull-right', data: {disable_with: 'Please wait...'} %>
+  </div>
+  <div class="clearfix"></div> 
+
+  <div class="panel-body">
+    <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
+
+      <div class="panel panel-default">
+        <div id="patientCaseHeadingOne" role="tab" class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#patientcaseOne" aria-expanded="true" aria-controls="patientcaseOne" class="">
+              Essential Case Data
+            </a>
+          </h4>
+        </div>
+
+        <div id="patientcaseOne" role="tabpanel" aria-labelledby="patientHeadingOne" class="panel-collapse collapse in" aria-expanded="" style="">
+          <div class="panel-body">
+            <div class='col-md-4'>
+              <form class="form-horizontal p-20">
+                <div class="form-group">
+                  <div class="col-sm-4">
+                    <strong>Description</strong>
+                  </div>
+                  <div class="col-sm-8">
+                    <%= @patient_case.try(:description) %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-4">
+                    <strong>Provider</strong>
+                  </div>
+                  <div class="col-sm-8">
+                    <%= @patient_case.try(:provider).try(:name) %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-4">
+                    <strong>Referrer</strong>
+                  </div>
+                  <div class="col-sm-8">
+                    <%= @patient_case.try(:referrer).try(:name) || 'Undefine' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-4">
+                    <strong>Attorney</strong>
+                  </div>
+                  <div class="col-sm-8">
+                    <%= @patient_case.try(:attorney).try(:name) || 'Undefine' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-4">
+                    <strong>Fee Schedule</strong>
+                  </div>
+                  <div class="col-sm-8">
+                    <%= @patient_case.try(:fee_schedule_label).try(:label) || 'Undefine' %>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class='col-md-4'>
+              <form class="form-horizontal p-20">
+                <div class="form-group">
+                  <div class="col-sm-5">
+                    <strong>On Set</strong>
+                  </div>
+                  <div class="col-sm-6">
+                    <%= @patient_case.try(:onset_at).present? ? @patient_case.try(:onset_at).strftime('%d/%m/%Y') : 'Undefine' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-5">
+                    <strong>First Treatment</strong>
+                  </div>
+                  <div class="col-sm-6">
+                    <%= @patient_case.try(:first_treated_at).present? ? @patient_case.try(:first_treated_at).strftime('%d/%m/%Y')  : 'Undefine' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-5">
+                    <strong>Symptoms</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    <%= @patient_case.try(:hcfa_similar_symptoms_date).present? ? @patient_case.try(:hcfa_similar_symptoms_date).strftime('%d/%m/%Y') : 'Undefine' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-5">
+                    <strong>Accident Date</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    <%=  @patient_case.try(:accident_date).present? ? @patient_case.try(:accident_date).strftime('%d/%m/%Y') : 'Undefine' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-5">
+                    <strong>Accident Time</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    <%= @patient_case.try(:accident_time).strftime('%H:%M') %>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class='col-md-4'>
+              <form class="form-horizontal p-20">
+                <div class="form-group">
+                  <div class="col-sm-6">
+                    <strong>Work Accident ?</strong>
+                  </div>
+                  <div class="col-sm-6">
+                    <%= @patient_case.try(:hcfa_is_employment_related) ? 'Yes' : 'No' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-6">
+                    <strong>Auto Accident ?</strong>
+                  </div>
+                  <div class="col-sm-6">
+                    <%= @patient_case.try(:hcfa_is_auto_accident) ? 'Yes' : 'No' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-6">
+                    <strong>Non Auto Accident ?</strong>
+                  </div>
+                  <div class="col-sm-6">
+                    <%= @patient_case.try(:hcfa_is_non_auto_accident) ? 'Yes' : 'No' %>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class='col-md-6'>
+              <legend>1st Carrier</legend>
+              <div class='col-md-6'>
+                <form class="form-horizontal p-20">
+                  <div class="form-group">
+                    <div class="col-sm-5">
+                      <strong>Carrier</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      <%= @patient_case.try(:primary_insurance_carrier).try(:name) || 'Undefine' %>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-5">
+                      <strong>Assigned?</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      <%= @patient_case.try(:primary_insurance_carrier_assignment) ? 'Yes' : 'No' %>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-5">
+                      <strong>Relation</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      <%= @patient_case.try(:relationship_to_primary_guarantor).present? ? @patient_case.try(:relationship_to_primary_guarantor) : 'Undefine' %>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-5">
+                      <strong>Guarantor</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      <%= @patient_case.try(:primary_guarantor_contact).try(:name) || 'Undefine' %>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class='col-md-6'>
+                <form class="form-horizontal p-20">
+                  <div class="form-group">
+                    <div class="col-sm-5 pad0005">
+                      <strong>Deduct</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      $ <%= @patient_case.try(:primary_deductible_cents) %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-5 pad0005">
+                      <strong>Paid</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      $ <%= @patient_case.try(:primary_paid_cents) %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-5 pad0005">
+                      <strong>HCFA Box 1A</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      <%= @patient_case.try(:hcfa_1a_primary).present? ? @patient_case.try(:hcfa_1a_primary) : 'Undefine' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-5 pad0005">
+                      <strong>Policy #</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      <%= @patient_case.try(:primary_insurance_carrier_policy_uid).present? ? @patient_case.try(:primary_insurance_carrier_policy_uid) : 'Undefine' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-5 pad0005">
+                      <strong>Group #</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      <%= @patient_case.try(:primary_insurance_carrier_group_uid).present? ? @patient_case.try(:primary_insurance_carrier_group_uid) : 'Undefine' %>
+                    </div>
+                  </div>
+                </form>
+              </div>              
+            </div>
+
+            <div class='col-md-6'>
+              <legend>2nd Carrier</legend>
+              <div class='col-md-6'>
+                <form class="form-horizontal p-20">
+                  <div class="form-group">
+                    <div class="col-sm-5">
+                      <strong>Carrier</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      <%= @patient_case.try(:secondary_insurance_carrier).try(:name) || 'Undefine' %>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-5">
+                      <strong>Assigned?</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      <%= @patient_case.try(:secondary_insurance_carrier_assignment) ? 'Yes' : 'No' %>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-5">
+                      <strong>Relation</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      <%= @patient_case.try(:relationship_to_secondary_guarantor).present? ? @patient_case.try(:relationship_to_secondary_guarantor) : 'Undefine' %>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-5">
+                      <strong>Guarantor</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      <%= @patient_case.try(:secondary_guarantor_contact).try(:name) || 'Undefine' %>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class='col-md-6'>
+                <form class="form-horizontal p-20">
+                  <div class="form-group">
+                    <div class="col-sm-5 pad0005">
+                      <strong>Deduct</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      $ <%= @patient_case.try(:secondary_deductible_cents) || 0.0 %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-5 pad0005">
+                      <strong>Paid</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      $ <%= @patient_case.try(:secondary_paid_cents) || 0.0 %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-5 pad0005">
+                      <strong>HCFA Box 1A</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      <%= @patient_case.try(:hcfa_1a_secondary).present? ? @patient_case.try(:hcfa_1a_secondary) : 'Undefine' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-5 pad0005">
+                      <strong>Policy #</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      <%= @patient_case.try(:secondary_insurance_carrier_policy_uid).present? ? @patient_case.try(:secondary_insurance_carrier_policy_uid) : 'Undefine' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-5 pad0005">
+                      <strong>Group #</strong>
+                    </div>
+                    <div class="col-sm-7">
+                      <%= @patient_case.try(:secondary_insurance_carrier_group_uid).present? ? @patient_case.try(:secondary_insurance_carrier_group_uid) : 'Undefine' %>
+                    </div>
+                  </div>
+                </form>
+              </div>              
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div id="patientcaseHeadingTwo" role="tab" class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#patientcaseTwo" aria-expanded="" aria-controls="patientcaseTwo" class="">
+              Diagnosis
+            </a>
+          </h4>
+        </div>
+        
+        <div id="patientcaseTwo" role="tabpanel" aria-labelledby="patientcaseHeadingTwo" class="panel-collapse collapse" aria-expanded="" style="">
+          <div class="panel-body">
+            <div class='col-md-4'>
+              <p class="lead bb">Current Diagnosis</p>              
+              <form class="form-horizontal p-20">
+                <div class="form-group">
+                  <div class="col-sm-1">
+                  </div>
+                  <div class="col-sm-5">
+                    <strong> Name </strong>
+                  </div>
+                  <div class="col-sm-5">
+                    <strong>Code</strong>
+                  </div>
+                </div>
+                <% if @patient_case.try(:diagnosis1).try(:name).present? %>
+                  <div class="form-group">
+                    <div class="col-sm-1">
+                      <a id='diagnosis1_description' title='' data-container="body" data-toggle="popover" data-placement="right" data-content='<%= @patient_case.try(:diagnosis1).try(:description) %>' data-original-title="Description">
+                        <i class="fa fa-info-circle"></i>                      
+                      </a>
+                    </div>
+                    <div class="col-sm-5"><%= @patient_case.try(:diagnosis1).try(:name) %></div>
+                    <div class="col-sm-5"><%= @patient_case.try(:diagnosis1).try(:code) %></div>
+                  </div>
+                <% end %>
+                <% if @patient_case.try(:diagnosis2).try(:name).present? %>
+                  <div class="form-group">
+                    <div class="col-sm-1">
+                      <a id='diagnosis2_description' title='' data-container="body" data-toggle="popover" data-placement="right" data-content='<%= @patient_case.try(:diagnosis2).try(:description) %>' data-original-title="Description">
+                        <i class="fa fa-info-circle"></i>                      
+                      </a>
+                    </div>
+                    <div class="col-sm-5"><%= @patient_case.try(:diagnosis2).try(:name) %></div>
+                    <div class="col-sm-5"><%= @patient_case.try(:diagnosis2).try(:code) %></div>
+                  </div>
+                <% end %>
+                <% if @patient_case.try(:diagnosis3).try(:name).present? %>
+                  <div class="form-group">
+                    <div class="col-sm-1">
+                      <a id='diagnosis3_description' title='' data-container="body" data-toggle="popover" data-placement="right" data-content='<%= @patient_case.try(:diagnosis3).try(:description) %>' data-original-title="Description">
+                        <i class="fa fa-info-circle"></i>                      
+                      </a>
+                    </div>
+                    <div class="col-sm-5"><%= @patient_case.try(:diagnosis3).try(:name) %></div>
+                    <div class="col-sm-5"><%= @patient_case.try(:diagnosis3).try(:code) %></div>
+                  </div>
+                <% end %>
+                <% if @patient_case.try(:diagnosis4).try(:name).present? %>
+                  <div class="form-group">
+                    <div class="col-sm-1">
+                      <a id='diagnosis4_description' title='' data-container="body" data-toggle="popover" data-placement="right" data-content='<%= @patient_case.try(:diagnosis4).try(:description) %>' data-original-title="Description">
+                        <i class="fa fa-info-circle"></i>                      
+                      </a>
+                    </div>
+                    <div class="col-sm-5"><%= @patient_case.try(:diagnosis4).try(:name) %></div>
+                    <div class="col-sm-5"><%= @patient_case.try(:diagnosis4).try(:code) %></div>
+                  </div>
+                <% end %>
+              </form>
+            </div>
+            <div class='col-md-8'>
+              <p class="lead bb">Work Injuries, Accident Desc. (C4), or HCFA Box 19</p>
+              <form class="form-horizontal p-20 diganosis-patient-case-show">
+                <div class="form-group">
+                  <div class="col-sm-3"><strong>Accident Desc. </strong></div>
+                  <div class="col-sm-9"><%= @patient_case.try(:accident_description) || 'Undefine Description for Accident' %></div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="col-sm-6 fg-large"><strong>Returned to work </strong></div>
+                    <div class="col-sm-6 pad0005"><%=  @patient_case.try(:workmanscomp_return_to_work_date).present? ? @patient_case.try(:workmanscomp_return_to_work_date).strftime('%d/%m/%Y') : 'Undefine' %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-6 fg-large"><strong>Total Disability Started </strong></div>
+                    <div class="col-sm-6 pad0005"><%= @patient_case.try(:workmanscomp_start_disability_date).present? ? @patient_case.try(:workmanscomp_start_disability_date).strftime('%d/%m/%Y') : 'Undefine' %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-6 fg-large"><strong>Total Disability Ended </strong></div>
+                    <div class="col-sm-6 pad0005"><%= @patient_case.try(:workmanscomp_end_disability_date).present? ? @patient_case.try(:workmanscomp_end_disability_date).strftime('%d/%m/%Y')  : 'Undefine' %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-6 fg-large"><strong>Accident State </strong></div>
+                    <div class="col-sm-6 pad0005"><%= @patient_case.try(:accident_state).present? ? @patient_case.try(:accident_state) : 'Undefine'%></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-6 fg-large"><strong>Accident City</strong></div>
+                    <div class="col-sm-6 pad0005"><%= @patient_case.try(:accident_time).strftime('%H:%M') %></div>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="col-sm-6 fg-large"><strong>Part. Disability Started</strong></div>
+                    <div class="col-sm-6 pad0005"><%= @patient_case.try(:workmanscomp_start_partial_disability_date).present? ? @patient_case.try(:workmanscomp_start_partial_disability_date).strftime('%d/%m/%Y')  : 'Undefine' %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-6 fg-large"><strong>Part. Disability Ended</strong></div>
+                    <div class="col-sm-6 pad0005"><%= @patient_case.try(:workmanscomp_end_partial_disability_date).present? ? @patient_case.try(:workmanscomp_end_partial_disability_date).strftime('%d/%m/%Y')  : 'Undefine' %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-6 fg-large"><strong>Disability Status</strong></div>
+                    <div class="col-sm-6 pad0005"><%= @patient_case.try(:disability_status_code) || 'Undefine' %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-6 fg-large"><strong>Initial W’Comp.</strong></div>
+                    <div class="col-sm-6 pad0005"><%= @patient_case.try(:nys_workmanscomp_is_initial_or_final) ? 'Yes' : 'No' %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-6 fg-large"><strong>W’Comp. Case #</strong></div>
+                    <div class="col-sm-6 pad0005"><%= @patient_case.try(:workmanscomp_uid).present? ? @patient_case.try(:workmanscomp_uid) : 'Undefine' %></div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="clearfix"></div>
+            <hr>
+
+            <form class="form-horizontal p-20">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="col-sm-6"><strong>Subluxation Level</strong></div>
+                  <div class="col-sm-6"><%= @patient_case.try(:subx_level) || 'Undefine' %></div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-6"><strong>Treatment Phase</strong></div>
+                  <div class="col-sm-6"><%= AppConfig['options']['treatment_phases'].invert[@patient_case.try(:treatment_phase)] || 'Undefine' %></div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-6"><strong>Last X-Ray</strong> </div>
+                  <div class="col-sm-6"><%= @patient_case.try(:xray_date).present? ? @patient_case.try(:xray_date).strftime('%d/%m/%Y') : 'Undefine' %></div>
+                </div>                                
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="col-sm-7 pad0005"><strong>Exacerbation / Reoccurrence?</strong></div>
+                  <div class="col-sm-5"><%= AppConfig['options']['exacer_rec'].invert[@patient_case.try(:exacerbation_or_reoccurence)] || 'Undefine' %></div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-7 pad0005"><strong>Exacerbation date</strong></div>
+                  <div class="col-sm-5"><%=  @patient_case.try(:exacerbation_date).present? ? @patient_case.try(:exacerbation_date).strftime('%d/%m/%Y') : 'Undefine' %></div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-7 pad0005"><strong>Is X-Ray available?</strong></div>
+                  <div class="col-sm-5"><%= @patient_case.try(:nys_workmanscomp_is_initial_or_final) ? 'Yes' : 'No' %></div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="col-sm-8"><strong>Medicaid resubmission</strong></div>
+                  <div class="col-sm-4"><%= @patient_case.try(:hcfa_medicaid_resubmission ) || 'Undefine' %></div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-8"><strong>HCFA Line 10D</strong></div>
+                  <div class="col-sm-4"><%= @patient_case.try(:hcfa_10d) || 'Undefine' %></div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-8"><strong>ABN Waiver Signed?</strong></div>
+                  <div class="col-sm-4"><%= @patient_case.try(:medicare_abn_waiver_signed) ? 'Yes' : 'No' %></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div> 
+
+      <div class="panel panel-default">
+        <div id="patientcaseHeadingThree" role="tab" class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#patientcaseThree" aria-expanded="" aria-controls="patientcaseThree" class="">
+              Accounting
+            </a>
+          </h4>
+        </div>
+        
+        <div id="patientcaseThree" role="tabpanel" aria-labelledby="patientcaseHeadingThree" class="panel-collapse collapse" aria-expanded="" style="">
+          <div class="panel-body">
+            <div class="col-lg-6">
+              <p class="lead bb">1st Carrier</p>              
+              <form class="form-horizontal p-20 diganosis-patient-case-show">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="col-sm-8 fg-large"><strong>Max pay per visit</strong></div>
+                    <div class="col-sm-4 pad0005">$ <%= @patient_case.try(:primary_max_pay_per_visit_cents) || 0.0 %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-8 fg-large"><strong>Max pay per year</strong></div>
+                    <div class="col-sm-4 pad0005">$ <%= @patient_case.try(:primary_max_pay_per_year_cents) || 0.0 %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-8 fg-large"><strong>Max pay per life </strong></div>
+                    <div class="col-sm-4 pad0005">$ <%= @patient_case.try(:primary_max_pay_per_life_cents) || 0.0 %></div>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="col-sm-8 fg-large"><strong>Max visits per year</strong></div>
+                    <div class="col-sm-4 pad0005"><%= @patient_case.try(:primary_max_visits_per_year) || 'Undefine' %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-8 fg-large"><strong>Max visits per life</strong></div>
+                    <div class="col-sm-4 pad0005"><%= @patient_case.try(:primary_max_visits_per_life) || 'Undefine' %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-8 fg-large"><strong>Authorized through </strong></div>
+                    <div class="col-sm-4 pad0005"><%= @patient_case.try(:primary_authorization_through_date).present? ? @patient_case.try(:primary_authorization_through_date).strftime('%d/%m/%Y') : 'Undefine' %></div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="col-lg-6">
+              <p class="lead bb">2nd Carrier</p>
+              <form class="form-horizontal p-20 diganosis-patient-case-show">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="col-sm-8 fg-large"><strong>Max pay per visit</strong></div>
+                    <div class="col-sm-4 pad0005">$ <%= @patient_case.try(:secondary_max_pay_per_visit_cents) || 0.0 %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-8 fg-large"><strong>Max pay per year</strong></div>
+                    <div class="col-sm-4 pad0005">$ <%= @patient_case.try(:secondary_max_pay_per_year_cents) || 0.0 %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-8 fg-large"><strong>Max pay per life </strong></div>
+                    <div class="col-sm-4 pad0005">$ <%= @patient_case.try(:secondary_max_pay_per_life_cents) || 0.0 %></div>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="col-sm-8 fg-large"><strong>Max visits per year</strong></div>
+                    <div class="col-sm-4 pad0005"><%= @patient_case.try(:secondary_max_visits_per_year) || 'Undefine' %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-8 fg-large"><strong>Max visits per life</strong></div>
+                    <div class="col-sm-4 pad0005"><%= @patient_case.try(:secondary_max_visits_per_life) || 'Undefine' %></div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-8 fg-large"><strong>Authorized through </strong></div>
+                    <div class="col-sm-4 pad0005"><%=  @patient_case.try(:secondary_authorization_through_date).present? ? @patient_case.try(:secondary_authorization_through_date).strftime('%d/%m/%Y') : 'Undefine' %></div>
+                  </div>
+                </div>
+              </form>              
+            </div>
+          </div>
+        </div>
+      </div> 
+
+    </div>
+  </div>
+</div>
