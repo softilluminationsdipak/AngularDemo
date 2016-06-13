@@ -15,7 +15,7 @@ class PatientCasesController < BaseController
 	def new
 		add_breadcrumb "Patients", clinic_patients_path(@clinic)
 		add_breadcrumb 'Patient Cases', clinic_patient_patient_cases_path(@clinic, @patient)
-		@patient_case = @patient.patient_cases.build		
+		@patient_case = @patient.patient_cases.build
 		set_diagnoses
 	end
 

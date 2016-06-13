@@ -4,6 +4,8 @@ class PatientCase < ActiveRecord::Base
   friendly_id :description, use: :slugged
 	
 	include Referrerable
+	acts_as_referrerable
+
 	acts_as_paranoid
 
 	## Relationship
@@ -26,8 +28,7 @@ class PatientCase < ActiveRecord::Base
   belongs_to :diagnosis4, :class_name => 'DiagnosisCode'
 
   belongs_to :fee_schedule_label
-  belongs_to :referrer
-
+ 
   ## Validations
 	validates :disability_percentage, numericality: { greater_than: 0}, allow_blank: true
 	validates :patient_id, :provider_id, :description, presence: true

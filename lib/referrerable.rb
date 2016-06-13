@@ -6,7 +6,7 @@ module Referrerable
 
   module ClassMethods
     def acts_as_referrerable
-      belongs_to :referrer, :polymorphic => true
+      belongs_to :referrer, polymorphic: true
     end
   end
 
