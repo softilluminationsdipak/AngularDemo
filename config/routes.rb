@@ -67,6 +67,10 @@ Rails.application.routes.draw do
           collection do
             post :diagnosis_chosen
           end
+          member do
+            put :pull_from_case
+            put :push_to_case 
+          end
           resources :patient_visit_details
         end
       end      

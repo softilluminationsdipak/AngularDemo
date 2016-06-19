@@ -31,7 +31,7 @@
             </thead>
             <tbody>
               <% @patient_visits.each do |visit| %>
-                <tr>
+                <tr class='patient_visit_<%= visit.id %>'>
                   <td>                    
                     <label class="radio-inline c-radio">                      
                       <%= radio_button_tag 'patient_visit_id', visit.id, visit.id == params[:patient_visit_id].to_i || (@patient_visit && visit.id == @patient_visit.id), onclick: "loadVisit('#{@clinic.slug}', '#{@patient.slug}', '#{@patient_case.slug}', '#{visit.id}');" %>
@@ -46,18 +46,16 @@
                   <td>$ <%= visit.total_insurance_owes %></td>
                   <td>$ <%= visit.balance_in_dollars %></td>
                   <td>
-                    <%= link_to edit_clinic_patient_patient_case_patient_visit_path(@clinic, @patient, @patient_case, @patient_visit), class: 'btn btn-primary btn-xs', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe}, title: 'Edit' do %>
+                    <%= link_to edit_clinic_patient_patient_case_patient_visit_path(@clinic, @patient, @patient_case, visit), class: 'btn btn-primary btn-xs', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe}, title: 'Edit' do %>
                       <i class="fa fa-pencil"></i>
                     <% end %>
-                    <%= link_to '#', class: 'btn btn-danger btn-xs', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe}, title: 'Delete' do %>
-                      <i class="fa fa-trash"></i>
+                                        
+                    <%= link_to clinic_patient_patient_case_patient_visit_path(@clinic, @patient, @patient_case, visit), class: 'btn btn-danger btn-xs', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe, klass: "patient_visit_#{visit.id}", confirm: 'Are you sure want to delete?'}, method: :delete do  %>
+                      <em class='fa fa-trash'></em>
                     <% end %>
-                    <%= link_to '#', class: 'btn btn-info btn-xs', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe}, title: 'Push To Case Diagnosis' do %>
-                      PUSH
-                    <% end %>
-                    <%= link_to '#', class: 'btn btn-info btn-xs', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe}, title: 'Pull From Case Diagnosis' do %>
-                      PULL
-                    <% end %>
+                    
+                    <%= link_to 'PUSH', 'javascript:void(0);', class: "btn btn-info btn-xs", id: "push_to_case_#{visit.id}", title: 'Push To Case Diagnosis', onclick: "pushToCase('#{visit.id}', '#{@clinic.slug}', '#{@patient.slug}', '#{@patient_case.slug}')" %>
+                    <%= link_to 'PULL', 'javascript:void(0);', class: "btn btn-info btn-xs", id: "pull_from_case_#{visit.id}", title: 'Pull From Case Diagnosis', onclick: "pullFromCase('#{visit.id}', '#{@clinic.slug}', '#{@patient.slug}', '#{@patient_case.slug}')" %>
                   </td>
                 </tr>
               <% end %>

@@ -77,4 +77,50 @@ class PatientVisit < ActiveRecord::Base
     self.balance_in_cents
   end
 
+  def foreign_visit_incoming_payments
+    payments = []
+    patient_visit_details.each do |v|
+      v.incoming_payments.each do |p|
+        if p.source_patient_visit_detail.patient_visit_id != self.id
+          payments << p
+        end
+      end
+    end
+    payments
+  end
+
+  def can_delete?
+    foreign_visit_incoming_payments.empty?
+  end
+
+  def pull_from_case
+    update_attributes({
+      diagnosis1_id:  patient_case.diagnosis1_id,
+      diagnosis2_id: patient_case.diagnosis2_id,
+      diagnosis3_id: patient_case.diagnosis3_id,
+      diagnosis4_id: patient_case.diagnosis4_id,
+      diagnosis1_description: patient_case.diagnosis1_description,
+      diagnosis2_description: patient_case.diagnosis2_description,
+      diagnosis3_description: patient_case.diagnosis3_description,
+      diagnosis4_description: patient_case.diagnosis4_description,
+      onset_at: patient_case.onset_at,
+      first_treated_at: patient_case.first_treated_at,
+    })
+  end
+
+  def push_to_case
+    patient_case.update_attributes({
+      diagnosis1_id: diagnosis1_id,
+      diagnosis2_id: diagnosis2_id,
+      diagnosis3_id: diagnosis3_id,
+      diagnosis4_id: diagnosis4_id,
+      diagnosis1_description: diagnosis1_description,
+      diagnosis2_description: diagnosis2_description,
+      diagnosis3_description: diagnosis3_description,
+      diagnosis4_description: diagnosis4_description,
+      onset_at: onset_at,
+      first_treated_at: first_treated_at,
+    })
+  end
+
 end
