@@ -1,0 +1,107 @@
+<%= form_for [@clinic, @patient, @patient_case, @patient_visit], html: {class: 'form-horizontal', id: 'validate_edit_patient_visit'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+	<legend>Patient Diagnosis Information</legend>
+
+	<div class='col-md-6 col-sm-6 col-xs-12'>
+		<div class="form-group">
+      <label class="col-lg-5 control-label">Diagnosis 1</label>
+      <div class="col-lg-7">
+	      <%= form.select :diagnosis1_id, current_account.diagnosis_codes.map { |d| [ d.title, d.id ] }, { include_blank: 'Select Diagnosis' }, { class: 'form-control m-b select2-1', onchange: "diagnosis1(this.value, 1, '#{@clinic.slug}', '#{@patient.slug}', '#{@patient_case.slug}')" } %>
+      </div>
+    </div>
+
+		<div class="form-group">
+      <label class="col-lg-5 control-label">Diagnosis 2</label>
+      <div class="col-lg-7">
+	      <%= form.select :diagnosis2_id, current_account.diagnosis_codes.map { |d| [ d.title, d.id ] }, { include_blank: 'Select Diagnosis' }, { class: 'form-control m-b select2-1', onchange: "diagnosis1(this.value, 2, '#{@clinic.slug}', '#{@patient.slug}', '#{@patient_case.slug}')" } %>
+      </div>
+    </div>
+
+		<div class="form-group">
+      <label class="col-lg-5 control-label">Diagnosis 3</label>
+      <div class="col-lg-7">
+	      <%= form.select :diagnosis3_id, current_account.diagnosis_codes.map { |d| [ d.title, d.id ] }, { include_blank: 'Select Diagnosis' }, { class: 'form-control m-b select2-1', onchange: "diagnosis1(this.value, 3, '#{@clinic.slug}', '#{@patient.slug}', '#{@patient_case.slug}')" } %>
+      </div>
+    </div>
+
+		<div class="form-group">
+      <label class="col-lg-5 control-label">Diagnosis 4</label>
+      <div class="col-lg-7">
+	      <%= form.select :diagnosis4_id, current_account.diagnosis_codes.map { |d| [ d.title, d.id ] }, { include_blank: 'Select Diagnosis' }, { class: 'form-control m-b select2-1', onchange: "diagnosis1(this.value, 4, '#{@clinic.slug}', '#{@patient.slug}', '#{@patient_case.slug}')" } %>
+      </div>
+    </div>
+
+		<div class="form-group">
+      <label class="col-lg-5 control-label">Details</label>
+      <div class="col-lg-7">
+        <%= form.text_area :details, rows: 3, class: 'form-control note-editor' %>	      
+      </div>
+    </div>
+  </div>
+
+  <div class='col-md-6 col-sm-6 col-xs-12'>
+		<div class="form-group">
+      <label class="col-lg-5 control-label">Diagnosis 1 Desc.</label>
+      <div class="col-lg-7">
+      	<%= form.text_field :diagnosis1_description, placeholder: 'Description', class: 'form-control' %>
+      </div>
+    </div>
+
+		<div class="form-group">
+      <label class="col-lg-5 control-label">Diagnosis 2 Desc.</label>
+      <div class="col-lg-7">
+      	<%= form.text_field :diagnosis2_description, placeholder: 'Description', class: 'form-control' %>
+      </div>
+    </div>
+
+		<div class="form-group">
+      <label class="col-lg-5 control-label">Diagnosis 3 Desc.</label>
+      <div class="col-lg-7">
+      	<%= form.text_field :diagnosis3_description, placeholder: 'Description', class: 'form-control' %>
+      </div>
+    </div>
+
+		<div class="form-group">
+      <label class="col-lg-5 control-label">Diagnosis 4 Desc.</label>
+      <div class="col-lg-7">
+      	<%= form.text_field :diagnosis4_description, placeholder: 'Description', class: 'form-control' %>
+      </div>
+    </div>
+
+		<div class="form-group">
+      <label class="col-lg-5 control-label">Onset</label>
+      <div class="col-lg-7">
+        <div class="input-group date" id="datepicker1">
+          <%= form.text_field :onset_at, value: form.object.onset_at.present? ? form.object.onset_at.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'Onset At' %>
+          <span class="input-group-addon">
+            <span class="fa fa-calendar"></span>
+          </span>
+        </div>            	
+      </div>
+    </div>
+
+		<div class="form-group">
+      <label class="col-lg-5 control-label">First Treatment</label>
+      <div class="col-lg-7">
+        <div class="input-group date" id="datepicker1">
+          <%= form.text_field :first_treated_at, value: form.object.first_treated_at.present? ? form.object.first_treated_at.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'First Treated At' %>
+          <span class="input-group-addon">
+            <span class="fa fa-calendar"></span>
+          </span>
+        </div>            	
+      </div>
+    </div>
+
+  </div>
+
+	<div class="clearfix"></div>
+	<hr>
+
+  <div class="form-group">
+    <div class="col-lg-5 col-sm-offset-1">
+      <%= link_to 'Cancel', :back, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+      <%= form.submit 'Save Diagnosis Info.', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+    </div>
+  </div>
+
+
+<% end %>

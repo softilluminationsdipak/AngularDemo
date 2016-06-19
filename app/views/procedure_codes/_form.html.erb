@@ -13,7 +13,7 @@
         <%= nested_form_for [@procedure_code.clinic, @procedure_code], html: {class: 'form-horizontal', id: 'validate_new_procedure_code'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
 
           <legend>Procedure Codes and Fee Schedules</legend>
-
+          <%= form.hidden_field :account_id, value: current_account.id %>
           <div class='col-md-6'>
 
             <div class="form-group">

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  source_patient_visit_detail_id: 1
+  destination_patient_visit_detail_id: 1
+  amount_cents: 1
+  transfer_direction_code: 1
+  deleted_at: 2016-06-17 00:37:00
+
+two:
+  source_patient_visit_detail_id: 1
+  destination_patient_visit_detail_id: 1
+  amount_cents: 1
+  transfer_direction_code: 1
+  deleted_at: 2016-06-17 00:37:00

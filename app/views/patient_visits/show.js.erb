@@ -1,0 +1,80 @@
+$(".patient-visit-date-header").html("Detail - <%= @patient_visit.created_at.strftime('%d/%m/%Y') %>")
+$("#patient_visit_details").html("<%= escape_javascript(render partial: '/patient_visit_details/pv_details') %>")
+
+<% array = @patient_visit.patient_visit_details.map(&:id).map{|t| "#edit_patient_visit_detail_#{t}"}.join(', ') %>
+<% array << ', #new_patient_visit_detail' %>
+$('<%= array %>').validate({
+		errorElement: "span",
+		rules: {
+			'patient_visit_detail[procedure_code_id]': {
+				required: true
+			},
+			'patient_visit_detail[amount_cents]': {
+				number: true,
+				maxlength: 6,
+				required: true
+			},
+			'patient_visit_detail[units_sold]': {
+				required: true,
+				number: true,
+				maxlength: 6
+			},
+			'patient_visit_detail[diagnosis_pointer]': {
+				required: true,
+				number: true,
+				maxlength: 6
+			},
+			'patient_visit_detail[patient_owes_cent]':{
+				required: true,
+				number: true,
+				maxlength: 6
+			},
+			'patient_visit_detail[insurance_owes_cents]':{
+				required: true,
+				number: true,
+				maxlength: 6
+			},
+			'patient_visit_detail[provider_id]': {
+				required: true
+			},
+			'patient_visit_detail[place_of_service_code]':{
+				required: true
+			}
+		},
+		messages: {
+			'patient_visit_detail[procedure_code_id]': {
+				required: 'Required'
+			},
+			'patient_visit_detail[amount_cents]': {
+				required: "Required",
+				maxlength: 'Only 6 Digit',
+				number: 'Only number'
+			},
+			'patient_visit_detail[units_sold]': {
+				required: "Required",
+				maxlength: 'Only 6 Digit',
+				number: 'Only number'
+			},
+			'patient_visit_detail[diagnosis_pointer]': {
+				required: "Required",
+				maxlength: 'Only 6 Digit',
+				number: 'Only number'
+			},
+			'patient_visit_detail[patient_owes_cent]':{
+				required: "Required",
+				maxlength: 'Only 6 Digit',
+				number: 'Only number'
+			},
+			'patient_visit_detail[insurance_owes_cents]':{
+				required: "Required",
+				maxlength: 'Only 6 Digit',
+				number: 'Only number'
+			},
+			'patient_visit_detail[provider_id]':{
+				required: 'Required'
+			},
+			'patient_visit_detail[place_of_service_code]':{
+				required: 'Required'
+			}
+		}
+	})

@@ -99,4 +99,49 @@ class ProcedureCode < ActiveRecord::Base
     end
   end
 
+  def is_adjustment?
+    ADJUSTMENT_TYPES.include?(type_code)
+  end
+
+  def is_insurance_billable?
+    type_code == 6
+  end
+
+  def is_payment?
+    PAYMENT_TYPES.include?(type_code)
+  end
+
+  def is_insurance_payment?
+    INSURANCE_TYPES.include?(type_code)
+  end
+
+  def is_patient_payment?
+    PATIENT_PAYMENT_TYPES.include?(type_code)
+  end
+
+  def non_insurance_billable?
+    type_code == 7
+  end
+
+  def truncated_title
+    "#{name} : " << truncate(description, length: 25)
+  end
+
+  def title
+    "#{name} (#{cpt_code})"
+  end
+  alias :title_name :title
+
+  def is_adjustment?
+    ADJUSTMENT_TYPES.include?(type_code)
+  end
+  
+  def is_patient_adjustment?
+    3 == type_code
+  end
+
+  def is_insurance_adjustment?
+    1 == type_code
+  end
+
 end

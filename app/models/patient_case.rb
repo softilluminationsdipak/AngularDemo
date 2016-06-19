@@ -22,13 +22,16 @@ class PatientCase < ActiveRecord::Base
 	has_one :primary_guarantor, through: :primary_guarantor_contact, class_name: 'Patient', source: :contactable,  source_type: "Patient"
 	has_one :secondary_guarantor, through: :secondary_guarantor_contact, class_name: 'Patient', source: :contactable, source_type: "Patient"
 
-  belongs_to :diagnosis1, :class_name => 'DiagnosisCode'
-  belongs_to :diagnosis2, :class_name => 'DiagnosisCode'
-  belongs_to :diagnosis3, :class_name => 'DiagnosisCode'
-  belongs_to :diagnosis4, :class_name => 'DiagnosisCode'
+  belongs_to :diagnosis1, class_name: 'DiagnosisCode'
+  belongs_to :diagnosis2, class_name: 'DiagnosisCode'
+  belongs_to :diagnosis3, class_name: 'DiagnosisCode'
+  belongs_to :diagnosis4, class_name: 'DiagnosisCode'
 
   belongs_to :fee_schedule_label
- 
+	
+	has_many :patient_visits, dependent: :destroy 
+	has_many :patient_bills
+	
   ## Validations
 	validates :disability_percentage, numericality: { greater_than: 0}, allow_blank: true
 	validates :patient_id, :provider_id, :description, presence: true
@@ -36,6 +39,8 @@ class PatientCase < ActiveRecord::Base
 
 	## Scopes
 	scope :latest, -> { order('created_at DESC')}  
+	scope :active, -> {where(is_active: true)}
+  scope :inactive, -> {where(is_active: false)}
 
 	## Methods
 	def diagnosis_codes_map
@@ -54,6 +59,14 @@ class PatientCase < ActiveRecord::Base
 
 	def display_created_at
 		created_at.strftime('%d/%m/%Y')
+	end
+
+	def title
+    search_title
+  end
+
+	def search_title
+		"#{patient.full_name} - #{patient.last_visit.visited_at.to_date if patient.last_visit} - #{description} - #{patient_id}"
 	end
 
 	private

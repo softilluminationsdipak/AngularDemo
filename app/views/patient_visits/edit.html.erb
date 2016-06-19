@@ -1,0 +1,134 @@
+<h3>Patient Visit
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+  	The purpose of the Transactions form is to record and view services and payments. The top portion of the form is the treatment detail section, which displays the treatments or payments for the current patient visit. At the bottom of transaction form is the transaction history section.
+  </small>
+</h3>
+
+<div class="panel-body">
+  <div class="panel panel-default">
+    <div class="panel-body">
+    	<%= form_for [@clinic, @patient, @patient_case, @patient_visit], html: {class: 'form-horizontal', id: 'validate_edit_patient_visit'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>    		
+    		<legend>Patient Visit Information</legend>
+    		<div class='col-md-6 col-sm-6 col-xs-12'>
+    			<div class="form-group">
+            <label class="col-lg-5 control-label">Patient Case ID</label>
+            <div class="col-lg-7">
+            	<%= form.select :patient_case_id, @patient.patient_cases.map { |c| [c.title, c.id] }, {include_blank: 'Select Patient Case'}, { class: 'form-control m-b select2-1' } %>
+            </div>
+          </div>
+
+    			<div class="form-group">
+            <label class="col-lg-5 control-label">Visited At</label>
+            <div class="col-lg-7">
+              <div class="input-group date" id="datepicker1">
+                <%= form.text_field :visited_at, value: form.object.visited_at.present? ? form.object.visited_at.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'Visited At' %>
+                <span class="input-group-addon">
+                  <span class="fa fa-calendar"></span>
+                </span>
+              </div>            	
+            </div>
+          </div>
+
+    			<div class="form-group">
+           	<label class="col-lg-5 control-label">Fee Slip #</label>
+           	<div class="col-lg-7">
+           		<%= form.text_field :fee_slip_number, placeholder: 'Fee Slip Number', class: 'form-control' %>
+           	</div>
+          </div>
+
+    			<div class="form-group">
+            <label class="col-lg-5 control-label">Onset At</label>
+            <div class="col-lg-7">
+              <div class="input-group date" id="datepicker1">
+                <%= form.text_field :onset_at, value: form.object.onset_at.present? ? form.object.onset_at.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'Onset At' %>
+                <span class="input-group-addon">
+                  <span class="fa fa-calendar"></span>
+                </span>
+              </div>            	
+            </div>
+          </div>
+
+    			<div class="form-group">
+            <label class="col-lg-5 control-label">First Treated At</label>
+            <div class="col-lg-7">
+              <div class="input-group date" id="datepicker1">
+                <%= form.text_field :first_treated_at, value: form.object.first_treated_at.present? ? form.object.first_treated_at.to_date.strftime('%d/%m/%Y') : '', class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'First Treated At' %>
+                <span class="input-group-addon">
+                  <span class="fa fa-calendar"></span>
+                </span>
+              </div>            	
+            </div>
+          </div>
+    		</div>
+
+    		<div class='col-md-6 col-sm-6 col-xs-12'>
+
+          <div class="form-group">
+            <label class="col-lg-5 control-label">&nbsp;</label>
+            <div class="col-lg-7 mrgbtn7">                    
+              <label class="checkbox-inline c-checkbox">
+                <%= form.check_box :should_bill_primary %>
+                <span class="fa fa-check"></span> Should Bill Primary 1
+              </label>
+            </div>
+          </div>
+
+    			<div class="form-group">
+            <label class="col-lg-5 control-label">Primary Patient Bill</label>
+            <div class="col-lg-7">
+            	<%= form.select :primary_patient_bill_id, @patient.patient_bills.map { |c| [c.title, c.id] }, {include_blank: 'Select Patient Bill'}, { class: 'form-control m-b select2-1' } %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-5 control-label">&nbsp;</label>
+            <div class="col-lg-7 mrgbtn7">                    
+              <label class="checkbox-inline c-checkbox">
+                <%= form.check_box :should_bill_secondary %>
+                <span class="fa fa-check"></span> Should Bill Secondary 1
+              </label>
+            </div>
+          </div>
+
+    			<div class="form-group">
+            <label class="col-lg-5 control-label">Secondary Patient Bill</label>
+            <div class="col-lg-7">
+            	<%= form.select :secondary_patient_bill_id, @patient.patient_bills.map { |c| [c.title, c.id] }, {include_blank: 'Select Patient Bill'}, { class: 'form-control m-b select2-1' } %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-5 control-label">&nbsp;</label>
+            <div class="col-lg-7 mrgbtn7">                    
+              <label class="checkbox-inline c-checkbox">
+                <%= form.check_box :should_bill_attorney %>
+                <span class="fa fa-check"></span> Should Bill Attorney
+              </label>
+            </div>
+          </div>
+
+    			<div class="form-group">
+            <label class="col-lg-5 control-label">Attorney Patient Bill</label>
+            <div class="col-lg-7">
+            	<%= form.select :attorney_patient_bill_id, @patient.patient_bills.map { |c| [c.title, c.id] }, {include_blank: 'Select Patient Bill'}, { class: 'form-control m-b select2-1' } %>
+            </div>
+          </div>
+    		</div>
+
+    		<div class="clearfix"></div>
+    		<hr>
+
+        <div class="form-group">
+          <div class="col-lg-5 col-sm-offset-1">
+            <%= link_to 'Cancel', :back, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+            <%= form.submit 'Save Case Info.', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+          </div>
+        </div>
+    	<% end %>
+      <%= render partial: '/patient_visits/diagnosis' %>
+    </div>
+  </div>
+</div>

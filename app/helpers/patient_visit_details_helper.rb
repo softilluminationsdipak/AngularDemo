@@ -1,0 +1,2 @@
+module PatientVisitDetailsHelper
+end

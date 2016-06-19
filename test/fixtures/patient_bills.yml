@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patient_case_id: 1
+  insurance_carrier_id: 1
+  provider_id: 1
+  is_secondary_claim: false
+
+two:
+  patient_case_id: 1
+  insurance_carrier_id: 1
+  provider_id: 1
+  is_secondary_claim: false

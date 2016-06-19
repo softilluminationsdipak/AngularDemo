@@ -110,6 +110,10 @@ class Clinic < ActiveRecord::Base
     created_at.strftime('%a, %d %b %Y - %H:%M %p')
   end
 
+  def place_of_service
+    clinic_preference ? clinic_preference.default_place_of_service : nil
+  end
+
   private 
 
   def build_clinic_preference_if_nil

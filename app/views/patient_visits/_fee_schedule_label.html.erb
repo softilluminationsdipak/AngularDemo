@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+  <div id="FSLabel" role="tab" class="panel-heading">
+    <h4 class="panel-title">
+      <a data-toggle="collapse" data-parent="#accordion" href="#fslabel1" aria-expanded="" aria-controls="patientcaseOne" class="">
+        Fee Schedule Label
+      </a>
+    </h4>
+  </div>
+
+  <div id="fslabel1" role="tabpanel" aria-labelledby="patientHeadingOne" class="panel-collapse collapse" aria-expanded="" style="">
+    <div class="panel-body">
+    	<%= form_for [@clinic, @patient, @patient_case], html: {class: 'form-inline'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+        <%= hidden_field_tag :clinic_id, @clinic.slug %>
+        <%= hidden_field_tag :patient_id, @patient_case.patient.slug %>
+        <div class="form-group">
+          <label for="input-fee-schedule-id" class="sr-only">Fee Schedule Label</label>
+          <%= form.select :fee_schedule_label_id, current_account.fee_schedule_labels.map { |l| [ l.label, l.id ] }, {include_blank: 'Select Fee Schedule Label'}, {class: 'form-control m-b'} %>
+        </div>
+        
+        <%= form.submit 'Save', class: 'btn btn-primary', data: { disable_with: "Please Wait..." } %>
+
+      <% end %>
+    </div>
+  </div>
+</div>				

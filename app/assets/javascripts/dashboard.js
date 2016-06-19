@@ -51,6 +51,8 @@
 //= require dashboard/procedure_codes.js
 //= require dashboard/accounts.js
 //= require dashboard/patient_cases.js
+//= require dashboard/patient_visits.js
+//= require dashboard/patient_visit_details.js
 //= require sweetalert2
 //= require turbolinks
 

@@ -1,0 +1,137 @@
+
+
+<div class="col-md-12 col-sm-12 col-lg-12  patient-visit-label patient-visit-detail-form">
+	<%= form_for [@clinic, @patient, @patient_case, @patient_visit, patient_visit_detail], html: {class: 'form-inline patient_visit_detail_form'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+		
+		<div class="col-md-2 form-group">
+			<%= form.select :procedure_code_id, current_account.procedure_codes.order('name DESC').collect { |p| [p.title, p.id] }, { include_blank: true }, {class: 'form-control pvd-width', required: 'required'} %>
+		</div>
+		
+		<div class="col-md-1 form-group">
+			<%= form.text_field :amount_cents, size: 6, class: 'form-control pvd-width', required: 'required' %>
+		</div>
+
+		<div class="col-md-1 units_sold form-group">
+			<%= form.text_field :units_sold, size: 3, class: 'form-control pvd-width', required: 'required' %>
+		</div>
+
+		<div class="col-md-2 provider form-group">
+			<%= form.select :provider_id, current_account.providers.map { |p| [p.name, p.id] }, {}, class: 'form-control pvd-width', required: 'required' %>	
+		</div>
+
+		<div class="col-md-1 form-group diagnosis-pointer">					
+			<%= form.text_field :diagnosis_pointer, class: 'form-control pvd-width', required: 'required' %>
+		</div>
+
+		<div class="col-md-1 form-group">
+			<%= form.select :place_of_service_code, AppConfig['options']['places_of_service'], {}, class: 'form-control pvd-width', required: 'required' %>
+		</div>
+
+		<div class="col-md-1 form-group">
+			<%= form.text_field :patient_owes_cent, size: 6, disabled: patient_visit_detail.new_record? ? false : patient_visit_detail.try(:procedure_code).try(:non_insurance_billable?), class: 'form-control pvd-width', required: 'required' %>
+		</div>
+
+		<div class="col-md-1 form-group">
+			<%= form.text_field :insurance_owes_cents, size: 6, disabled: patient_visit_detail.new_record? ? false : patient_visit_detail.try(:procedure_code).try(:non_insurance_billable?), class: 'form-control pvd-width', required: 'required' %>
+		</div>
+
+		<div class="col-md-1 form-group service_in_dollars">
+			$ <%= patient_visit_detail.service_in_dollars %>					
+		</div>
+
+		<div class="col-md-1 form-group">
+			<% if patient_visit_detail.new_record? %>
+				<button type="submit" class="btn btn-default btn-xs pvd-width-btn" data-disable-with="<i class='fa fa-refresh fa-spin'></i>">
+    			<i class="fa fa-plus"></i>
+				</button>				
+			<% else %>
+				<button type="submit" class="btn btn-default btn-xs pvd-width-btn" data-disable-with="<i class='fa fa-refresh fa-spin'></i>">
+    			<i class="fa fa-save"></i>
+				</button>								
+				<%= link_to clinic_patient_patient_case_patient_visit_patient_visit_detail_path(@clinic, @patient, @patient_case, @patient_visit, patient_visit_detail), class: 'btn btn-danger btn-xs pvd-width-btn', title: 'Destroy', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe, confirm: 'Are you sure want to delete this patient information?' }, method: :delete do %>
+					<i class="fa fa-trash"></i>
+				<% end %>
+			<% end %>
+		</div>
+	<% end %>
+</div>
+
+<%= content_for :javascript do %>
+	<script type="text/javascript">
+		$("#new_patient_visit_detail, #edit_patient_visit_detail_<%= patient_visit_detail.try(:id) %>").validate({
+			errorElement: "span",
+			rules: {
+				'patient_visit_detail[procedure_code_id]': {
+					required: true
+				},
+				'patient_visit_detail[amount_cents]': {
+					number: true,
+					maxlength: 6,
+					required: true
+				},
+				'patient_visit_detail[units_sold]': {
+					required: true,
+					number: true,
+					maxlength: 6
+				},
+				'patient_visit_detail[diagnosis_pointer]': {
+					required: true,
+					number: true,
+					maxlength: 6
+				},
+				'patient_visit_detail[patient_owes_cent]':{
+					required: true,
+					number: true,
+					maxlength: 6
+				},
+				'patient_visit_detail[insurance_owes_cents]':{
+					required: true,
+					number: true,
+					maxlength: 6
+				},
+				'patient_visit_detail[provider_id]': {
+					required: true
+				},
+				'patient_visit_detail[place_of_service_code]':{
+					required: true
+				}
+			},
+			messages: {
+				'patient_visit_detail[procedure_code_id]': {
+					required: 'Required'
+				},
+				'patient_visit_detail[amount_cents]': {
+					required: "Required",
+					maxlength: 'Only 6 Digit',
+					number: 'Only number'
+				},
+				'patient_visit_detail[units_sold]': {
+					required: "Required",
+					maxlength: 'Only 6 Digit',
+					number: 'Only number'
+				},
+				'patient_visit_detail[diagnosis_pointer]': {
+					required: "Required",
+					maxlength: 'Only 6 Digit',
+					number: 'Only number'
+				},
+				'patient_visit_detail[patient_owes_cent]':{
+					required: "Required",
+					maxlength: 'Only 6 Digit',
+					number: 'Only number'
+				},
+				'patient_visit_detail[insurance_owes_cents]':{
+					required: "Required",
+					maxlength: 'Only 6 Digit',
+					number: 'Only number'
+				},
+				'patient_visit_detail[provider_id]':{
+					required: 'Required'
+				},
+				'patient_visit_detail[place_of_service_code]':{
+					required: 'Required'
+				}
+			}
+		})
+	</script>
+<% end %>

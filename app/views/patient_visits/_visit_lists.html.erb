@@ -1,0 +1,84 @@
+<div class="panel panel-default">
+  <div id="patientVisit2" role="tab" class="panel-heading">
+    <h4 class="panel-title">
+      <a data-toggle="collapse" data-parent="#accordion" href="#Visit2" aria-expanded="true" aria-controls="Visit2" class="patient-visit-date-header">
+        Detail - <%= Time.zone.now.strftime('%d/%m/%Y') %>
+      </a>
+    </h4>
+  </div>
+  
+  <div id="Visit2" role="tabpanel" aria-labelledby="patientVisit2" class="panel-collapse collapse in" aria-expanded="" style="">
+    <div class="panel-body">
+        <div id="patient_visit_details">
+          <%= render partial: '/patient_visit_details/pv_details' %>
+        </div>
+
+        <div class="clearfix"></div><hr>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Dates</th>
+                <th>Charges</th>
+                <th>Payment</th>
+                <th>Adjusted</th>
+                <th>Pat Owes</th>
+                <th>Insur. Bal.</th>
+                <th>Balance</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @patient_visits.each do |visit| %>
+                <tr>
+                  <td>                    
+                    <label class="radio-inline c-radio">                      
+                      <%= radio_button_tag 'patient_visit_id', visit.id, visit.id == params[:patient_visit_id].to_i || (@patient_visit && visit.id == @patient_visit.id), onclick: "loadVisit('#{@clinic.slug}', '#{@patient.slug}', '#{@patient_case.slug}', '#{visit.id}');" %>
+                      <span class="fa fa-circle"></span>
+                    </label>
+                  </td>
+                  <td><%= visit.visited_at.to_date.strftime('%d/%m/%Y') %></td>
+                  <td>$ <%= visit.total_service %></td>
+                  <td>$ <%= visit.total_paid %></td>
+                  <td>$ <%= visit.total_adjust %></td>
+                  <td>$ <%= visit.total_patient_owes %></td>
+                  <td>$ <%= visit.total_insurance_owes %></td>
+                  <td>$ <%= visit.balance_in_dollars %></td>
+                  <td>
+                    <%= link_to edit_clinic_patient_patient_case_patient_visit_path(@clinic, @patient, @patient_case, @patient_visit), class: 'btn btn-primary btn-xs', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe}, title: 'Edit' do %>
+                      <i class="fa fa-pencil"></i>
+                    <% end %>
+                    <%= link_to '#', class: 'btn btn-danger btn-xs', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe}, title: 'Delete' do %>
+                      <i class="fa fa-trash"></i>
+                    <% end %>
+                    <%= link_to '#', class: 'btn btn-info btn-xs', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe}, title: 'Push To Case Diagnosis' do %>
+                      PUSH
+                    <% end %>
+                    <%= link_to '#', class: 'btn btn-info btn-xs', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe}, title: 'Pull From Case Diagnosis' do %>
+                      PULL
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+              <% if not @patient_visits.nil? %>
+                <tr>
+                  <td></td>
+                  <td><strong> Patient Total Visits <%= h @patient_visits.size %></strong></td>
+                  <td>$ <%= @patient_visits.map(&:total_service).sum %></td>
+                  <td>$ <%= @patient_visits.map(&:total_paid).sum %></td>
+                  <td>$ <%= @patient_visits.map(&:total_adjust).sum %></td>
+                  <td>$ <%= total_patient_owes = @patient_visits.map(&:total_patient_owes).sum %></td>
+                  <td>$ <%= total_insurance_owes = @patient_visits.map(&:total_insurance_owes).sum %></td>
+                  <td>$ <%= total_patient_owes + total_insurance_owes %></td>
+                  <td></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        
+
+    </div>
+  </div>
+</div> 

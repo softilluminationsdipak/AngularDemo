@@ -22,6 +22,8 @@
  *= require dashboard/select2-bootstrap.css
  *= require sweetalert2
  *= require dashboard/app.css
+ *= require css/patient_visit_details.css
+ *= require dashboard/patient_visits.css
  *= require_self
  */
 
@@ -34,6 +36,9 @@
   margin-bottom: 7px;
 }
 
+.mrg0005{
+  margin-right: 5px;
+}
 .multic-box label{
   margin: 1px !important;
   text-align: justify;

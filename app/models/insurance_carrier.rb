@@ -20,7 +20,7 @@ class InsuranceCarrier < ActiveRecord::Base
 
 	has_many :primary_patient_cases, foreign_key: :primary_insurance_carrier_id, class_name: 'PatientCase'
 	has_many :secondary_patient_cases, foreign_key: :secondary_insurance_carrier_id, class_name: 'PatientCase'
-
+	has_many :patient_bills
 	## Validations
 	validates :name, presence: true, uniqueness: {scope: :account_id}
 

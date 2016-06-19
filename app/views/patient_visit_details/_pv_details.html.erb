@@ -1,0 +1,64 @@
+<div class="col-md-12 col-sm-12 col-lg-12 patient-visit-label">
+	<div class="col-md-2">Code</div>
+	<div class="col-md-1">Amount</div>
+	<div class="col-md-1">Units</div>
+	<div class="col-md-2">Doc</div>
+	<div class="col-md-1">Dx</div>
+	<div class="col-md-1">Pos</div>
+	<div class="col-md-1">Psnt. Owns</div>
+	<div class="col-md-1">Ins Owns</div>
+	<div class="col-md-1">Service</div>
+	<div class="col-md-1">Action</div>
+</div>
+
+<div class='patient-visit-list'>
+	<% if @patient_visit.patient_visit_details.present? %>
+		<% @patient_visit.patient_visit_details.each do |patient_visit_detail| %>
+			<%= render partial: '/patient_visit_details/line', locals: {patient_visit_detail: patient_visit_detail} %>
+		<% end %>
+	<% end %>
+</div>
+
+<div class='patient-visit-list-form'>
+	<%= render partial: '/patient_visit_details/line', locals: {patient_visit_detail: @patient_visit.patient_visit_details.build(place_of_service_code: @clinic.place_of_service) } %>
+</div>	
+
+
+<div class="clearfix"></div><hr>
+
+<%= form_for [@clinic, @patient, @patient_case, @patient_visit], html: {class: 'form-inline'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+  <div class="checkbox c-checkbox">
+    <label>
+      <%= form.check_box :should_bill_primary, disabled: @patient_visit.patient_case.primary_insurance_carrier.nil? %>
+      <span class="fa fa-check"></span>Should bill primary
+    </label>
+  </div>
+  
+  <div class="form-group">              
+    <%#= form.select :primary_patient_bill_id, @patient_visit.patient_case.patient_bills.map{|b| [b.name, b.id]}, {include_blank: true}, {class: 'form-control'} %>
+  </div>
+
+  <div class="checkbox c-checkbox">
+    <label>
+    <%= form.check_box :should_bill_secondary, disabled: @patient_visit.patient_case.secondary_insurance_carrier.nil? %>
+      <span class="fa fa-check"></span>Should bill secondary
+    </label>
+  </div>
+
+  <div class="form-group">  
+    <%#= form.select :secondary_patient_bill_id, @patient_visit.patient_case.patient_bills.map{|b| [b.name, b.id]}, {include_blank: true}, {class: 'form-controls'} %>
+  </div>
+
+  <div class="checkbox c-checkbox">
+    <label>
+      <%= form.check_box :should_bill_attorney, disabled: @patient_visit.patient_case.attorney.nil? %>
+      <span class="fa fa-check"></span>Should bill attorney
+    </label>
+  </div>
+
+  <div class="form-group">
+    <%#= form.select :attorney_patient_bill_id, @patient_visit.patient_case.patient_bills.map{|b| [b.name, b.id]}, {include_blank: true}, {class: 'form-control'} %>
+  </div>
+
+  <%= form.submit 'Save', class: 'btn btn-default', data: {disable_with: 'Saving...'} %>
+<% end %>

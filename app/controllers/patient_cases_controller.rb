@@ -25,7 +25,7 @@ class PatientCasesController < BaseController
 		@patient_case = @patient.patient_cases.build(patient_case_params)		
 		if @patient_case.valid?
 			@patient_case.save
-			redirect_to clinic_patient_patient_cases_path(@clinic, @patient)
+			redirect_to clinic_patient_patient_cases_path(@clinic, @patient), notice: 'Successfully created patient case!'
 		else
 			set_diagnoses
 			render action: :new
@@ -50,7 +50,7 @@ class PatientCasesController < BaseController
 		add_breadcrumb "Patients", clinic_patients_path(@clinic)
 		add_breadcrumb 'Patient Cases', clinic_patient_patient_cases_path(@clinic, @patient)
 		if @patient_case.update_attributes(patient_case_params)
-			redirect_to clinic_patient_patient_cases_path(@clinic, @patient)
+			redirect_to clinic_patient_patient_cases_path(@clinic, @patient), notice: "Successfully updated patient case for - #{@patient_case.description}"
 		else
 			set_diagnoses
 			render action: :edit

@@ -31,6 +31,7 @@ class Patient < ActiveRecord::Base
 	has_many :family_members, class_name: 'Patient', foreign_key: 'parent_patient_id'
 	
   has_many :patient_cases, dependent: :destroy
+  has_many :patient_bills, through: :patient_cases
 
   ## Validations
 	validate :contact_last_name_blank, :contact_sex_blank
@@ -57,9 +58,25 @@ class Patient < ActiveRecord::Base
   end
 
 	## Instance Methods
+  def current_case
+    patient_cases.active.first
+  end
+
 	def title
 		contact.name
 	end
+
+  def first_visit
+    if current_case and current_case.patient_visits.any?
+      current_case.patient_visits.first(:order => 'visited_at ASC')
+    end
+  end
+
+  def last_visit
+    if current_case and current_case.patient_visits.any?
+      current_case.patient_visits.order('visited_at DESC').try(:first)
+    end
+  end
 
   def should_generate_new_friendly_id?
     contact.first_name_changed? || contact.last_name_changed?

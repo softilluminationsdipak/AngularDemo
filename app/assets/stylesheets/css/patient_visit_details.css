@@ -1,0 +1,29 @@
+.patient-visit-label div{
+	padding: 0px 5px 0px 5px;
+	font-weight: bold;
+}
+.pvd-width{
+	width: 100% !important;
+}
+.service_in_dollars{
+	line-height: 33px;
+}
+.patient-visit-detail-form .pvd-width{
+	border-radius: 0px;
+  padding: 5px;
+  height: 30px;	
+}
+.pvd-width-btn{
+	border-radius: 0px;
+}
+
+.patient-visit-detail-form .form-group{
+	line-height: 33px;
+}
+    
+.patient_visit_detail_form span.error{
+	top: -8px;
+  font-weight: normal;
+  font-size: 12px;
+  position: relative;
+}

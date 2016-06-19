@@ -79,7 +79,7 @@ class ProcedureCodesController < BaseController
 	private
 
 	def procedure_code_params
-		params.require(:procedure_code).permit(:id, :name, :description, :cpt_code, :tax_rate_percentage, :modifier, :modifier2, :modifier3, :type_code, :service_type_code, procedure_codes_fee_schedule_labels_attributes: [:id, :fee_schedule_label_id, :fee_cents, :fee_in_dollars, :copay, :is_percentage, :expected_insurance_payment_cents, :expected_insurance_payment_in_dollars, fee_schedule_label_attributes: [:id, :clinic_id, :label, :account_id] ])
+		params.require(:procedure_code).permit(:id, :name, :description, :account_id, :cpt_code, :tax_rate_percentage, :modifier, :modifier2, :modifier3, :type_code, :service_type_code, procedure_codes_fee_schedule_labels_attributes: [:id, :fee_schedule_label_id, :fee_cents, :fee_in_dollars, :copay, :is_percentage, :expected_insurance_payment_cents, :expected_insurance_payment_in_dollars, fee_schedule_label_attributes: [:id, :clinic_id, :label, :account_id] ])
 	end
 
 	def find_clinic

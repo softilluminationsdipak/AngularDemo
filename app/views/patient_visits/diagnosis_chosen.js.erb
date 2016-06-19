@@ -1,0 +1,5 @@
+<% if @diagnosis_code.present? %>
+	$('#patient_visit_diagnosis' + '<%= @number %>' + '_description').val('<%= @diagnosis_code.description %>')
+<% else %>	
+	$('#patient_visit_diagnosis' + '<%= @number %>' + '_description').val('')
+<% end %>

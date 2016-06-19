@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160605041222) do
+ActiveRecord::Schema.define(version: 20160619121322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -231,6 +231,26 @@ ActiveRecord::Schema.define(version: 20160605041222) do
   add_index "letters", ["account_id"], name: "index_letters_on_account_id", using: :btree
   add_index "letters", ["slug"], name: "index_letters_on_slug", using: :btree
 
+  create_table "patient_bills", force: :cascade do |t|
+    t.integer  "patient_case_id"
+    t.integer  "insurance_carrier_id"
+    t.integer  "provider_id"
+    t.boolean  "is_secondary_claim",            default: false
+    t.integer  "status_code"
+    t.boolean  "is_workmanscomp_progress_form", default: false
+    t.boolean  "is_assigned"
+    t.datetime "hcfa_bill_date"
+    t.datetime "deleted_at"
+    t.text     "notes"
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+  end
+
+  add_index "patient_bills", ["deleted_at"], name: "index_patient_bills_on_deleted_at", using: :btree
+  add_index "patient_bills", ["insurance_carrier_id"], name: "index_patient_bills_on_insurance_carrier_id", using: :btree
+  add_index "patient_bills", ["patient_case_id"], name: "index_patient_bills_on_patient_case_id", using: :btree
+  add_index "patient_bills", ["provider_id"], name: "index_patient_bills_on_provider_id", using: :btree
+
   create_table "patient_cases", force: :cascade do |t|
     t.string   "slug"
     t.integer  "patient_id"
@@ -330,6 +350,70 @@ ActiveRecord::Schema.define(version: 20160605041222) do
   add_index "patient_cases", ["patient_id"], name: "index_patient_cases_on_patient_id", using: :btree
   add_index "patient_cases", ["provider_id"], name: "index_patient_cases_on_provider_id", using: :btree
   add_index "patient_cases", ["referrer_id"], name: "index_patient_cases_on_referrer_id", using: :btree
+
+  create_table "patient_visit_details", force: :cascade do |t|
+    t.integer  "patient_case_id"
+    t.integer  "patient_visit_id"
+    t.integer  "provider_id"
+    t.integer  "procedure_code_id"
+    t.integer  "amount_cents"
+    t.integer  "patient_owes_cent"
+    t.integer  "insurance_owes_cents"
+    t.integer  "units_sold"
+    t.string   "diagnosis_pointer"
+    t.integer  "place_of_service_code"
+    t.datetime "deleted_at"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "patient_visit_details", ["deleted_at"], name: "index_patient_visit_details_on_deleted_at", using: :btree
+  add_index "patient_visit_details", ["patient_case_id"], name: "index_patient_visit_details_on_patient_case_id", using: :btree
+  add_index "patient_visit_details", ["patient_visit_id"], name: "index_patient_visit_details_on_patient_visit_id", using: :btree
+  add_index "patient_visit_details", ["procedure_code_id"], name: "index_patient_visit_details_on_procedure_code_id", using: :btree
+  add_index "patient_visit_details", ["provider_id"], name: "index_patient_visit_details_on_provider_id", using: :btree
+
+  create_table "patient_visit_payments", force: :cascade do |t|
+    t.integer  "source_patient_visit_detail_id"
+    t.integer  "destination_patient_visit_detail_id"
+    t.integer  "amount_cents"
+    t.integer  "transfer_direction_code"
+    t.datetime "deleted_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  create_table "patient_visits", force: :cascade do |t|
+    t.integer  "patient_case_id"
+    t.datetime "visited_at"
+    t.string   "fee_slip_number"
+    t.boolean  "should_bill_primary",       default: false
+    t.integer  "primary_patient_bill_id"
+    t.boolean  "should_bill_secondary",     default: false
+    t.integer  "secondary_patient_bill_id"
+    t.boolean  "should_bill_attorney",      default: false
+    t.integer  "attorney_patient_bill_id"
+    t.datetime "onset_at"
+    t.datetime "first_treated_at"
+    t.integer  "diagnosis1_id"
+    t.integer  "diagnosis2_id"
+    t.integer  "diagnosis3_id"
+    t.integer  "diagnosis4_id"
+    t.string   "diagnosis1_description"
+    t.string   "diagnosis2_description"
+    t.string   "diagnosis3_description"
+    t.string   "diagnosis4_description"
+    t.text     "details"
+    t.datetime "deleted_at"
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+  end
+
+  add_index "patient_visits", ["diagnosis1_id"], name: "index_patient_visits_on_diagnosis1_id", using: :btree
+  add_index "patient_visits", ["diagnosis2_id"], name: "index_patient_visits_on_diagnosis2_id", using: :btree
+  add_index "patient_visits", ["diagnosis3_id"], name: "index_patient_visits_on_diagnosis3_id", using: :btree
+  add_index "patient_visits", ["diagnosis4_id"], name: "index_patient_visits_on_diagnosis4_id", using: :btree
+  add_index "patient_visits", ["patient_case_id"], name: "index_patient_visits_on_patient_case_id", using: :btree
 
   create_table "patients", force: :cascade do |t|
     t.integer  "clinic_id"
