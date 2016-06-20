@@ -1,0 +1,16 @@
+<h3>Diagnosis
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+  	The purpose of the Transactions form is to record and view services and payments. The top portion of the form is the treatment detail section, which displays the treatments or payments for the current patient visit. At the bottom of transaction form is the transaction history section.
+  </small>
+</h3>
+
+<div class="panel-body">
+  <div class="panel panel-default">
+    <div class="panel-body">
+    	<%= render partial: '/patient_visits/diagnosis' %>
+    </div>
+  </div>
+</div>

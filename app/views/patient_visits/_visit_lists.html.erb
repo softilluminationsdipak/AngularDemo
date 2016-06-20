@@ -56,6 +56,7 @@
                     
                     <%= link_to 'PUSH', 'javascript:void(0);', class: "btn btn-info btn-xs", id: "push_to_case_#{visit.id}", title: 'Push To Case Diagnosis', onclick: "pushToCase('#{visit.id}', '#{@clinic.slug}', '#{@patient.slug}', '#{@patient_case.slug}')" %>
                     <%= link_to 'PULL', 'javascript:void(0);', class: "btn btn-info btn-xs", id: "pull_from_case_#{visit.id}", title: 'Pull From Case Diagnosis', onclick: "pullFromCase('#{visit.id}', '#{@clinic.slug}', '#{@patient.slug}', '#{@patient_case.slug}')" %>
+                    <%= link_to 'Diagnosis', diagnoses_clinic_patient_patient_case_patient_visit_path(@clinic, @patient, @patient_case, visit), class: "btn btn-info btn-xs", title: 'Diagnosis', data: {disable_with: 'Wait...'} %>
                   </td>
                 </tr>
               <% end %>

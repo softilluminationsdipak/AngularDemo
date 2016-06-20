@@ -1,7 +1,7 @@
 class PatientVisitsController < BaseController
 	
 	before_action :find_patient_case, :find_patient, :find_clinic
-	before_action :find_patient_visit, only: [:show, :edit, :update, :destroy, :pull_from_case, :push_to_case]
+	before_action :find_patient_visit, only: [:show, :edit, :update, :destroy, :pull_from_case, :push_to_case, :diagnoses]
 
 	add_breadcrumb "Home", :root_path
 	add_breadcrumb "Clinics", :clinics_path
@@ -105,6 +105,13 @@ class PatientVisitsController < BaseController
   		format.js
   		format.json{render json: @patient_visit}
   	end  	
+  end
+
+  def diagnoses
+		add_breadcrumb "Patients", clinic_patients_path(@clinic)
+		add_breadcrumb 'Patient Cases', clinic_patient_patient_cases_path(@clinic, @patient)		
+		add_breadcrumb 'Patient Visit', clinic_patient_patient_case_patient_visits_path(@clinic, @patient, @patient_case)
+		add_breadcrumb 'Diagnoses'
   end
 
 	private
