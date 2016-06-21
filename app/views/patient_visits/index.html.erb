@@ -10,7 +10,8 @@
 
 <div class="row">
   <div class="col-lg-12 text-right">                     
-    <%= link_to "<em class='fa fa-plus'></em> Add Patient Visit".html_safe, new_clinic_patient_patient_case_patient_visit_path(@clinic, @patient, @patient_case), class: 'btn btn-info btn-xs pull-right', data: {disable_with: 'Please wait...'} %>
+    <%= link_to "<em class='fa fa-plus'></em> Add Patient Visit".html_safe, new_clinic_patient_patient_case_patient_visit_path(@clinic, @patient, @patient_case), class: 'btn btn-info btn-xs pull-right', data: {disable_with: 'Please wait...'} %>    
+    <%= link_to "<em class='fa fa-calendar'></em> Appointments".html_safe, clinic_patient_appointments_path(@clinic, @patient), class: 'btn btn-info btn-xs pull-right mrgrgt5', data: {disable_with: 'Please wait...'}  %>
   </div>
   <div class="clearfix"></div> 
 

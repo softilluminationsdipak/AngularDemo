@@ -1,0 +1,55 @@
+<div class="panel-body">
+  <div class="panel panel-default">              
+    <div class="panel-body">
+      <%= form_for @room, html: {class: 'form-horizontal', id: 'validate_new_room'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>        
+              
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Name</label>
+          <div class="col-lg-3">
+            <%= form.text_field :name, placeholder: 'Room Name', class: 'form-control' %>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label class="col-lg-4 control-label">First Appointment Time</label>
+          <div class="col-lg-8">
+            <%= form.time_select :first_appointment_time, {}, {class: 'form-control-time', style: 'width:16.5%;'} %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Last Appointment Time</label>
+          <div class="col-lg-8">
+            <%= form.time_select :last_appointment_time, {}, {class: 'form-control-time', style: 'width:16.5%;'} %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Appointment Interval</label>
+          <div class="col-lg-3">
+            <%= form.text_field :minute_units, placeholder: 'Appointment Interval', class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Appointment Length</label>
+          <div class="col-lg-3">
+            <%= form.text_field :duration_units, placeholder: 'Appointment Length', class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+        <hr>
+        
+        <div class="form-group">
+          <div class="col-sm-4 col-sm-offset-2">
+            <%= link_to 'Cancel', rooms_path, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+            <%= form.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+          </div>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>  

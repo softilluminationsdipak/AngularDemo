@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  account_id: 1
+  first_appointment_time: 2016-06-20 09:46:46
+  last_appointment_time: 2016-06-20 09:46:46
+  duration_units: 1
+  minute_units: 1
+
+two:
+  name: MyString
+  account_id: 1
+  first_appointment_time: 2016-06-20 09:46:46
+  last_appointment_time: 2016-06-20 09:46:46
+  duration_units: 1
+  minute_units: 1

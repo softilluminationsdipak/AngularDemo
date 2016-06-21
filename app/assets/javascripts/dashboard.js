@@ -53,6 +53,7 @@
 //= require dashboard/patient_cases.js
 //= require dashboard/patient_visits.js
 //= require dashboard/patient_visit_details.js
+//= require dashboard/rooms.js
 //= require sweetalert2
 //= require turbolinks
 

@@ -74,7 +74,12 @@ Rails.application.routes.draw do
           end
           resources :patient_visit_details
         end
-      end      
+      end
+      resources :appointments do
+        collection do
+          get :day_at_glance
+        end
+      end
     end
 
     resources :procedure_codes do
@@ -83,7 +88,6 @@ Rails.application.routes.draw do
         post :type_code_selected
       end
     end
-    
   end
 
   resources :patients
@@ -137,6 +141,7 @@ Rails.application.routes.draw do
     end
   end
   
+  resources :rooms
   root 'welcome#home'
 
 end

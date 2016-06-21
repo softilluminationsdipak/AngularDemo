@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160619121322) do
+ActiveRecord::Schema.define(version: 20160620043016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,31 @@ ActiveRecord::Schema.define(version: 20160619121322) do
   end
 
   add_index "addresses", ["deleted_at"], name: "index_addresses_on_deleted_at", using: :btree
+
+  create_table "appointments", force: :cascade do |t|
+    t.integer  "contact_id"
+    t.integer  "clinic_id"
+    t.date     "date"
+    t.integer  "provider_id"
+    t.integer  "room_id"
+    t.datetime "starts_at"
+    t.text     "notes"
+    t.integer  "duration_units", default: 1
+    t.integer  "minute_units",   default: 15
+    t.datetime "deleted_at"
+    t.datetime "ends_at"
+    t.string   "recurring_type"
+    t.integer  "recurring_day"
+    t.time     "start_time"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "appointments", ["clinic_id"], name: "index_appointments_on_clinic_id", using: :btree
+  add_index "appointments", ["contact_id"], name: "index_appointments_on_contact_id", using: :btree
+  add_index "appointments", ["deleted_at"], name: "index_appointments_on_deleted_at", using: :btree
+  add_index "appointments", ["provider_id"], name: "index_appointments_on_provider_id", using: :btree
+  add_index "appointments", ["room_id"], name: "index_appointments_on_room_id", using: :btree
 
   create_table "attorneys", force: :cascade do |t|
     t.integer  "address_id"
@@ -563,6 +588,19 @@ ActiveRecord::Schema.define(version: 20160619121322) do
   add_index "referrers", ["insurance_carrier_id"], name: "index_referrers_on_insurance_carrier_id", using: :btree
   add_index "referrers", ["slug"], name: "index_referrers_on_slug", using: :btree
 
+  create_table "rooms", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "account_id"
+    t.time     "first_appointment_time", default: '2000-01-01 03:30:00'
+    t.time     "last_appointment_time",  default: '2000-01-01 12:30:00'
+    t.integer  "duration_units"
+    t.integer  "minute_units"
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+  end
+
+  add_index "rooms", ["account_id"], name: "index_rooms_on_account_id", using: :btree
+
   create_table "subscription_affiliates", force: :cascade do |t|
     t.string   "name"
     t.decimal  "rate",       precision: 6, scale: 4, default: 0.0
@@ -657,6 +695,46 @@ ActiveRecord::Schema.define(version: 20160619121322) do
 
   add_index "subscriptions", ["account_id"], name: "index_subscriptions_on_account_id", using: :btree
 
+  create_table "user_roles", force: :cascade do |t|
+    t.string   "name"
+    t.string   "appointments"
+    t.string   "attorneys"
+    t.string   "letters"
+    t.string   "paragraphs"
+    t.string   "reports"
+    t.string   "statements"
+    t.string   "narratives"
+    t.boolean  "can_see_day_stats"
+    t.boolean  "can_see_month_stats"
+    t.boolean  "can_see_year_stats"
+    t.boolean  "can_see_clinic_transactions"
+    t.integer  "clinic_id"
+    t.string   "patient_visit_details"
+    t.string   "patient_bills"
+    t.string   "clinic_preferences"
+    t.string   "clinics"
+    t.string   "account_roles"
+    t.string   "accounts"
+    t.string   "addresses"
+    t.string   "contacts"
+    t.string   "diagnosis_codes"
+    t.string   "ebill_setups"
+    t.string   "fee_schedules"
+    t.string   "insurance_carriers"
+    t.string   "legacy_ids"
+    t.string   "patient_cases"
+    t.string   "patient_visit_payments"
+    t.string   "patient_visits"
+    t.string   "patients"
+    t.string   "procedure_codes"
+    t.string   "providers"
+    t.string   "referrers"
+    t.string   "rooms"
+    t.datetime "deleted_at"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "firstname"
     t.string   "lastname"
@@ -683,11 +761,13 @@ ActiveRecord::Schema.define(version: 20160619121322) do
     t.integer  "account_id"
     t.boolean  "admin",                  default: false
     t.boolean  "system_admin"
+    t.integer  "user_role_id"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
+  add_index "users", ["user_role_id"], name: "index_users_on_user_role_id", using: :btree
 
 end
