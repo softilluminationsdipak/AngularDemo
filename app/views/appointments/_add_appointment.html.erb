@@ -1,0 +1,60 @@
+<div id="addAppointment" class="modal fade">
+  <div class="modal-dialog">
+     <div class="modal-content">
+        <div class="modal-header">
+           <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+              <span aria-hidden="true">×</span>
+           </button>
+           <h4 id="myModalLabel" class="modal-title">Add Appointment</h4>
+        </div>
+        <%= form_for [@clinic, @patient, appointment], html: {class: 'form-horizontal', id: 'validate_new_appointment'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+          <div class="modal-body">
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Appointment Date</label>
+              <div class="col-sm-8">
+                <div class="input-group date" id="datepicker1">
+                  <%= form.text_field :date, value: params[:date].present? ? params[:date].to_date.strftime('%d/%m/%Y') : Time.zone.now.to_date.strftime('%d/%m/%Y'), class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'Appointment Date' %>
+                  <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Patient Info</label>
+              <div class="col-sm-8">
+                <%= form.select :contact_id, options_for_select(@clinic.contacts.collect{|t| [t.name, t.id]}), {include_blank: 'Select Patient Info.'}, { class: 'form-control m-b select2-1' } %>
+              </div>
+            </div>  
+
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Select Room</label>
+              <div class="col-sm-8">
+                <%= form.select :room_id, options_for_select(current_account.rooms.collect{|t| [t.name, t.id]}), {include_blank: 'Select Room'}, { class: 'form-control m-b select2-1' } %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Start Time</label>
+              <div class="col-sm-8">                
+                <%= form.time_select :starts_at, {minute_step: 15}, {class: 'form-control-time', style: 'width:20%;'} %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Notes</label>
+              <div class="col-sm-8">                
+                <%= form.text_area :notes, rows: 3, class: 'form-control note-editor' %>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+             <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>             
+             <%= form.submit 'Add Appointment', class: 'btn btn-primary', data: {disable_with: 'Please Wait...'} %>
+          </div>
+        <% end %>
+     </div>
+  </div>
+</div>

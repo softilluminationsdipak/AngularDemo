@@ -24,6 +24,7 @@
  *= require dashboard/app.css
  *= require css/patient_visit_details.css
  *= require dashboard/patient_visits.css
+ *= require dashboard/appointments.css
  *= require_self
  */
 

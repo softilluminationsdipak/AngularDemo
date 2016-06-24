@@ -1,0 +1,47 @@
+ <% appts = [] %>
+
+<div id="day_at_glance">
+	<div class="appt_intervals">
+		<div class="appt_head">
+			&nbsp;
+		</div>
+		<% @longest_intervals.each_with_index do |day_interval, interval_num| %>
+			<div class="timerow">
+				<% if interval_num == 0 || interval_num % 4 == 0 %>
+					<%= h(day_interval.strftime('%H')) %> <sup><%= h(day_interval.strftime('%p')) %></sup>
+				<% end %>
+			</div>
+		<% end %>
+	</div>
+
+	<div class="appts_wrapper">
+		<% @columns.each_with_index do |column, number| %>
+			<div class="appt_content">
+				<div class="appt_head">
+					<%= column.class == Room ? h(column.name) : h(column) %>
+				</div> 
+				<% skip_appts = 0 %>
+				<% @longest_intervals.each_with_index do |day_interval, interval_num| %>
+					<% interval_screen_name = day_interval.strftime('%H:%M') %>
+					<% next if !@grid[number].has_key?(interval_screen_name) %>
+					<% skip_appts -= 1 and next if skip_appts > 0 %>					
+					<% appt = @grid[number][interval_screen_name] if !@grid[number].nil? && !@grid[number][interval_screen_name].nil? %>
+					<% unless appts.include?(appt) %>
+						<div id='appointment_<%= appt.try(:id) %>' class="appt <%= class_if_appt_at(appt, column.try(:id), day_interval) %>" style="<%= style_if_appt_at(appt, column.try(:id), day_interval) %>" data-date="<%= day_interval %>" data-room="<%= column.try(:id) %>" data-id="<%= appt.try(:id) unless appt.nil? %>" data-contact="<%= appt.contact_id unless appt.nil? %>">							 
+							 <% if @contact.present? && column.present? && appt.present? %>
+								<button type='button' title='' data-container='body' data-toggle='popover' data-placement='top' data-content="Time : <%= appt.starts_at.strftime('%H:%M') %> <br /> Notes : <small><%= appt.notes %> </small><br />Provider : <%= appt.try(:provider).try(:name) %> <br/> " class='btn btn-link info-appointment' data-html='true' data-original-title='<%= appt_at(appt, column.try(:id), @contact.try(:id), day_interval) %>'>
+									<i class="fa fa-info-circle"></i>	
+								</button>								
+								<%= appt_at(appt, column.try(:id), @contact.try(:id), day_interval) %>
+								<%= link_to "<em class='fa fa-trash'></em>".html_safe, clinic_appointment_path(@clinic, appt.id), data: {behavior: 'delete-appointment', klass: "appointment_#{appt.id}"}, style: 'float:right;width:10px;' %>
+							<% end %>
+						</div>
+						<% (appts << appt) unless appt.nil? %>
+						<% skip_appts = appt.units_15min - 1 if !appt.nil? && appt.units_15min > 0 %>
+					<% end %>
+				<% end %>
+			</div>
+		<% end %>
+	</div>
+
+</div>

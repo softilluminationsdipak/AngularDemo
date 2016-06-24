@@ -64,8 +64,10 @@
       </footer>
 
     </div>
+    <%= yield :add_appointment %>
     <%= javascript_include_tag 'dashboard', 'data-turbolinks-track' => true %>
     <%= yield :patient_case_javascript %>
     <%= yield :javascript %>
+
   </body>
 </html>

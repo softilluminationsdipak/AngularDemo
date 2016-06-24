@@ -150,9 +150,42 @@ jQuery(function() {
             }
           });
         }else {
-          $(_this).html('<em class="fa fa-trash"></em> Delete')
+          $(this).html('<em class="fa fa-trash"></em> Delete')
         }
       };
     })(this));
   });
+});
+
+jQuery(function() {
+  return $("[data-behavior='delete-appointment']").on("click", function(e) {
+  	klass_id = $(this).attr('data-klass')
+    e.preventDefault();
+    return swal({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this data!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#DD6B55',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      closeOnConfirm: false,
+    }, (function(_this) {
+      return function(confirmed) {
+        if (confirmed) {
+          $.ajax({
+            url: $(_this).attr("href"),
+            dataType: "JSON",
+            method: "DELETE",
+            success: function() {
+              swal('Deleted!', 'Your data has been deleted.', 'success');
+              console.log($(this).attr('data-klass'))
+              $("#" + klass_id).remove();
+            }
+          });
+        }        
+      };
+    })(this));
+  });
+
 });

@@ -2,6 +2,7 @@ class AppointmentsController < BaseController
 
 	before_action :find_clinic, :find_patient
 	before_action :contacts_scoper, :assign_patient, :assign_contact
+	before_action :find_appointment, only: [:destroy, :show, :update, :edit]
 
   WORKING_HOURS_BEGIN 		= "08:00"
   WORKING_HOURS_END 			= "18:59"
@@ -35,6 +36,14 @@ class AppointmentsController < BaseController
 	end
 
 	def create
+		@appointment = @clinic.appointments.build(appointment_params)		
+		@appointment.start_time 		= @appointment.starts_at
+		@appointment.recurring_type = 'one_time'
+		if @appointment.save
+			redirect_to day_at_glance_clinic_patient_appointments_path(@clinic, @patient, contact_id: @appointment.contact_id), notice: 'Successfully added appointment.'
+		else
+			redirect_to day_at_glance_clinic_patient_appointments_path(@clinic, @patient, contact_id: @appointment.contact_id), flash: {error: @appointment.errors.full_messages.first }
+		end
 	end
 
 	def show
@@ -47,6 +56,11 @@ class AppointmentsController < BaseController
 	end
 
 	def destroy
+		@appointment.destroy if @appointment.present?
+		respond_to do |format|
+			format.html{redirect_to day_at_glance_clinic_patient_appointments_path(@clinic, @patient, contact_id: @appointment.contact_id)}
+			format.json{ render json: @appointment}
+		end
 	end
 
 	private
@@ -63,6 +77,14 @@ class AppointmentsController < BaseController
 		Contact.joins("INNER JOIN patients ON patients.id = contacts.contactable_id INNER JOIN clinics ON patients.clinic_id = clinics.id").where("contacts.contactable_type = ? AND clinics.account_id = ?", "Patient", current_account.id).group("contacts.id")
 	end
 
+	def find_appointment
+		@appointment = @clinic.appointments.find(params[:id])
+	end
+
+	def appointment_params
+		params.require(:appointment).permit(:clinic_id, :patient_id, :date, :contact_id, :room_id, :starts_at, :ends_at, :provider_id, :notes, :duration_units, :recurring_type, :recurring_day, :start_time)
+	end
+
   def assign_patient
     if params[:contact_id] && params[:contact_id] != 'undefined'
       @contact = contacts_scoper.find(params[:contact_id])
@@ -72,7 +94,7 @@ class AppointmentsController < BaseController
 
   def assign_contact
     unless params[:contact_id].nil?
-      @contact = contacts_scoper.includes(:appointments).where("contacts.id = ?", params[:contact_id])
+      @contact = contacts_scoper.where("contacts.id = ?", params[:contact_id])    	
     end
   end
 
@@ -88,17 +110,19 @@ class AppointmentsController < BaseController
         intervals = get_intervals_for(day, column.first_appointment_time.to_s, column.last_appointment_time.to_s)
       else
         intervals = get_intervals_for(day, WORKING_HOURS_BEGIN, WORKING_HOURS_END)
-      end
+      end      
       @longest_intervals = intervals if intervals.size > @longest_intervals.size      
-      intervals.each do |interval|
-        if Room === column        
-          @grid[column_number][interval.strftime('%I:%M')] = @appointments.detect { |a| 
+      intervals.each_with_index do |interval, index|
+        if Room === column
+          @grid[column_number][interval.strftime('%H:%M')] = @appointments.detect { |a|           	
             (a.room_id == column.id && a.starts_at.strftime('%x %H:%M') == interval.strftime('%x %H:%M')) 
-          }
+          }          
         end
       end
-    end
-    @totals = @grid.collect{ |column| column.map { |row| row[1] }.compact.length }
+    end        
+
+    @totals = @grid.collect{ |column| column.map { |row| row[1] }.compact.length }   
+    @appointment = @clinic.appointments.build    
 	end
 
 	def get_intervals_for(day, appt_start, appt_end)

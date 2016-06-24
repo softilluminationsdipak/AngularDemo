@@ -10,11 +10,11 @@
 <div class="panel-body">
   <div class="panel panel-default">
     <div class="panel-body">
-    	<%= form_tag day_at_glance_clinic_patient_appointments_path(@clinic, @patient), html: {class: 'form-inline'} do |form| %>
+    	<%= form_tag day_at_glance_clinic_patient_appointments_path(@clinic, @patient), class: 'form-inline', method: 'get' do |form| %>
     		<div class="form-group col-lg-2">
 	    		<label for="input-date" class="sr-only">Date</label>
 	        <div class="input-group date" id="datepicker1">
-	          <%= text_field_tag :date, @date.strftime('%d/%m/%Y'), class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'Date' %>
+	          <%= text_field_tag :date, @date.strftime('%d/%m/%Y'), class: "calendar22 calendar datepicker form-control autoSubmit appointment_datepicker", 'dateFormat' => '%d/%m/%Y', placeholder: 'Date' %>
 	          <span class="input-group-addon">
 	            <span class="fa fa-calendar"></span>
 	          </span>
@@ -22,21 +22,25 @@
 	        <%= hidden_field_tag :contact_id, params[:contact_id] %>
     		</div>
 		    <div class="form-group col-lg-4">
-	    		<%= link_to "<i class='fa fa-plus'></i> Add".html_safe, '#', class: 'btn btn-default' %>
-  	  		<%= link_to "<i class='fa fa-trash'></i> Delete".html_safe, '#', class: 'btn btn-danger' %>		    
+	    		<%#= link_to "<i class='fa fa-plus'></i> Add".html_safe, '#', class: 'btn btn-default' %>
+          <button type="button" data-toggle="modal" data-target="#addAppointment" class="btn btn-default"><i class='fa fa-plus'></i> Add</button>
+  	  		<%= link_to "<i class='fa fa-trash'></i> Delete".html_safe, '#', class: 'btn btn-danger' %>          
   	  	</div>
   	  	<div class="form-group col-lg-6 text-right">
 		    	<%= link_to "<i class='fa fa-calendar'></i> Day At Glance".html_safe, '#', class: 'btn btn-default btn-sm' %>
 	  	  	<%= link_to "<i class='fa fa-calendar'></i> Week At Glance".html_safe, '#', class: 'btn btn-default btn-sm' %>
 	    		<%= link_to "<i class='fa fa-bed'></i> Room".html_safe, rooms_path, class: 'btn btn-default btn-sm' %>
 	  		</div>
-    	<% end %>
+    	<% end %>      
 	  </div>
   </div>
 
-  <div class="panel panel-default">
-    <div class="panel-body">
-    	
+  <div class="panel panel-default">    
+    <div class="panel-body span-24 appointments-grid" id="appointments-grid">
+    	<%= render partial: '/appointments/day_at_glance' %>
     </div>
   </div>
 </div>
+<%= content_for :add_appointment do %>
+  <%= render partial: '/appointments/add_appointment', locals: {appointment: @appointment} %>
+<% end %>

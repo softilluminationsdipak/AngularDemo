@@ -75,13 +75,15 @@ Rails.application.routes.draw do
           resources :patient_visit_details
         end
       end
-      resources :appointments do
+      resources :appointments, except: [:destroy] do
         collection do
           get :day_at_glance
         end
       end
     end
 
+    resources :appointments, only: [:destroy]
+    
     resources :procedure_codes do
       collection do
         get :import
