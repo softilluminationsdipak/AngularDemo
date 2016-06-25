@@ -1,6 +1,6 @@
 class AppointmentsController < BaseController
 
-	before_action :find_clinic, :find_patient
+	before_action :find_clinic
 	before_action :contacts_scoper, :assign_patient, :assign_contact
 	before_action :find_appointment, only: [:destroy, :show, :update, :edit]
 
@@ -12,12 +12,10 @@ class AppointmentsController < BaseController
 	def index
 		if params[:contact_id].present?
 			contact = contacts_scoper.find(params[:contact_id])
-		elsif @patient.present?
-			contact = @patient.contact			
 		else
 			contact = contacts_scoper.first
 		end
-		redirect_to day_at_glance_clinic_patient_appointments_path(@clinic, @patient, contact_id: contact.id, date: params[:date])
+		redirect_to day_at_glance_clinic_appointments_path(@clinic, contact_id: contact.id, date: params[:date])
 	end
 
 	def day_at_glance
@@ -30,6 +28,43 @@ class AppointmentsController < BaseController
 	end
 
 	def week_at_glance
+		@date 		= params[:date].present? ? Date.parse(params[:date]) : Date.current
+    @columns 	= ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Totals"]
+    
+    @rows 		= current_account.providers | SPECIAL_TYPES
+    @rows 		<< "Totals"
+    
+    @grid 		= []
+    
+    params[:date] ||= Date.current.to_s
+    start_date 		= Time.parse(params[:date]).beginning_of_week - 1.day
+
+    @contact = Contact.find_by(id: params[:contact_id])
+
+    if @contact.present? 
+	    @rows.each_with_index do |row, row_number|
+	      @grid[row_number] = []      
+	      if Provider === row
+	        for i in (1..7)
+	          date = start_date + i.day
+	          if @contact.appointments.present?
+	          	appts = @contact.appointments.select { |a| (a.provider_id == row.id && a.date.strftime('%x') == date.strftime('%x')) }
+	          else
+	          	appts = nil
+	          end
+	          @grid[row_number] << (appts.nil? ? 0 : appts.length)
+	        end
+	      else
+	        7.times do
+	          @grid[row_number] << 0
+	        end
+	      end      
+	      @grid[row_number] << @grid[row_number].sum
+	    end    
+	    @totals = @grid.transpose.collect{ |column| column.sum }
+	  end
+
+    @appointment = @clinic.appointments.build
 	end
 
 	def new
@@ -40,9 +75,9 @@ class AppointmentsController < BaseController
 		@appointment.start_time 		= @appointment.starts_at
 		@appointment.recurring_type = 'one_time'
 		if @appointment.save
-			redirect_to day_at_glance_clinic_patient_appointments_path(@clinic, @patient, contact_id: @appointment.contact_id), notice: 'Successfully added appointment.'
+			redirect_to day_at_glance_clinic_appointments_path(@clinic, contact_id: @appointment.contact_id), notice: 'Successfully added appointment.'
 		else
-			redirect_to day_at_glance_clinic_patient_appointments_path(@clinic, @patient, contact_id: @appointment.contact_id), flash: {error: @appointment.errors.full_messages.first }
+			redirect_to day_at_glance_clinic_appointments_path(@clinic, contact_id: @appointment.contact_id), flash: {error: @appointment.errors.full_messages.first }
 		end
 	end
 
@@ -58,7 +93,7 @@ class AppointmentsController < BaseController
 	def destroy
 		@appointment.destroy if @appointment.present?
 		respond_to do |format|
-			format.html{redirect_to day_at_glance_clinic_patient_appointments_path(@clinic, @patient, contact_id: @appointment.contact_id)}
+			format.html{redirect_to day_at_glance_clinic_appointments_path(@clinic, contact_id: @appointment.contact_id)}
 			format.json{ render json: @appointment}
 		end
 	end
@@ -74,7 +109,7 @@ class AppointmentsController < BaseController
 	end
 
 	def contacts_scoper
-		Contact.joins("INNER JOIN patients ON patients.id = contacts.contactable_id INNER JOIN clinics ON patients.clinic_id = clinics.id").where("contacts.contactable_type = ? AND clinics.account_id = ?", "Patient", current_account.id).group("contacts.id")
+		@contacts = Contact.joins("INNER JOIN patients ON patients.id = contacts.contactable_id INNER JOIN clinics ON patients.clinic_id = clinics.id").where("contacts.contactable_type = ? AND clinics.account_id = ?", "Patient", current_account.id).group("contacts.id")
 	end
 
 	def find_appointment
@@ -86,15 +121,17 @@ class AppointmentsController < BaseController
 	end
 
   def assign_patient
-    if params[:contact_id] && params[:contact_id] != 'undefined'
+    if params[:contact_id].present?
       @contact = contacts_scoper.find(params[:contact_id])
       @patient = @contact.contactable if Patient === @contact.contactable
+    else
+    	@contact = contacts_scoper.first
     end
   end
 
   def assign_contact
     unless params[:contact_id].nil?
-      @contact = contacts_scoper.where("contacts.id = ?", params[:contact_id])    	
+      @contact = contacts_scoper.where("contacts.id = ?", params[:contact_id])
     end
   end
 

@@ -3,8 +3,8 @@ class Contact < ActiveRecord::Base
   friendly_id :company_name, use: :slugged
 
   ## Relationships
-  belongs_to :contactable, :polymorphic => true
-
+  belongs_to :contactable, polymorphic: true
+  has_many :appointments
   has_many :primary_guaranted_patient_cases, -> {where('patient_cases.primary_guarantor_contact_id != ?', id)}, foreign_key: :primary_guarantor_contact_id, class_name: "PatientCase" 
   has_many :secondary_guaranted_patient_cases, -> {where('patient_cases.primary_guarantor_contact_id != ?', id)}, foreign_key: :secondary_guarantor_contact_id, class_name: "PatientCase"
 

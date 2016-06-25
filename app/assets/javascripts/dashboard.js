@@ -70,3 +70,9 @@ function formatCalendarTextFields(){
 		$('input.autoSubmit').closest("form").submit();
 	})
 }
+
+$("#contact-select").change(function(){
+	clinic_id 	= $(this).data('clinic-id');
+	contact_id 	= $(this).val();
+	window.location.href = '/clinics/'+clinic_id+'/appointments/week_at_glance?contact_id='+contact_id
+})

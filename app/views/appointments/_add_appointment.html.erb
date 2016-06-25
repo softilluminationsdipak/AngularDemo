@@ -7,7 +7,7 @@
            </button>
            <h4 id="myModalLabel" class="modal-title">Add Appointment</h4>
         </div>
-        <%= form_for [@clinic, @patient, appointment], html: {class: 'form-horizontal', id: 'validate_new_appointment'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
+        <%= form_for [@clinic, appointment], html: {class: 'form-horizontal', id: 'validate_new_appointment'}, data: {'parsley-validate': ''}, novalidate: '' do |form| %>
           <div class="modal-body">
             <div class="form-group">
               <label class="col-sm-4 control-label">Appointment Date</label>
@@ -41,6 +41,13 @@
                 <%= form.time_select :starts_at, {minute_step: 15}, {class: 'form-control-time', style: 'width:20%;'} %>
               </div>
             </div>
+
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Provider</label>
+              <div class="col-sm-8">
+                <%= form.select :provider_id, options_for_select(@clinic.providers.collect{|t| [t.name, t.id]}), {include_blank: 'Select Provider'}, { class: 'form-control m-b select2-1' } %>
+              </div>
+            </div>  
 
             <div class="form-group">
               <label class="col-sm-4 control-label">Notes</label>

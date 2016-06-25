@@ -1,0 +1,30 @@
+<table class="table">
+	<thead>
+		<th>&nbsp;</th>
+		<% @columns.each do |column| %>
+			<th><%= h(Provider === column ? column.signature_name : column) %></th>
+		<% end %>
+	</thead>
+	<% if @totals.present? %>
+		<tfoot>
+			<th>Total</th>
+			<% @totals.each do |total| %>
+				<th><%= h(total) %></th>
+			<% end %>		
+		</tfoot>
+	<% end %>
+	<% if @rows.present? && @grid.present? %>
+		<tbody>
+			<% @rows.each_with_index do |row, row_number| %>
+				<tr>
+					<td><%= h(Provider === row ? row.signature_name : row) %></td>
+					<% if @columns.present? %>
+						<% @columns.each_with_index do |column, column_number| %>
+							<td><%= h(@grid[row_number][column_number]) %></td>
+						<% end %>
+					<% end %>
+				</tr>
+			<% end %>		
+		</tbody>
+	<% end %>
+</table>

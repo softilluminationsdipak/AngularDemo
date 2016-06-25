@@ -1,0 +1,33 @@
+<h3> Appointment - <%= @contact.try(:name) %>
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+    The appointment book allows scheduling the current patient to the particular time for one of the doctors.
+  </small>
+</h3>
+
+<div class="panel-body">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="form-group mb col-lg-7">
+        <%= select_tag 'contact_id', options_for_select(@contacts.collect{ |u| [u.name, u.id] }, params[:contact_id]), class: 'chosen-select input-md form-control', id: 'contact-select', include_blank: 'Select Contact Info.', data: {clinic_id: @clinic.slug } %>
+      </div>
+
+      <div class="form-group col-lg-5 text-right">
+        <%= link_to "<i class='fa fa-calendar'></i> Day At Glance".html_safe, day_at_glance_clinic_appointments_path(@clinic), class: 'btn btn-default btn-sm', data: {disable_with: 'Loading...'} %>
+        <%= link_to "<i class='fa fa-calendar'></i> Week At Glance".html_safe, week_at_glance_clinic_appointments_path(@clinic), class: 'btn btn-default btn-sm', data: {disable_with: 'Loading...'} %>
+        <%= link_to "<i class='fa fa-bed'></i> Room".html_safe, rooms_path, class: 'btn btn-default btn-sm', data: {disable_with: 'Loading...'} %>
+      </div>      
+    </div>
+  </div>
+
+  <div class="panel panel-default">    
+    <div class="panel-body span-24 appointments-grid" id="appointments-grid">
+      <%= render partial: '/appointments/week_at_glance' %>
+    </div>
+  </div>
+</div>
+<%= content_for :add_appointment do %>
+  <%= render partial: '/appointments/add_appointment', locals: {appointment: @appointment} %>
+<% end %>
