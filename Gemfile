@@ -87,4 +87,7 @@ gem 'jquery-ui-rails'
 ## Exception Handling
 gem 'exception_notification', '~> 4.1', '>= 4.1.4'
 
-## 
+## PDF Generate
+gem 'prawn'
+gem 'prawn-table'
+gem 'prawn-rails'

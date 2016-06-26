@@ -128,8 +128,10 @@ Rails.application.routes.draw do
   
   resources :diagnosis_codes do
     collection do
-      get :import
-      post :import_data
+      get   :import
+      post  :import_data
+      get   :report
+      post  :generate_report
     end
   end
 

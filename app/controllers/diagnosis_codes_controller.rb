@@ -44,7 +44,53 @@ class DiagnosisCodesController < BaseController
     end
 	end
 
+	def report
+	end
+
+	def generate_report
+		page_size 		= "A4"
+    page_layout 	= :portrait
+    column_widths = nil
+
+    case params[:diagnosis_codes_report][:report_type]
+    when 'list'
+    	title 	= "Diagnosis Codes - List"
+    	headers = ["Abbrev", "Code", "Description"]
+    	data 		= []
+	    
+	    current_account.diagnosis_codes.each do |diagnosis_code|
+      	data << [ diagnosis_code.name, diagnosis_code.code, diagnosis_code.description ]
+    	end
+
+    	if data.blank? || data == []
+    		data = [[{:colspan => headers.size, :text => "No data to report about"}]]
+    	else
+    		list_report(title, headers, data)
+    	end
+    when 'detailed_usage'
+			@data, @total_things = DiagnosisCode.detailed_usage_by_patient(current_account, params[:diagnosis_codes_report][:start_date], params[:diagnosis_codes_report][:end_date])
+    	render "detailed_usage.pdf.prawn", layout: false
+    when 'summary_of_usage'
+      @data, @total_things = DiagnosisCode.usage_by_patient(current_account)
+      render "summary_of_usage.pdf.prawn", :layout => false    	
+    end
+	end
+	
 	private
+
+	def list_report(title, headers, data)
+		rand = SecureRandom.hex(10)
+		name = "diagnosis_codes_report_#{rand}.pdf"
+		Prawn::Document.generate("public/reports/#{name}", page_size: 'A4', page_layout: :portrait) do
+			draw_text(title, size: 18, style: :bold, at: [0, bounds.top])
+			draw_text(Date.current, size: 16, style: :bold, at: [12 * 37, bounds.top])
+      move_down 1 * 37
+      data2 = [headers]
+      data2 += data
+      table(data2, cell_style: { font_size: 10, align_headers: :left, font_size: 10, align: :left, column_widths: nil, border_width: 0 })
+		end
+		redirect_to "/reports/#{name}"
+	end
 
 	def set_breadcrum
 		add_breadcrumb "Home", user_dashboard_path
@@ -58,6 +104,8 @@ class DiagnosisCodesController < BaseController
 			add_breadcrumb diagnosis_code.name, diagnosis_code_path(diagnosis_code)
 		when 'import'
 			add_breadcrumb 'Import'
+		when 'report'
+			add_breadcrumb 'Report'
 		end		
 	end
 

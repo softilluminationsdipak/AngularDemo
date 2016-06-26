@@ -225,6 +225,11 @@
                 <span>Import Data</span>
               <% end %>
             </li>
+            <li class="<%= 'active' if controller.controller_name == 'diagnosis_codes' && controller.action_name == 'report' %>">
+              <%= link_to report_diagnosis_codes_path,  title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %> 
+                <span>Report</span>
+              <% end %>
+            </li>            
           </ul>
         </li>
 

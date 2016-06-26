@@ -32,4 +32,14 @@ $(document).on('ready page:load', function (event) {
 		}
 	})
 
+	$("#diagnosis_codes_report_report_type").change(function(event){
+		reportType = $(this).val();
+		if (reportType == "list") {
+			$("#startDate").hide();
+			$("#endDate").hide();
+		} else {
+			$("#startDate").show();
+			$("#endDate").show();
+		}
+	})
 });
