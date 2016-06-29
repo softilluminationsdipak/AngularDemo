@@ -180,6 +180,11 @@
                 <span>Add Attorney</span>
               <% end %>
             </li>
+            <li class="<%= 'active' if controller.controller_name == 'attorneys' && controller.action_name == 'report' %>">
+              <%= link_to report_attorneys_path, title: 'Horizontal', data: {disable_with: 'Please Wait...'} do %> 
+                <span>Report</span>
+              <% end %>
+            </li>            
           </ul>
         </li>
 

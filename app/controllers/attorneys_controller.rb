@@ -60,6 +60,20 @@ class AttorneysController < BaseController
 		render json: !attorney
 	end
 
+	def report
+	end
+
+	def generate_report		
+		if params[:attorneys_report][:type] == 'collection_percent'
+			@data = Attorney.get_attorney_report_data(params[:attorneys_report], current_account)		
+			render "collection_percent_report.pdf.prawn", layout: false 
+		else
+			@data = [["Name", "Company/Attn", "Address", "Phone", "Attention", "Comments"]]
+			@data += Attorney.get_attorney_report_data(params[:attorneys_report], current_account)		
+			render "list_report.pdf.prawn", layout: false
+		end
+	end
+	
 	private
 
 	def attorney_params

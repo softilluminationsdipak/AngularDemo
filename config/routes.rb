@@ -117,6 +117,8 @@ Rails.application.routes.draw do
   resources :attorneys do
     collection do
       post 'checkUniqueSignName'
+      get 'report'
+      post 'generate_report'
     end
   end
 

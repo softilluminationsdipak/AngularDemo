@@ -44,4 +44,48 @@ class Attorney < ActiveRecord::Base
     self.contact.first_name = names.first
     self.contact.last_name = names[1..names.size].join(" ")
   end
+
+  def self.get_attorney_report_data(attorneys_report, current_account)  
+    order_of  = "ascend_by_#{attorneys_report[:order]}"
+    data      = []
+    if attorneys_report[:type] == 'collection_percent'
+      attornes = current_account.attorneys.includes([:contact, :address]).where("contacts.id >= '#{attorneys_report[:range_from]}' and contacts.id <= '#{attorneys_report[:range_to]}'").references([:contact, :address]).send(order_of.to_sym)
+      attornes.each do |attorney|
+        if attorney.patient_cases.any?
+          data << {
+            attorney: {
+              code: attorney.try(:insurance_carrier).try(:name),
+              company: attorney.contact.company_name,
+              comments: attorney.notes || "",
+            },
+            patient_cases: []
+          }
+          attorney.patient_cases.each do |patient_case|
+            patient = patient_case.patient
+            data[-1][:patient_cases] << {
+              patient: patient.full_name,
+              case: patient_case.description,
+              total_charge: patient_case.total_charge,
+              total_paid: patient_case.total_paid,
+              outstanding: patient_case.outstanding,
+              collectn: patient_case.collectn,
+            }            
+          end
+        end
+      end
+    else
+      attornes = current_account.attorneys.includes([:contact, :address]).where("contacts.id >= '#{attorneys_report[:range_from]}' and contacts.id <= '#{attorneys_report[:range_to]}'").references([:contact, :address]).send(order_of.to_sym)
+      attornes.each do |attorney|
+        data << [
+          attorney.insurance_carrier.nil? ? "" : attorney.insurance_carrier.alias_name,
+          attorney.contact.company_name,
+          attorney.address.one_liner,
+          attorney.contact.phone1,
+          attorney.contact.attention,
+          attorney.notes
+        ]        
+      end
+    end
+    data
+  end
 end

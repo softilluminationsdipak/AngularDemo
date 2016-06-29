@@ -1,0 +1,90 @@
+<h3>Attorney Report
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+  	This screen can be used to define attorneys associated with patient cases. To switch between attorneys use the "Go to:" drop down in top-menu. You can print envelopes or labels as well as generate a collections report by clicking on the reports button.
+  </small>
+</h3>
+<div class="panel-body">
+  <div class="panel panel-default">              
+    <div class="panel-body">
+      <%= form_tag generate_report_attorneys_path, class: 'form-horizontal' do %>
+        <div class='col-md-12'>
+					<div class="form-group">
+            <label class="col-sm-3 control-label">Report Type</label>
+            <div class="col-sm-9">
+              <label class="radio-inline c-radio">              	
+              	<%= radio_button_tag 'attorneys_report[type]', 'collection_percent', checked: true %>
+                <span class="fa fa-circle"></span> Collection Percent
+              </label>
+              <label class="radio-inline c-radio">
+                <%= radio_button_tag 'attorneys_report[type]', 'short_list' %>
+                <span class="fa fa-circle"></span>Short List/Env/Label
+              </label>
+            </div>
+          </div>
+
+					<div class="form-group">
+            <label class="col-sm-3 control-label">Service Date Range</label>
+            <div class="col-md-3">
+              <div class="input-group date" id="datepicker1">
+                <%= text_field_tag 'attorneys_report[service_date_from]', nil, class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'From Date' %>
+                <span class="input-group-addon">
+                  <span class="fa fa-calendar"></span>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group date" id="datepicker1">
+                <%= text_field_tag 'attorneys_report[service_date_to]', nil, class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'To Date' %>
+                <span class="input-group-addon">
+                  <span class="fa fa-calendar"></span>
+                </span>
+              </div>
+            </div>
+					</div>
+
+					<div class="form-group">
+            <label class="col-sm-3 control-label">Report Type</label>
+            <div class="col-sm-9">
+              <label class="radio-inline c-radio">              	
+              	<%= radio_button_tag 'attorneys_report[order]', 'your_code', checked: true %>
+                <span class="fa fa-circle"></span> Your Code
+              </label>
+              <label class="radio-inline c-radio">
+                <%= radio_button_tag 'attorneys_report[order]', 'company' %>
+                <span class="fa fa-circle"></span>Company
+              </label>
+              <label class="radio-inline c-radio">
+                <%= radio_button_tag 'attorneys_report[order]', 'zip' %>
+                <span class="fa fa-circle"></span>Zip
+              </label>
+            </div>
+          </div>
+
+					<div class="form-group">
+            <label class="col-sm-3 control-label">Range</label>
+            <div class="col-sm-3">
+	            <%= select_tag 'attorneys_report[range_from]', options_for_select(current_account.attorneys.collect{|a| [a.contact.company_name, a.contact_id ]}), class: 'form-control' %>
+            </div>
+            <div class="col-sm-3">
+	            <%= select_tag 'attorneys_report[range_to]', options_for_select(current_account.attorneys.collect{|a| [a.contact.company_name, a.contact_id]}), class: 'form-control' %>
+            </div>
+          </div>
+
+	        <div class="clearfix"></div>
+	        <hr>
+	        
+	        <div class="form-group">
+	          <div class="col-sm-4 col-sm-offset-3">
+	            <%= link_to 'Cancel', attorneys_path, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+	            <%= submit_tag 'Generate Report', class: 'btn btn-primary', data: {disable_with: 'Loading...' } %>
+	          </div>
+	        </div>
+
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -69,6 +69,22 @@ class PatientCase < ActiveRecord::Base
 		"#{patient.full_name} - #{patient.last_visit.visited_at.to_date if patient.last_visit} - #{description} - #{patient_id}"
 	end
 
+  def total_charge
+    0
+  end
+
+  def total_paid
+    0
+  end
+
+  def outstanding
+    0
+  end
+
+  def collectn
+    0
+  end
+
 	private
 
 	def validate_proper_guarantor_if_relationship_is_self    
