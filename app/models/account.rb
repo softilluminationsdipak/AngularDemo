@@ -15,6 +15,7 @@ class Account < ActiveRecord::Base
   has_many :subscription_payments
   has_many :patients, through: :clinics
   has_many :rooms, dependent: :destroy
+  has_many :patient_bills, dependent: :destroy
   
   has_one :subscription, dependent: :destroy
     

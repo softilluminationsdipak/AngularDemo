@@ -1,0 +1,2 @@
+module PatientBillsHelper
+end

@@ -42,5 +42,8 @@ class Referrer < ActiveRecord::Base
     list.sort{ |a, b| (a.first || '').downcase <=> (b.first || '').downcase}
   end   
 
+  def title
+    source
+  end
   
 end

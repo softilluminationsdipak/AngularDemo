@@ -1,7 +1,7 @@
 class PatientVisitsController < BaseController
 	
 	before_action :find_patient_case, :find_patient, :find_clinic
-	before_action :find_patient_visit, only: [:show, :edit, :update, :destroy, :pull_from_case, :push_to_case, :diagnoses]
+	before_action :find_patient_visit, only: [:show, :edit, :update, :destroy, :pull_from_case, :push_to_case, :diagnoses, :report_option, :receipt_report, :generate_report]
 
 	add_breadcrumb "Home", :root_path
 	add_breadcrumb "Clinics", :clinics_path
@@ -114,6 +114,45 @@ class PatientVisitsController < BaseController
 		add_breadcrumb 'Diagnoses'
   end
 
+  def report_option
+  end
+
+  def receipt_report
+  	if request.get?
+  		@patient_visits = @patient_case.patient_visits
+  	else
+			page_size 		= "A4"
+	    page_layout 	= :portrait
+	    column_widths = nil
+	    fees 					= nil
+			title 				= "Receipt report"
+			headers 			= ["Description", "CPT code", "Units", "Service", "Paid", "Adjust", "Balance"]
+			fees, data 		= PatientVisit.report(params[:patient_visit_id], params)
+			report(title, headers, data, page_size, page_layout, column_widths, fees)
+  	end
+  end
+
+  def generate_report
+  	@bills = []
+  	case params[:report_type].to_i
+  	when 0
+  		patient_case = PatientCase.find(params[:patient_case_id])
+  		@bills = patient_case.create_bills(current_account)
+  	when 1
+  		patient_case = PatientCase.find(params[:patient_case_id])
+  		@bills = patient_case.create_bills(current_account)
+  	when 2
+  		patient_case = PatientCase.find_by(slug: params[:patient_case_id])
+  		@bills = patient_case.create_bills(current_account)
+  	when 3
+  		redirect_to receipt_report_clinic_patient_patient_case_patient_visit_path(@clinic, @patient, @patient_case, @patient_visit)
+  	when 4
+  		redirect_to receipt_report_clinic_patient_patient_case_patient_visit_path(@clinic, @patient, @patient_case, @patient_visit)
+  	else
+  		redirect_to receipt_report_clinic_patient_patient_case_patient_visit_path(@clinic, @patient, @patient_case, @patient_visit)
+  	end
+  end
+
 	private
 
 	def find_clinic
@@ -136,4 +175,41 @@ class PatientVisitsController < BaseController
 		params.require(:patient_visit).permit(:patient_case_id, :visited_at, :fee_slip_number, :onset_at, :first_treated_at, :should_bill_primary, :should_bill_secondary, :should_bill_attorney, :diagnosis1_id, :diagnosis2_id, :diagnosis3_id, :diagnosis4_id, :details, :diagnosis1_description, :diagnosis2_description, :diagnosis3_description, :diagnosis4_description, :primary_patient_bill_id, :secondary_patient_bill_id, :attorney_patient_bill_id)
 	end
 
+	def report(title, headers, data, page_size="A4", page_layout=:portrait, column_widths=nil, fees=nil)
+		rand = SecureRandom.hex
+		name = "receipt_report_#{rand}.pdf"
+
+		Prawn::Document.generate("public/reports/#{name}", :page_size => page_size, :page_layout => page_layout) do |pdf|
+
+      pdf.bounding_box([1, 780], width: 300, height: 70) do
+        pdf.text_box(data[:title], size: 10, style: :bold)
+  			pdf.text_box(data[:title2], size: 10, style: :bold)
+      end
+
+      pdf.text_box("Date \n" + data[:date], size: 10, style: :bold, at: [10*37, 780])
+
+			unless fees.nil?
+				fees_with_headers = [headers] + fees				
+				pdf.table(fees_with_headers, cell_style: { size: 7, align: :left, column_widths: column_widths, border_width: 1,  at: [14*32, 780]} )
+			end
+
+			pdf.move_down (1*32)
+
+			pdf.text_box(data[:onset], size: 10, at: [0, pdf.move_down(1*32)])
+			pdf.text_box(data[:first_treatment], size: 10, at: [0, pdf.move_down(1*32)])
+			if data[:visit_patient_owes].present?
+				pdf.text_box(data[:visit_patient_owes], size: 10, at: [0, pdf.move_down(1*32)])
+			end
+			if data[:account_balance].present?
+				pdf.text_box(data[:account_balance], size: 10, at: [0, pdf.move_down(1*32)])
+			end
+			pdf.text_box(data[:account_patient_owes], size: 10, at: [0, pdf.move_down(1*32)])
+			pdf.text_box("Diagnosis information:", size: 10, style: :bold, at: [0, pdf.move_down(1*32)])
+			pdf.text_box(data[:diagnosis1], size: 10, at: [0, pdf.move_down(1*32)])
+			pdf.text_box(data[:diagnosis2], size: 10, at: [0, pdf.move_down(1*32)])
+			pdf.text_box(data[:diagnosis3], size: 10, at: [0, pdf.move_down(1*32)])
+			pdf.text_box(data[:diagnosis4], size: 10, at: [0, pdf.move_down(1*32)])
+		end
+		redirect_to "/reports/#{name}"
+	end
 end

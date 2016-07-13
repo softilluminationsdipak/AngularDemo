@@ -1,0 +1,23 @@
+<h3>Bills
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small></small>
+</h3>
+<div class="panel-body">
+  <div class="panel panel-default">              
+    <div class="panel-body">
+			<div class="table-responsive">
+				<table class="table table-hover">
+					<tbody>
+						<% @bills.each do |b| %>	
+							<tr>
+								<td><%= link_to 'Bill #' + + b.id.to_s , hcfa_clinic_patient_bill_path(@clinic, b.id) %></td>
+							</tr>
+						<% end %>					
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

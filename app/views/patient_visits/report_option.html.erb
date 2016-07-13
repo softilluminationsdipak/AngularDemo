@@ -1,0 +1,107 @@
+<h3>Report
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small></small>
+</h3>
+<div class="panel-body">
+  <div class="panel panel-default">              
+    <div class="panel-body">
+      <%= form_tag generate_report_clinic_patient_patient_case_patient_visit_path(@clinic, @patient, @patient_case, @patient_visit), class: 'form-horizontal' do |form| %>
+      	<div class='col-md-12'>
+          <div class="form-group">
+          	<label class="col-lg-1 control-label"></label>
+          	<div class="col-lg-10" style="padding-left:20px;">
+	            <label class="radio-inline c-radio">
+	            	<%= radio_button_tag 'report_type', 0, false, disabled: !@patient_case.billable_visits? %>
+	              <span class="fa fa-circle"></span> Create a New HCFA that has only THIS VISIT on it
+	            </label>          		
+          	</div>
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-1 control-label"></label>
+          	<div class="col-lg-10" style="padding-left:20px;">
+	            <label class="radio-inline c-radio">
+	            	<%= radio_button_tag 'report_type', 1, false, disabled: !@patient_case.billable_visits? %>
+	              <span class="fa fa-circle"></span> REPRINT the existing HCFA that the visit appears
+	            </label>          		
+          	</div>
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-1 control-label"></label>
+          	<div class="col-lg-10" style="padding-left:20px;">
+	            <label class="radio-inline c-radio">
+	            	<%= radio_button_tag 'report_type', 2 %>
+	              <span class="fa fa-circle"></span> Gather all unbilled visits for THIS CASE on HCFA
+	            </label>          		
+          	</div>
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-1 control-label"></label>
+          	<div class="col-lg-10" style="padding-left:20px;">
+	            <label class="radio-inline c-radio">
+	            	<%= radio_button_tag 'report_type', 3, true %>
+	              <span class="fa fa-circle"></span> Print Statements
+	            </label>          		
+          	</div>
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-1 control-label"></label>
+          	<div class="col-lg-10" style="padding-left:20px;">
+	            <label class="radio-inline c-radio">
+	            	<%= radio_button_tag 'report_type', 4 %>
+	              <span class="fa fa-circle"></span> Print a Visit Receipt
+	            </label>          		
+          	</div>
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-1 control-label"></label>
+          	<div class="col-lg-10" style="padding-left:20px;">
+	            <label class="radio-inline c-radio">
+	            	<%= radio_button_tag 'report_type', 5 %>
+	              <span class="fa fa-circle"></span> Daysheets
+	            </label>          		
+          	</div>
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-1 control-label"></label>
+          	<div class="col-lg-10" style="padding-left:20px;">
+	            <label class="radio-inline c-radio">
+	            	<%= radio_button_tag 'report_type', 6 %>
+	              <span class="fa fa-circle"></span> Print Soap notes
+	            </label>          		
+          	</div>
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-1 control-label"></label>
+          	<div class="col-lg-10" style="padding-left:20px;">
+	            <label class="radio-inline c-radio">
+	            	<%= radio_button_tag 'report_type', 7 %>
+	              <span class="fa fa-circle"></span> Payment Analysis
+	            </label>          		
+          	</div>
+          </div>
+
+        </div>
+
+        <div class="clearfix"></div>
+        <hr>
+
+        <div class="form-group">
+          <div class="col-sm-4 col-sm-offset-3">
+            <%= link_to 'Cancel', :back, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+            <%= submit_tag 'Generate Report', class: 'btn btn-primary', data: {disable_with: 'Loading...' } %>
+          </div>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>

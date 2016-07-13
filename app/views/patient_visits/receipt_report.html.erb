@@ -1,0 +1,90 @@
+<h3>Report
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small></small>
+</h3>
+<div class="panel-body">
+  <div class="panel panel-default">              
+    <div class="panel-body">
+    	<%= form_tag receipt_report_clinic_patient_patient_case_patient_visit_path(@clinic, @patient, @patient_case, @patient_visit), class: 'form-horizontal' do %>
+    	  <div class='col-md-12'>
+          <div class="form-group">
+          	<label class="col-lg-4 control-label">Patient Visit At</label>
+          	<div class="col-lg-5">
+          		<%= select_tag :patient_visit_id, options_for_select(@patient_visits.collect{ |pv| [pv.visited_at.to_date, pv.id.to_s] }, params[:patient_visit_id].to_s), class: 'form-control' %>
+          	</div>          	
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-4 control-label">Don't print diagnoses or tax id </label>
+			      <div class="col-lg-5 mrgbtn7">                    
+			        <label class="checkbox-inline c-checkbox">
+			          <%= check_box_tag :dont_print_diagnoses_or_tax_id %>
+			          <span class="fa fa-check"></span>
+			        </label>
+			      </div>
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-4 control-label">Only print services </label>
+			      <div class="col-lg-5 mrgbtn7">                    
+			        <label class="checkbox-inline c-checkbox">
+			          <%= check_box_tag :only_print_services %>
+			          <span class="fa fa-check"></span>
+			        </label>
+			      </div>
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-4 control-label">Only print payments </label>
+			      <div class="col-lg-5 mrgbtn7">                    
+			        <label class="checkbox-inline c-checkbox">
+			          <%= check_box_tag :only_print_payments %>
+			          <span class="fa fa-check"></span>
+			        </label>
+			      </div>
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-4 control-label">Don't print visit pat_owes </label>
+			      <div class="col-lg-5 mrgbtn7">                    
+			        <label class="checkbox-inline c-checkbox">
+			          <%= check_box_tag :dont_print_visit_pat_owes %>
+			          <span class="fa fa-check"></span>
+			        </label>
+			      </div>
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-4 control-label">Don't print case balances </label>
+			      <div class="col-lg-5 mrgbtn7">                    
+			        <label class="checkbox-inline c-checkbox">
+			          <%= check_box_tag :dont_print_case_balances %>
+			          <span class="fa fa-check"></span>
+			        </label>
+			      </div>
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-4 control-label">Receipt On</label>
+          	<div class="col-lg-5">
+          		<%= select_tag :on_receipt, options_for_select({doctor: "Doctor on Receipt", clinic: "Clinic on Receipt"}.invert), class: 'form-control' %>
+          	</div>          	
+          </div>
+
+	        <div class="clearfix"></div>
+	        <hr>
+
+	        <div class="form-group">
+	          <div class="col-sm-4 col-sm-offset-3">
+	            <%= link_to 'Cancel', :back, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+	            <%= submit_tag 'Generate Report', class: 'btn btn-primary', data: {disable_with: 'Loading...' } %>
+	          </div>
+	        </div>
+
+        </div>
+    	<% end %>
+    </div>
+  </div>
+</div>

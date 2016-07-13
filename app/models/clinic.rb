@@ -116,6 +116,16 @@ class Clinic < ActiveRecord::Base
     clinic_preference ? clinic_preference.default_place_of_service : nil
   end
 
+  def address_stamp
+    address_stamp = []
+
+    address_stamp << title
+    address_stamp << address.line1
+    address_stamp << address.line2
+    address_stamp << contact.phone1
+
+    address_stamp.compact.reject(&:blank?).join("\n")
+  end
   private 
 
   def build_clinic_preference_if_nil

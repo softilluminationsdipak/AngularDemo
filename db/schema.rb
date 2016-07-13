@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160620043016) do
+ActiveRecord::Schema.define(version: 20160706181515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -269,8 +269,10 @@ ActiveRecord::Schema.define(version: 20160620043016) do
     t.text     "notes"
     t.datetime "created_at",                                    null: false
     t.datetime "updated_at",                                    null: false
+    t.integer  "account_id"
   end
 
+  add_index "patient_bills", ["account_id"], name: "index_patient_bills_on_account_id", using: :btree
   add_index "patient_bills", ["deleted_at"], name: "index_patient_bills_on_deleted_at", using: :btree
   add_index "patient_bills", ["insurance_carrier_id"], name: "index_patient_bills_on_insurance_carrier_id", using: :btree
   add_index "patient_bills", ["patient_case_id"], name: "index_patient_bills_on_patient_case_id", using: :btree

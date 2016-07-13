@@ -55,5 +55,13 @@ class Provider < ActiveRecord::Base
     end
   end
 
+  def address_stamp
+    address_stamp = []    
+    address_stamp << signature_name
+    address_stamp << address.try(:line1)
+    address_stamp << address.try(:line2)
+    address_stamp << contact.try(:phone1)
+    address_stamp.compact.reject(&:blank?).join("\n")
+  end
 
 end

@@ -71,6 +71,10 @@ Rails.application.routes.draw do
             put :pull_from_case
             put :push_to_case
             get :diagnoses 
+            get :report_option
+            post :generate_report
+            get :receipt_report
+            post :receipt_report
           end
           resources :patient_visit_details
         end
@@ -88,6 +92,12 @@ Rails.application.routes.draw do
       collection do
         get :import
         post :type_code_selected
+      end
+    end
+
+    resources :patient_bills do
+      member do 
+        get :hcfa
       end
     end
   end

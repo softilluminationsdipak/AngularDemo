@@ -15,6 +15,7 @@ class PatientVisit < ActiveRecord::Base
 
   ## Scopes
   scope :descend_by_visited_at, -> { order("visited_at DESC")}
+  scope :unbilled, -> { where('primary_patient_bill_id IS NULL and should_bill_primary = ?', true)}
   
   ## Methods
   def pull_diagnosis_and_dates_from_case(pcase_id = nil)
@@ -121,6 +122,94 @@ class PatientVisit < ActiveRecord::Base
       onset_at: onset_at,
       first_treated_at: first_treated_at,
     })
+  end
+
+  def billable_details
+    billable_details = []
+
+    patient_visit_details.each do |vd|
+      if vd.procedure_code.is_insurance_billable?
+        billable_details << vd
+      end
+    end
+
+    billable_details
+  end
+
+  def billable?
+    billable_details.length > 0
+  end
+
+  def provider
+    detail_with_provider = self.patient_visit_details.where('provider_id IS NOT NULL').try(:first)
+    detail_with_provider.provider if detail_with_provider
+  end
+
+  def self.report(visit_id, params)
+    only_print_services = params[:only_print_services]
+    only_print_payments = params[:only_print_payments]
+    on_receipt          = params[:on_receipt]
+    dont_print_diagnoses_or_tax_id  = params[:dont_print_diagnoses_or_tax_id]
+    dont_print_visit_pat_owes       = params[:dont_print_visit_pat_owes]
+    dont_print_case_balances        = params[:dont_print_case_balances]
+
+    data          = []
+    patient_visit = PatientVisit.find(visit_id)
+
+    patient_visit.patient_visit_details.each do |vd|
+      next if only_print_services == "1" && !vd.procedure_code.is_service?
+      next if only_print_payments == "1" && !vd.procedure_code.is_payment?
+
+      data << {
+        description: vd.procedure_code.description,
+        cpt_code: vd.is_service? ? vd.procedure_code.cpt_code : "",
+        unit: vd.is_service? ? vd.units_sold : "",
+        service: vd.is_service? ? vd.service : "",
+        paid: vd.is_payment? ? vd.paid : "",
+        adjust: vd.is_adjustment? ? vd.adjust : "",
+        balance: vd.balance_cents
+      }      
+    end
+
+    data << {
+      description: "Visit Totals",
+      cpt_code: nil,
+      unit: nil,
+      service: data.reject{ |d| d[:service] == "" }.sum { |d| d[:service] },
+      paid: data.reject{ |d| d[:paid] == "" }.sum { |d| d[:paid] },
+      adjust: data.reject{ |d| d[:adjust] == "" }.sum { |d| d[:adjust] },
+      balance: data.reject{ |d| d[:balance] == "" }.sum { |d| d[:balance] },
+    }
+
+    fees = {
+      title: on_receipt == "doctor" ? patient_visit.provider.try(:address_stamp).to_s : patient_visit.patient_case.patient.clinic.address_stamp.to_s,
+      title2: patient_visit.patient_case.patient.address_stamp,
+      date: patient_visit.visited_at.to_date.to_s,
+      onset: "Onset: " + (patient_visit.onset_at.nil? ? "" : patient_visit.onset_at.to_date.to_s),
+      first_treatment: "1st Treatment: " + (patient_visit.first_treated_at.blank? ? "" : patient_visit.first_treated_at.to_date.to_s),
+      account_patient_owes: "Account Patient Owes: " + patient_visit.patient_case.total_patient_owes_in_dollars.to_s,
+      diagnosis1: patient_visit.diagnosis1.blank? ? "" : (dont_print_diagnoses_or_tax_id == "0" ? patient_visit.diagnosis1.code + " " : "") +  patient_visit.diagnosis1.description.to_s,
+      diagnosis2: patient_visit.diagnosis2.blank? ? "" : (dont_print_diagnoses_or_tax_id == "0" ? patient_visit.diagnosis2.code + " " : "") +  patient_visit.diagnosis2.description.to_s,
+      diagnosis3: patient_visit.diagnosis3.blank? ? "" : (dont_print_diagnoses_or_tax_id == "0" ? patient_visit.diagnosis3.code + " " : "") +  patient_visit.diagnosis3.description.to_s,
+      diagnosis4: patient_visit.diagnosis4.blank? ? "" : (dont_print_diagnoses_or_tax_id == "0" ? patient_visit.diagnosis4.code + " " : "") +  patient_visit.diagnosis4.description.to_s,
+    }
+
+    fees[:account_balance]    = "Account Balance: " + patient_visit.patient_case.balance_in_dollars.format.to_s if dont_print_case_balances == "0"
+    fees[:visit_patient_owes] = "Visit Patient Owes: " + patient_visit.patient_owes_reduced_in_dollars.format.to_s if !dont_print_visit_pat_owes == "0"
+    
+    d = data.map do |a|
+      el = []
+      el << a[:description]
+      el << a[:cpt_code]
+      el << a[:unit]
+      el << (a[:service] == "" ? "" : a[:service]).to_s
+      el << (a[:paid] == "" ? "" : a[:paid]).to_s
+      el << (a[:adjust] == "" ? "" : a[:adjust]).to_s
+      el << (a[:balance] == "" ? "" : a[:balance]).to_s
+      el
+    end
+
+    return d, fees
   end
 
 end

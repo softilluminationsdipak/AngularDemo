@@ -85,6 +85,74 @@ class PatientCase < ActiveRecord::Base
     0
   end
 
+  def billable_visits
+    billable_visits = []
+
+    self.patient_visits.unbilled.each do |unbilled_visit|
+      if unbilled_visit.billable?
+        billable_visits << unbilled_visit
+      end
+    end
+    billable_visits
+  end
+
+  def billable_visits?
+    billable_visits.length > 0
+  end
+
+	def total_patient_owes
+    patient_visits.inject(0) { |sum, v| sum + v.total_patient_owes }
+  end
+
+  def total_patient_owes_in_dollars
+    total_patient_owes
+  end
+
+  def create_bills(account_id)
+  	bills 			= []
+  	return bills unless primary_insurance_carrier_id?
+  	
+  	bill_count 	= 0
+  	visits_pool = []
+  	i 					= 0
+
+  	billable_visits_tmp = billable_visits
+  	c 									= billable_visits_tmp.length
+
+  	while i < c
+  		v 					= billable_visits_tmp[i]
+  		bill_count += v.billable_details.length
+
+  		visits_pool << v
+
+      if (i != (c - 1)) && ((bill_count + billable_visits_tmp[i + 1].billable_details.length) <= 6)
+        i += 1
+        next
+      end
+			
+			if bill_count >= 6 || i == (c - 1)
+				bills << PatientBill.create(patient_case_id: id,
+                                    insurance_carrier_id: primary_insurance_carrier_id,
+                                    is_secondary_claim: false,
+                                    account_id: account_id, 
+                                    hcfa_bill_date: Date.current,
+                                    status_code: 0,
+                                    is_workmanscomp_progress_form: false,
+                                    is_assigned: false,
+                                    provider: provider)
+
+        visits_pool.each do |vp|
+          vp.update_attribute(:primary_patient_bill_id, bills.last.id)
+        end
+
+        visits_pool = []
+        bill_count = 0
+			end
+			i += 1
+  	end
+  	bills
+  end
+
 	private
 
 	def validate_proper_guarantor_if_relationship_is_self    

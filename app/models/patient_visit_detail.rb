@@ -165,6 +165,14 @@ class PatientVisitDetail < ActiveRecord::Base
     end
   end
 
+  def balance_cents
+    b = 0
+    patient_case.patient_visits.where('DATE(visited_at) <= ?', patient_visit.visited_at) do |previous_visit|
+      b += previous_visit.patient_owes_reduced
+    end
+    b
+  end
+
   protected
 
   def validate_amount_is_balanced_with_owes
