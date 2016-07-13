@@ -13,7 +13,7 @@
           <em class="fa fa-users fa-3x"></em>
         </div>
         <div class="col-xs-8 pv-lg">
-          <div class="h2 mt0">0</div>
+          <div class="h2 mt0"><%= current_account.patients.count %></div>
           <div class="text-uppercase">Patients</div>
         </div>
       </div>
@@ -27,7 +27,7 @@
           <em class="fa fa-file-text fa-3x"></em>
         </div>
         <div class="col-xs-8 pv-lg">
-          <div class="h2 mt0">0</div>
+          <div class="h2 mt0"><%= PatientCase.where('patient_id IN (?)', current_account.patients.map(&:id)).count %></div>
           <div class="text-uppercase">Patient Cases</div>
         </div>
       </div>
@@ -41,7 +41,7 @@
           <em class="fa fa-ambulance fa-3x"></em>
         </div>
         <div class="col-xs-8 pv-lg">
-          <div class="h2 mt0">0</div>
+          <div class="h2 mt0"><%= PatientVisit.where('patient_case_id IN (?)', PatientCase.where('patient_id IN (?)', current_account.patients.map(&:id)).map(&:id)).count %></div>
           <div class="text-uppercase">Patient Visits</div>
         </div>
       </div>
