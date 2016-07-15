@@ -92,6 +92,8 @@ Rails.application.routes.draw do
       collection do
         get :import
         post :type_code_selected
+        get :report
+        post :generate_report
       end
     end
 

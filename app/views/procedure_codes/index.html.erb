@@ -20,6 +20,7 @@
         </div>
       </div>
     <% end %>
+    <%= link_to "<em class='icon-layers'></em> Reports".html_safe, report_clinic_procedure_codes_path(@clinic), class: 'btn btn-primary btn-xs start', data: {disable_with: 'Please Wait...'} %>
     <%= link_to "<em class='fa fa-plus'></em> Add Procedure Code".html_safe, new_clinic_procedure_code_path(params[:clinic_id]), class: 'btn btn-primary btn-xs start', data: {disable_with: 'Please wait...'} %>    
   </div> 
   <div class="clearfix"></div>   

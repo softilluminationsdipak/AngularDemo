@@ -62,10 +62,14 @@ class PatientVisitsController < BaseController
 	end
 
 	def update
-		if @patient_visit.update_attributes(patient_visit_params)
+		if params[:patient_visit] && @patient_visit.update_attributes(patient_visit_params)
 			redirect_to clinic_patient_patient_case_patient_visits_path(@clinic, @patient, @patient_case, patient_visit_id: @patient_visit.id ), notice: 'Successfully updated patient visit information.'
 		else
-			redirect_to clinic_patient_patient_case_patient_visits_path(@clinic, @patient, @patient_case, patient_visit_id: @patient_visit.id ), flash: {error: @patient_visit.errors.full_messages.join(', ')}
+			if @patient_visit.errors.present?
+				redirect_to clinic_patient_patient_case_patient_visits_path(@clinic, @patient, @patient_case, patient_visit_id: @patient_visit.id ), flash: {error: @patient_visit.errors.full_messages.join(', ')}
+			else
+				redirect_to clinic_patient_patient_case_patient_visits_path(@clinic, @patient, @patient_case, patient_visit_id: @patient_visit.id)
+			end
 		end
 	end
 
@@ -172,7 +176,9 @@ class PatientVisitsController < BaseController
 	end
 
 	def patient_visit_params
-		params.require(:patient_visit).permit(:patient_case_id, :visited_at, :fee_slip_number, :onset_at, :first_treated_at, :should_bill_primary, :should_bill_secondary, :should_bill_attorney, :diagnosis1_id, :diagnosis2_id, :diagnosis3_id, :diagnosis4_id, :details, :diagnosis1_description, :diagnosis2_description, :diagnosis3_description, :diagnosis4_description, :primary_patient_bill_id, :secondary_patient_bill_id, :attorney_patient_bill_id)
+		if params[:patient_visit].present?
+			params.require(:patient_visit).permit(:patient_case_id, :visited_at, :fee_slip_number, :onset_at, :first_treated_at, :should_bill_primary, :should_bill_secondary, :should_bill_attorney, :diagnosis1_id, :diagnosis2_id, :diagnosis3_id, :diagnosis4_id, :details, :diagnosis1_description, :diagnosis2_description, :diagnosis3_description, :diagnosis4_description, :primary_patient_bill_id, :secondary_patient_bill_id, :attorney_patient_bill_id)
+		end
 	end
 
 	def report(title, headers, data, page_size="A4", page_layout=:portrait, column_widths=nil, fees=nil)

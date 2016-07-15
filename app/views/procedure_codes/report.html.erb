@@ -1,0 +1,83 @@
+<h3>Report
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+  	Three transaction reports are available:<br />The Usage/Analysis report gives usage by code within a user-defined range;<br />List are ordered by user and contain basic or full data about the entire set of Codes.
+  </small>
+</h3>
+<div class="panel-body">
+  <div class="panel panel-default">              
+    <div class="panel-body">
+    	<%= form_tag generate_report_clinic_procedure_codes_path(@clinic), class: 'form-horizontal' do %>
+
+    	  <div class='col-md-12'>
+
+          <div class="form-group">
+          	<label class="col-lg-2 control-label">Type</label>
+          	<div class="col-lg-5">
+          		<%= select_tag :type, options_for_select(ProcedureCode::REPORT_TYPES.invert), class: 'form-control' %>
+          	</div>          	
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-2 control-label">Code From</label>
+          	<div class="col-lg-5">
+          		<%= select_tag :from_code, options_for_select(ProcedureCode.ascend_by_name.map(&:name)), class: 'form-control' %>
+          	</div>          	
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-2 control-label">Code To</label>
+          	<div class="col-lg-5">
+          		<%= select_tag :to_code, options_for_select(ProcedureCode.ascend_by_name.map(&:name)), class: 'form-control' %>
+          	</div>          	
+          </div>
+
+          <div class="form-group">
+          	<label class="col-lg-2 control-label">Code To</label>
+          	<div class="col-lg-5">
+          		<%= select_tag :to_code, options_for_select(ProcedureCode.ascend_by_name.map(&:name)), class: 'form-control' %>
+          	</div>          	
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">From Date</label>
+            <div class="col-lg-5">
+              <div class="input-group date" id="datepicker1">
+                <%= text_field_tag :from_date_value, nil, class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'From Date' %>
+                <span class="input-group-addon">
+                  <span class="fa fa-calendar"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">To Date</label>
+            <div class="col-lg-5">
+              <div class="input-group date" id="datepicker1">
+                <%= text_field_tag :to_date_value, nil, class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'To Date' %>
+                <span class="input-group-addon">
+                  <span class="fa fa-calendar"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+      	  <div class="clearfix"></div>
+        	<hr>
+
+	        <div class="form-group">
+	          <div class="col-lg-4 col-lg-offset-2">
+	            <%= link_to 'Cancel', :back, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+	            <%= submit_tag 'Generate Report', class: 'btn btn-primary', data: {disable_with: 'Loading...' } %>
+	          </div>
+	        </div>
+
+				</div>
+
+    	<% end %>
+    </div>
+  </div>
+</div>
