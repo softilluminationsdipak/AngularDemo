@@ -84,7 +84,9 @@ Rails.application.routes.draw do
     resources :appointments do
       collection do
         get :day_at_glance
-        get :week_at_glance        
+        get :week_at_glance
+        get :report_options
+        post :report_options, defaults: {format: :pdf}
       end
     end
   

@@ -98,6 +98,17 @@ class AppointmentsController < BaseController
 		end
 	end
 
+	def report_options
+		if request.post?
+			@data = Appointment.report(@clinic, params[:for_date_value])
+	    respond_to do |format|
+	    	format.html{}
+  	    format.pdf { render "report.pdf.prawn", :layout => false }
+    	end
+		else
+		end
+	end
+
 	private
 
 	def find_clinic

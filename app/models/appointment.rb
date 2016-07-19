@@ -60,12 +60,24 @@ class Appointment < ActiveRecord::Base
     (duration_units * minute_units) / 15
   end
 
+  def to_s
+    "#{starts_at.to_s} - #{provider.name} - #{contact.name}"
+  end
+
   def self.for_today
     for_date Date.today
   end
 
   def self.for_tomorrow
     for_date Date.tomorrow
+  end
+
+  def self.report(clinic, date)
+    appointments = clinic.appointments.where('(recurring_type = ? AND DATE(date) = ?) OR (recurring_type = ? AND recurring_day = ?) OR (recurring_type = ? AND recurring_day = ?) OR (recurring_type = ? AND recurring_day = ?)', 'one_time', date.to_date, 'day_of_week', date.to_date.wday, 'day_of_month', date.to_date.mday, 'day_of_year', date.to_date.yday)
+    {
+      appointments: appointments,
+      date: date
+    }
   end
 
 end

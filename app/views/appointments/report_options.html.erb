@@ -1,0 +1,39 @@
+<h3> Reports
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small></small>
+</h3>
+
+<div class="panel-body">
+  <div class="panel panel-default">
+    <div class="panel-body">
+    	<%= form_tag report_options_clinic_appointments_path(@clinic), method: :post, class: 'form-horizontal', format: 'pdf' do %>
+        <div class='col-md-12'>
+					<div class="form-group">
+            <label class="col-sm-3 control-label">Date</label>
+            <div class="col-sm-5">
+            	<div class="input-group date" id="datepicker1">
+                <%= text_field_tag 'for_date_value', nil, class: "calendar datepicker form-control", 'dateFormat' => '%d/%m/%Y', placeholder: 'Date' %>
+                <span class="input-group-addon">
+                  <span class="fa fa-calendar"></span>
+                </span>
+              </div>
+           	</div>
+          </div>
+
+	        <div class="clearfix"></div>
+	        <hr>
+	        
+	        <div class="form-group">
+	          <div class="col-sm-4 col-sm-offset-3">
+	            <%= link_to 'Cancel', :back, class: 'btn btn-default', data: {disable_with: 'Please Wait...'} %>
+	            <%= submit_tag 'Generate Report', class: 'btn btn-primary', data: {disable_with: 'Loading...' } %>
+	          </div>
+	        </div>
+
+        </div>
+    	<% end %>
+    </div>
+  </div>
+</div>

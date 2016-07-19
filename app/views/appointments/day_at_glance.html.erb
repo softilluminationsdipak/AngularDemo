@@ -28,6 +28,7 @@
 		    	<%= link_to "<i class='fa fa-calendar'></i> Day At Glance".html_safe, day_at_glance_clinic_appointments_path(@clinic), class: 'btn btn-default btn-sm', data: {disable_with: 'Loading...'} %>
 	  	  	<%= link_to "<i class='fa fa-calendar'></i> Week At Glance".html_safe, week_at_glance_clinic_appointments_path(@clinic), class: 'btn btn-default btn-sm', data: {disable_with: 'Loading...'} %>
 	    		<%= link_to "<i class='fa fa-bed'></i> Room".html_safe, rooms_path, class: 'btn btn-default btn-sm', data: {disable_with: 'Loading...'} %>
+          <%= link_to "<em class='icon-layers'></em> Report".html_safe, report_options_clinic_appointments_path(@clinic), class: 'btn btn-info btn-sm', data: {disable_with: 'Loading...'} %>
 	  		</div>
     	<% end %>      
 	  </div>
