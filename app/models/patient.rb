@@ -32,7 +32,8 @@ class Patient < ActiveRecord::Base
 	
   has_many :patient_cases, dependent: :destroy
   has_many :patient_bills, through: :patient_cases
-
+  has_many :patient_visits, :through => :patient_cases
+  
   ## Validations
 	validate :contact_last_name_blank, :contact_sex_blank
 	validates :overdue_fee_percentage, numericality: { greater_than: 0}, allow_blank: true
@@ -138,6 +139,56 @@ class Patient < ActiveRecord::Base
       self.parent_patient_id 	= parent.parent_patient_id.blank? ? parent.id : parent.parent_patient_id
     end
     return self
+  end
+
+  def name_with_activity_flag
+    (is_active ? "[v]" : "[ ]") + " " + name
+  end
+
+  def appt
+    contact.appointments.order("date DESC").try(:first)
+  end
+
+  def first_visit
+    if current_case and current_case.patient_visits.any?
+      current_case.patient_visits.order('visited_at ASC').try(:first)
+    end
+  end
+  
+  def last_visit
+    if current_case and current_case.patient_visits.any?
+      current_case.patient_visits.order('visited_at DESC').try(:first)
+    end
+  end
+
+  def last_ov_date(account)
+    account.patient_visits.order("visited_at DESC").each do |patient_visit|
+      return patient_visit.visited_at if patient_visit.is_insurance_billable?
+    end
+    return ""
+  end
+
+  def last_pay_date(account)
+    account.patient_visits.order("visited_at DESC").each do |patient_visit|
+      return patient_visit.visited_at if patient_visit.is_payment?
+    end
+    return ""
+  end
+
+  def statement_date
+    Time.zone.now.strftime('%d/%m/%Y')
+  end
+
+  def balance_in_dollars
+    0
+  end
+
+  def insurance_owes_in_dollars
+    patient_visits.collect(&:insurance_owes_in_dollars).sum
+  end
+  
+  def patient_owes_in_dollars
+    patient_visits.collect(&:patient_owes_in_dollars).sum
   end
 
 end

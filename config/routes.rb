@@ -105,7 +105,7 @@ Rails.application.routes.draw do
       end
     end
   end
-
+  resources :patient_reports, only: [:index, :create]
   resources :patients
   
   resources :providers do 

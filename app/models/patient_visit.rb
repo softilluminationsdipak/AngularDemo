@@ -140,6 +140,14 @@ class PatientVisit < ActiveRecord::Base
     billable_details.length > 0
   end
 
+  def is_payment?
+    patient_visit_details.any?
+  end
+
+  def is_insurance_billable?
+    patient_visit_details.any?
+  end
+
   def provider
     detail_with_provider = self.patient_visit_details.where('provider_id IS NOT NULL').try(:first)
     detail_with_provider.provider if detail_with_provider
@@ -210,6 +218,14 @@ class PatientVisit < ActiveRecord::Base
     end
 
     return d, fees
+  end
+
+  def insurance_owes_in_dollars
+    total_insurance_owes
+  end
+
+  def patient_owes_in_dollars
+    total_patient_owes
   end
 
 end

@@ -15,6 +15,9 @@ class PatientVisitDetail < ActiveRecord::Base
   validates :amount_cents, :units_sold, :patient_visit_id, :procedure_code_id, :provider, presence: true
   validates :amount_cents, :units_sold, numericality: { only_integer: true }
 
+  scope :insurance_billable, -> { includes(:procedure_codes).where("procedure_codes.type_code = 6") }
+  scope :payment, -> { includes(:procedure_codes).where("procedure_codes.type_code IN (0,2,4)") }
+
   ## Custom Validation
   # validate :validate_amount_is_balanced_with_owes, :validate_if_patient_owes_all
   # validate :validate_sum_of_owes_should_not_change, on: :update

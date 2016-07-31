@@ -1,0 +1,459 @@
+<h3>Report Wizard Options
+  <ol class="breadcrumb pull-right">
+    <%= render_breadcrumbs tag: :li, separator: '' %>
+  </ol>
+  <small>
+  	This page contains all patients reports. Please choose the report type, criteria and click generate.
+  </small>
+</h3>
+<div class="panel-body">
+	<%= form_tag patient_reports_path, method: :post, class: 'form-horizontal' do |form| %>
+  	<div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">    
+	    <div class="panel panel-default">      
+	      <div id="clinicHeadingOne" role="tab" class="panel-heading">
+	        <h4 class="panel-title">
+	          <a data-toggle="collapse" data-parent="#accordion" href="#clinicOne" aria-expanded="true" aria-controls="clinicOne" class="">
+	            Print What Data
+	          </a>
+	        </h4>
+	      </div>
+	      
+	      <div id="clinicOne" role="tabpanel" aria-labelledby="clinicHeadingOne" class="panel-collapse collapse in" aria-expanded="" style="">
+	        <div class="panel-body">
+		        
+		        <div class='col-lg-6'>
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Report Type</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[report_type]', options_for_select(PatientReport::REPORT_TYPES.invert), class: 'form-control', include_blank: 'Select Report Type' %>
+		            </div>
+		          </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Letter</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[letter_id]', options_for_select(Letter.all.collect{ |l| [l.name, l.id] }), class: 'form-control', include_blank: 'Select Letter' %>
+		            </div>
+		          </div>
+		        </div>
+		        <div class='col-lg-6'>
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Sort By - First</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[sort_by_first]', options_for_select(PatientReport::SORT_BY.invert), class: 'form-control', include_blank: 'Select Sort By' %>
+		            </div>
+		          </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Sort By-2nd</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[sort_by_second]', options_for_select(PatientReport::SORT_BY.invert), class: 'form-control', include_blank: 'Select Sort By' %>
+		            </div>
+		          </div>
+		        </div>
+		        <div class='col-lg-6'>
+			        <div id='startDate' class="form-group">
+			          <label class="col-lg-3 control-label">From Date</label>
+			          <div class="col-lg-7">
+			            <div class="input-group date" id="datepicker1" style="padding:0px 7px 0px 7px;">
+			            	<%= text_field_tag 'patient_report[from_date]', nil, class: 'calendar datepicker form-control', 'dateFormat' => '%d/%m/%Y', placeholder: 'From Date' %>
+			              <span class="input-group-addon">
+			                <span class="fa fa-calendar"></span>
+			              </span>
+			            </div>
+			          </div>
+			        </div>
+			      </div>
+			      <div class='col-lg-6'>
+			        <div id='startDate' class="form-group">
+			          <label class="col-lg-3 control-label">To Date</label>
+			          <div class="col-lg-7">
+			            <div class="input-group date" id="datepicker1" style="padding:0px 7px 0px 7px;">
+			            	<%= text_field_tag 'patient_report[to_date]', nil, class: 'calendar datepicker form-control', 'dateFormat' => '%d/%m/%Y', placeholder: 'To Date' %>
+			              <span class="input-group-addon">
+			                <span class="fa fa-calendar"></span>
+			              </span>
+			            </div>
+			          </div>
+			        </div>
+		        </div>
+
+	        </div>
+	      </div>
+	    </div>
+	    
+	    <div class="panel panel-default">
+	      <div id="clinicHeadingTwo" role="tab" class="panel-heading">
+	        <h4 class="panel-title">
+	          <a data-toggle="collapse" data-parent="#accordion" href="#clinicTwo" aria-expanded="false" aria-controls="clinicTwo" class="collapsed">
+	            Limit Account Ranges
+	          </a>
+	        </h4>
+	      </div>
+	      
+	      <div id="clinicTwo" role="tabpanel" aria-labelledby="clinicHeadingTwo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px; ">
+	        <div class="panel-body">
+
+            <div class='col-lg-6'>
+
+	            <div class="form-group">
+	              <label class="col-lg-3 control-label">&nbsp;</label>
+	              <div class="col-lg-9 mrgbtn7">                    
+	                <label class="checkbox-inline c-checkbox">
+	                  <%= check_box_tag 'patient_report[all_accounts]', checked: true %>
+	                  <span class="fa fa-check"></span> All accounts
+	                </label>
+	              </div>
+	            </div>
+		        
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Account From</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[account_from]', options_for_select(Report.accounts(current_account)), class: 'form-control', include_blank: 'Select Account From' %>
+		            </div>
+		          </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Account To</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[account_to]', options_for_select(Report.accounts(current_account)), class: 'form-control', include_blank: 'Select Account To' %>
+		            </div>
+		          </div>
+
+		        </div>
+		        <div class='col-lg-6'>  
+
+	            <div class="form-group">
+	              <label class="col-lg-3 control-label">&nbsp;</label>
+	              <div class="col-lg-9 mrgbtn7">                    
+	                <label class="checkbox-inline c-checkbox">
+	                  <%= check_box_tag 'patient_report[all_names]', checked: true %>
+	                  <span class="fa fa-check"></span> All names
+	                </label>
+	              </div>
+	            </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Name From</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[name_from]', options_for_select(Report.names(current_account)), class: 'form-control', include_blank: 'Select Name From' %>
+		            </div>
+		          </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Name To</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[name_to]', options_for_select(Report.names(current_account)), class: 'form-control', include_blank: 'Select Name To' %>
+		            </div>
+		          </div>
+
+		        </div>
+		        <div class='col-lg-6'>  
+
+	            <div class="form-group">
+	              <label class="col-lg-3 control-label">&nbsp;</label>
+	              <div class="col-lg-9 mrgbtn7">                    
+	                <label class="checkbox-inline c-checkbox">
+	                  <%= check_box_tag 'patient_report[all_zip_codes]', checked: true %>
+	                  <span class="fa fa-check"></span> All ZIP Codes
+	                </label>
+	              </div>
+	            </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Zipcode From</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[zip_code_from]', options_for_select(Report.zip_codes(current_account)), class: 'form-control', include_blank: 'Select Zipcode From' %>
+		            </div>
+		          </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Zipcode To</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[zip_code_to]', options_for_select(Report.zip_codes(current_account)), class: 'form-control', include_blank: 'Select Zipcode To' %>
+		            </div>
+		          </div>
+
+		        </div>
+		        <div class='col-lg-6'>  
+	            
+	            <div class="form-group">
+	              <label class="col-lg-3 control-label">&nbsp;</label>
+	              <div class="col-lg-9 mrgbtn7">                    
+	                <label class="checkbox-inline c-checkbox">
+	                  <%= check_box_tag 'patient_report[all_categories]', checked: true %>
+	                  <span class="fa fa-check"></span> All categories
+	                </label>
+	              </div>
+	            </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Category From</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[category_from]', options_for_select(Report::CATEGORIES), class: 'form-control', include_blank: 'Select Category From' %>
+		            </div>
+		          </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Category To</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[category_to]', options_for_select(Report::CATEGORIES), class: 'form-control', include_blank: 'Select Category To' %>
+		            </div>
+		          </div>
+
+		        </div>
+		        <div class='col-lg-6'>  
+	            <div class="form-group">
+	              <label class="col-lg-3 control-label">&nbsp;</label>
+	              <div class="col-lg-9 mrgbtn7">                    
+	                <label class="checkbox-inline c-checkbox">
+	                  <%= check_box_tag 'patient_report[all_types]', checked: true %>
+	                  <span class="fa fa-check"></span> All Types
+	                </label>
+	              </div>
+	            </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Type From</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[type_from]', options_for_select(Report::TYPES), class: 'form-control', include_blank: 'Select Type From' %>
+		            </div>
+		          </div>		          
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Type To</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[type_to]', options_for_select(Report::TYPES), class: 'form-control', include_blank: 'Select Type To' %>
+		            </div>
+		          </div>
+
+		        </div>
+	        </div>
+	      </div>
+	    </div>
+	    
+	    <div class="panel panel-default">
+	      <div id="clinicHeadingThree" role="tab" class="panel-heading">
+	        <h4 class="panel-title">
+	          <a data-toggle="collapse" data-parent="#accordion" href="#clinicCollapseThree" aria-expanded="false" aria-controls="clinicCollapseThree" class="collapsed">
+	            Limit Case Ranges
+	          </a>
+	        </h4>
+	      </div>
+	      <div id="clinicCollapseThree" role="tabpanel" aria-labelledby="clinicHeadingThree" class="panel-collapse collapse" aria-expanded="false">
+	        <div class="panel-body">
+		        
+		        <div class='col-lg-6'>  
+	            <div class="form-group">
+	              <label class="col-lg-3 control-label">&nbsp;</label>
+	              <div class="col-lg-9 mrgbtn7">                    
+	                <label class="checkbox-inline c-checkbox">
+	                  <%= check_box_tag 'patient_report[all_insurance_carriers]', checked: true %>
+	                  <span class="fa fa-check"></span> All Insurance Carriers
+	                </label>
+	              </div>
+	            </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">I.C. From</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[insurance_carrier_from]', options_for_select(Report.insurance_carriers(current_account)), class: 'form-control', include_blank: 'Insurance carrier from' %>
+		            </div>
+		          </div>		          
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">I.C. To</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[insurance_carrier_to]', options_for_select(Report.insurance_carriers(current_account)), class: 'form-control', include_blank: 'Insurance carrier to' %>
+		            </div>
+		          </div>
+	          </div>
+
+		        <div class='col-lg-6'>  
+	            <div class="form-group">
+	              <label class="col-lg-3 control-label">&nbsp;</label>
+	              <div class="col-lg-9 mrgbtn7">                    
+	                <label class="checkbox-inline c-checkbox">
+	                  <%= check_box_tag 'patient_report[all_attorneys]', checked: true %>
+	                  <span class="fa fa-check"></span> All Attorneys
+	                </label>
+	              </div>
+	            </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Attorney From</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[attorney_from]', options_for_select(Report.attorneys(current_account)), class: 'form-control', include_blank: 'Attorney From' %>
+		            </div>
+		          </div>		          
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Attorney To</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[attorney_to]', options_for_select(Report.attorneys(current_account)), class: 'form-control', include_blank: 'Attorney to' %>
+		            </div>
+		          </div>
+	          </div>
+
+		        <div class='col-lg-6'>  
+	            <div class="form-group">
+	              <label class="col-lg-3 control-label">&nbsp;</label>
+	              <div class="col-lg-9 mrgbtn7">                    
+	                <label class="checkbox-inline c-checkbox">
+	                  <%= check_box_tag 'patient_report[all_doctors]', checked: true %>
+	                  <span class="fa fa-check"></span> All doctors
+	                </label>
+	              </div>
+	            </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Doctor From</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[doctor_from]', options_for_select(Report.doctors(current_account)), class: 'form-control', include_blank: 'Doctor From' %>
+		            </div>
+		          </div>		          
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Doctor To</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[doctor_from]', options_for_select(Report.doctors(current_account)), class: 'form-control', include_blank: 'Doctor From' %>
+		            </div>
+		          </div>
+	          </div>
+
+		        <div class='col-lg-6'>  
+	            
+	            <div class="form-group">
+	              <label class="col-lg-3 control-label">&nbsp;</label>
+	              <div class="col-lg-9 mrgbtn7">                    
+	                <label class="checkbox-inline c-checkbox">
+	                  <%= check_box_tag 'patient_report[all_insurance_types]', checked: true %>
+	                  <span class="fa fa-check"></span> All insurance types
+	                </label>
+	              </div>
+	            </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Insurance Type</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[insurance_type]', options_for_select(Report.insurance_types), class: 'form-control', include_blank: 'Insurance Type' %>
+		            </div>
+		          </div>
+
+	            <div class="form-group">
+	              <label class="col-lg-3 control-label">&nbsp;</label>
+	              <div class="col-lg-9 mrgbtn7">                    
+	                <label class="checkbox-inline c-checkbox">
+	                  <%= check_box_tag 'patient_report[all_fee_schedules]', checked: true %>
+	                  <span class="fa fa-check"></span> All fee schedules
+	                </label>
+	              </div>
+	            </div>
+
+		          <div class="form-group">
+		            <label class="col-lg-3 control-label">Fee Schedule</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[fee_schedule]', options_for_select(Report.fee_schedules), class: 'form-control', include_blank: 'Insurance Type' %>
+		            </div>
+		          </div>
+
+	          </div>
+	        </div>
+
+	      </div>
+	    </div>
+
+	    <div class="panel panel-default">
+	      <div id="clinicHeadingFour" role="tab" class="panel-heading">
+	        <h4 class="panel-title">
+	          <a data-toggle="collapse" data-parent="#accordion" href="#clinicCollapseFour" aria-expanded="false" aria-controls="clinicCollapseFour" class="collapsed">
+	            Balance options
+	          </a>
+	        </h4>
+	      </div>
+	      <div id="clinicCollapseFour" role="tabpanel" aria-labelledby="clinicHeadingFour" class="panel-collapse collapse" aria-expanded="false">
+	        <div class="panel-body">
+						<div class='col-lg-6'>  
+			        <div class="form-group">
+		            <label class="col-lg-3 control-label">Case Owes</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[case_owes]', options_for_select(StatementReport::BALANCE_OPTIONS), class: 'form-control', include_blank: 'Case Owes' %>
+		            </div>
+			        </div>
+			      </div>
+			      <div class='col-lg-6'>  
+			        <div class="form-group">
+		            <label class="col-lg-3 control-label">Insurance Owes</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[insurance_owes]', options_for_select(StatementReport::BALANCE_OPTIONS), class: 'form-control', include_blank: 'Insurance Owes' %>
+		            </div>
+			        </div>
+			      </div>
+			      <div class='col-lg-6'>  
+			        <div class="form-group">
+		            <label class="col-lg-3 control-label">Patient Owes</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[current_balance]', options_for_select(StatementReport::BALANCE_OPTIONS), class: 'form-control', include_blank: 'Patient Owes' %>
+		            </div>
+			        </div>
+			      </div>
+			      <div class='col-lg-6'>
+	            <div class="form-group">
+	              <label class="col-lg-3 control-label">&nbsp;</label>
+	              <div class="col-lg-9 mrgbtn7">                    
+	                <label class="checkbox-inline c-checkbox">
+	                  <%= check_box_tag 'patient_report[all_attorneys]', checked: true %>
+	                  <span class="fa fa-check"></span> Current Balance
+	                </label>
+	              </div>
+	            </div>
+			      </div>
+
+			      <div class='col-lg-6'>  
+			        <div class="form-group">
+		            <label class="col-lg-3 control-label">Balance 30 day</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[balance_30day]', options_for_select(StatementReport::BALANCE_OPTIONS), class: 'form-control', include_blank: 'Balance 30 day' %>
+		            </div>
+			        </div>
+			      </div>
+			      <div class='col-lg-6'>    
+			        <div class="form-group">
+		            <label class="col-lg-3 control-label">Balance 60 day</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[balance_60day]', options_for_select(StatementReport::BALANCE_OPTIONS), class: 'form-control', include_blank: 'Balance 60 day' %>
+		            </div>
+			        </div>
+			      </div>
+			      <div class='col-lg-6'>  
+			        <div class="form-group">
+		            <label class="col-lg-3 control-label">Balance 90 day</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[balance_60day]', options_for_select(StatementReport::BALANCE_OPTIONS), class: 'form-control', include_blank: 'Balance 90 day' %>
+		            </div>
+			        </div>
+			      </div>
+			      <div class='col-lg-6'>  
+			        <div class="form-group">
+		            <label class="col-lg-3 control-label">Balance 120 day</label>
+		            <div class="col-lg-7">
+		            	<%= select_tag 'patient_report[balance_120day]', options_for_select(StatementReport::BALANCE_OPTIONS), class: 'form-control', include_blank: 'Balance 120 day' %>
+		            </div>
+			        </div>
+	          </div>
+
+	        </div>
+
+		      <div class="clearfix"></div>
+		      <hr>
+		      <div class="form-group">
+		        <div class="col-sm-4 col-sm-offset-2">          
+		          <%= submit_tag 'Save', class: 'btn btn-primary', data: {disable_with: 'Please Wait...' } %>
+		        </div>
+		      </div>
+
+	      </div>
+	    </div>
+		</div>
+	<% end %>
+</div>
